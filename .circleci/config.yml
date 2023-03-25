@@ -1,0 +1,27 @@
+version: 2.1
+
+jobs:
+  build:
+    working_directory: ~/cedar-groves-site
+    docker:
+      - image: circleci/node:14.16
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run: 
+          name: Install dependencies
+          command: cd app && npm install
+      - run:
+          name: Build docker image and push
+          command: |
+            echo 'Building Docker image...'
+            docker build -t cedar-groves-site .
+            echo 'Pushing Docker image to AWS ECR...'
+            aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 455374976662.dkr.ecr.us-east-2.amazonaws.com
+            docker tag cedar-groves-site:latest 455374976662.dkr.ecr.us-east-2.amazonaws.com/cedar-groves-site:latest
+            docker push 455374976662.dkr.ecr.us-east-2.amazonaws.com/cedar-groves-site:latest
+      - run:
+          name: Deploy to AWS
+          command: |
+            echo 'Deploying Docker image to EC2 instance...'
+            ssh -i ~/.ssh/webadmin.pem webadmin@cedargrovesgolf.ca 'docker pull 455374976662.dkr.ecr.us-east-2.amazonaws.com/cedar-groves-site:latest && docker stop cedar-groves-site && docker rm cedar-groves-site && docker run -d -p 80:3010 --name cedar-groves-site 455374976662.dkr.ecr.us-east-2.amazonaws.com/cedar-groves-site:latest'
