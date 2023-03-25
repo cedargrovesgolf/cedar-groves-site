@@ -1,8 +1,10 @@
 version: 2.1
 
+defaults: &defaults
+  working_directory: ~/cedar-groves-site/app
+  
 jobs:
   build:
-    working_directory: ~/cedar-groves-site/app
     docker:
       - image: circleci/node:14.16
     steps:
