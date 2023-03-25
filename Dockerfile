@@ -3,6 +3,8 @@ FROM node:14.16
 # Set the working directory
 WORKDIR /usr/src/cedar-groves-site
 
+RUN apt-get update && apt-get install -y awscli
+
 # Copy package.json and package-lock.json
 COPY ./app/package*.json ./
 
