@@ -1,0 +1,82 @@
+<!-- header.ejs -->
+<header
+  class="header background-img"
+  style="
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.1)),
+      url('<%= hero_img %>');
+  "
+>
+  <div class="hero-text vflex">
+    <h1
+      class="heading display-4 text-center"
+      style="line-height: 1; font-weight: 600"
+    >
+      <%- hero_title %>
+    </h1>
+    <hr class="hero-divider opacity-100" />
+    <h5 class="hero-sub" style="font-style: italic"><%- hero_subtitle %></h5>
+  </div>
+  <div class="nav-area navbar navbar-expand p-3 transition">
+    <nav class="navbar-content container-fluid">
+      <a href="/" class="logo vflex">
+        <img src="assets/logo.svg" alt="Logo" style="width: 150px" />
+        <span>Cedar Groves</span>
+      </a>
+      <button
+        class="nav-button font-xl"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#mobile-nav"
+      >
+        <i id="menu-button" class="bi bi-list"></i>
+      </button>
+      <div class="navbar-wrapper"><%- include('nav-links.html'); %></div>
+    </nav>
+  </div>
+  <div class="nav-area offcanvas offcanvas-start bg-acc" id="mobile-nav">
+    <nav class="container-fluid">
+      <div class="offcanvas-header">
+        <a href="/" class="logo vflex">
+          <img src="assets/logo.svg" alt="Logo" style="width: 110px" />
+          <span style="font-size: 24px">Cedar Groves</span>
+        </a>
+        <button
+          class="nav-button font-xl"
+          type="button"
+          data-bs-dismiss="offcanvas"
+          data-bs-target="#mobile-nav"
+        >
+          <i id="close-button" class="bi bi-x" style="font-size: 42px"></i>
+        </button>
+      </div>
+      <div class="offcanvas-body"><%- include('nav-links.html'); %></div>
+    </nav>
+  </div>
+</header>
+<script>
+  $(document).ready(() => {
+    $("#menu-button").click(function () {
+      $(this).fadeOut(250);
+    });
+    $("#close-button").click(() => {
+      $("#menu-button").fadeIn(250);
+    });
+    $(document).click(function (event) {
+      if (
+        !$(event.target).closest("#mobile-nav").length &&
+        $("#menu-button").is(":hidden")
+      ) {
+        $("#menu-button").fadeIn(250);
+      }
+    });
+  });
+  $(window).scroll(() => {
+    var navbar = $(".navbar");
+    var scroll = $(window).scrollTop();
+    if (scroll >= 48) {
+      navbar.addClass("navbar-sticky");
+    } else {
+      navbar.removeClass("navbar-sticky");
+    }
+  });
+</script>
