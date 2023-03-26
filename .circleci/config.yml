@@ -15,7 +15,7 @@ jobs:
       - run:
           name: Build Docker image
           command: |
-            docker login --username AWS -p $(aws ecr get-login-password --region $AWS_REGION) $ECR_REPOSITORY            
+            docker login --username AWS -p $(aws ecr get-login --region $AWS_REGION) $ECR_REPOSITORY            
             docker build -t $DOCKER_CONTAINER_NAME .
             docker tag $DOCKER_CONTAINER_NAME:latest $ECR_REPOSITORY:latest
             docker push $ECR_REPOSITORY:latest
