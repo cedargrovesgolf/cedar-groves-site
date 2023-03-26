@@ -52,7 +52,7 @@ jobs:
             npm version patch
             RELEASE_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
             docker build -t $DOCKER_CONTAINER_NAME:$RELEASE_TAG .
-            docker tag $DOCKER_CONTAINER_NAME:$DOCKER_TAG $ECR/$DOCKER_CONTAINER_NAME:$RELEASE_TAG
+            docker tag $DOCKER_CONTAINER_NAME:$RELEASE_TAG $ECR/$DOCKER_CONTAINER_NAME:$RELEASE_TAG
             docker push $ECR/$DOCKER_CONTAINER_NAME:$RELEASE_TAG
             docker tag $DOCKER_CONTAINER_NAME:$RELEASE_TAG $ECR/$DOCKER_CONTAINER_NAME:latest
             docker push $ECR/$DOCKER_CONTAINER_NAME:latest
