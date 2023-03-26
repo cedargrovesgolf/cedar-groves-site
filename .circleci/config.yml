@@ -50,11 +50,11 @@ jobs:
             git config --global user.email $GIT_USER_EMAIL
             git config --global user.name $GIT_USER_NAME
 
-      - run: 
+      - run:
           name: Install hub
           command: sudo snap install hub --classic
-      
-      -run: 
+
+      - run:
           name: Check hub version
           command: hub -v
 
