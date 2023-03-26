@@ -3,17 +3,12 @@ version: 2.1
 
 # Define the jobs that will run in the pipeline
 jobs:
-  build-and-deploy:
-    # Use the Node.js Docker image as the base for the build environment
+  build:
+    working_directory: /app
     docker:
       - image: circleci/node:14.16
-
-    # Use remote docker to deploy the container to the EC2 instance
-    working_directory: /app
     steps:
       - setup_remote_docker
-
-    # Set environment variables for the job
     environment:
       AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
       AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
@@ -21,17 +16,11 @@ jobs:
       ECR_REPOSITORY: $ECR_REPOSITORY
       TAG: $CIRCLE_SHA1
 
-    # Define the steps to run in the job
     steps:
-      # Checkout the source code from GitHub
       - checkout
-
-      # Install dependencies
       - run:
           name: Install dependencies
           command: npm install
-
-      # Build the Docker image
       - run:
           name: Build Docker image
           command: |
@@ -39,7 +28,8 @@ jobs:
             $(aws ecr get-login --no-include-email --region $AWS_REGION)
             docker push $ECR_REPOSITORY:$TAG
 
-      # Deploy the Docker image to EC2 instance
+  deploy:
+    steps:
       - run:
           name: Deploy Docker image
           command: |
