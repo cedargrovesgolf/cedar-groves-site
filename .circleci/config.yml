@@ -1,27 +1,61 @@
+# Use the latest version of the CircleCI pipeline configuration syntax
 version: 2.1
 
+# Define the jobs that will run in the pipeline
 jobs:
-  build:
-    working_directory: ~/cedar-groves-site
+  build-and-deploy:
+    # Use the Node.js Docker image as the base for the build environment
     docker:
-      - image: circleci/node:14.16
+      - image: circleci/node:14
+
+    # Use remote docker to deploy the container to the EC2 instance
+    working_directory: /app
+    environment:
+      DOCKER_HOST: tcp://localhost:2375
     steps:
-      - checkout
       - setup_remote_docker
-      - run: 
+
+    # Set environment variables for the job
+    environment:
+      AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+      AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+      AWS_REGION: $AWS_REGION
+      ECR_REPOSITORY: $ECR_REPOSITORY
+      TAG: $CIRCLE_SHA1
+
+    # Define the steps to run in the job
+    steps:
+      # Checkout the source code from GitHub
+      - checkout
+
+      # Install dependencies
+      - run:
           name: Install dependencies
-          command: cd app && npm install
+          command: npm install
+
+      # Build the Docker image
       - run:
-          name: Build docker image and push
+          name: Build Docker image
           command: |
-            echo 'Building Docker image...'
-            docker build -t cedar-groves-site .
-            echo 'Pushing Docker image to AWS ECR...'
-            docker login --username AWS -p $(aws ecr get-login-password --region us-east-2) 455374976662.dkr.ecr.us-east-2.amazonaws.com
-            docker tag cedar-groves-site:latest 455374976662.dkr.ecr.us-east-2.amazonaws.com/cedar-groves-site:latest
-            docker push 455374976662.dkr.ecr.us-east-2.amazonaws.com/cedar-groves-site:latest
+            docker build -t $ECR_REPOSITORY:$TAG .
+            $(aws ecr get-login --no-include-email --region $AWS_REGION)
+            docker push $ECR_REPOSITORY:$TAG
+
+      # Deploy the Docker image to EC2 instance
       - run:
-          name: Deploy to AWS
+          name: Deploy Docker image
           command: |
-            echo 'Deploying Docker image to EC2 instance...'
-            ssh -i ~/.ssh/webadmin.pem webadmin@cedargrovesgolf.ca 'docker pull 455374976662.dkr.ecr.us-east-2.amazonaws.com/cedar-groves-site:latest && docker stop cedar-groves-site && docker rm cedar-groves-site && docker run -d -p 80:3010 --name cedar-groves-site 455374976662.dkr.ecr.us-east-2.amazonaws.com/cedar-groves-site:latest'
+            ssh -i ~/.ssh/webadmin.pem $EC2_INSTANCE_USERNAME@$EC2_INSTANCE_IP_ADDRESS "sudo docker stop $DOCKER_CONTAINER_NAME"
+            ssh -i ~/.ssh/webadmin.pem $EC2_INSTANCE_USERNAME@$EC2_INSTANCE_IP_ADDRESS "sudo docker rm $DOCKER_CONTAINER_NAME"
+            ssh -i ~/.ssh/webadmin.pem $EC2_INSTANCE_USERNAME@$EC2_INSTANCE_IP_ADDRESS "sudo docker pull $ECR_REPOSITORY:$TAG"
+            ssh -i ~/.ssh/webadmin.pem $EC2_INSTANCE_USERNAME@$EC2_INSTANCE_IP_ADDRESS "sudo docker run -d --restart=always --name $DOCKER_CONTAINER_NAME -p $DOCKER_HOST_PORT:$PORT -e HOST=$HOST -e PORT=$PORT $ECR_REPOSITORY:$TAG"
+
+# Define the workflows that will run in the pipeline
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build-and-deploy:
+          filters:
+            branches:
+              only: main

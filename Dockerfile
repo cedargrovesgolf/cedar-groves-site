@@ -1,22 +1,18 @@
 FROM node:14.16
 
-# Set the working directory
-WORKDIR /usr/src/cedar-groves-site
+# Set the working directory to /app
+WORKDIR /app
 
-RUN apt-get update && apt-get install -y awscli
+# Copy the current directory contents into the container at /app
+COPY . /app
 
-# Copy package.json and package-lock.json
-COPY ./app/package*.json ./
-
-# Install app dependencies
+# Install any needed packages specified in package.json
 RUN npm install
 
-# Copy app source code
-COPY ./app .
-
-# Listen on localhost and port 3010
+# Define environment variables
+ENV NODE_ENV production
 ENV HOST 127.0.0.1
 ENV PORT 3010
 
-# Start the app
-CMD [ "npm", "start" ]
+# Run app.js when the container launches
+CMD ["npm", "start"]
