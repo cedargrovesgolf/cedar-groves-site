@@ -50,6 +50,7 @@ jobs:
       - deploy:
           name: Deploy
           command: |
+            ssh-keyscan $EC2_INSTANCE_IP_ADDRESS >> ~/.ssh/known_hosts
             ssh $EC2_INSTANCE_USERNAME@$EC2_INSTANCE_IP_ADDRESS "docker pull $ECR/$DOCKER_CONTAINER_NAME:latest && docker stop $DOCKER_CONTAINER_NAME && docker rm $DOCKER_CONTAINER_NAME && docker run -d -p $DOCKER_HOST_PORT:$PORT --name $DOCKER_CONTAINER_NAME $ECR/$DOCKER_CONTAINER_NAME:latest"
 
 workflows:
