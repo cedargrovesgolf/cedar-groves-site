@@ -6,7 +6,7 @@ jobs:
   build-and-deploy:
     # Use the Node.js Docker image as the base for the build environment
     docker:
-      - image: circleci/node:14
+      - image: circleci/node:14.16
 
     # Use remote docker to deploy the container to the EC2 instance
     working_directory: /app
