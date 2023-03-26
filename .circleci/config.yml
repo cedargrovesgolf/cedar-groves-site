@@ -13,7 +13,7 @@ jobs:
             sudo apt-get update && sudo apt-get install -y awscli
       - setup_remote_docker
       - run:
-          name: 'Docker: Login'
+          name: Docker Login
           command: docker login --username AWS -p $(aws ecr get-login-password --region $AWS_REGION) $ECR_REPOSITORY
           name: Build        
           command: |
