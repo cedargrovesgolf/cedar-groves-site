@@ -3,11 +3,18 @@ version: 2.1
 jobs:
   build-and-deploy:
     working_directory: ~/cedar-groves-site
+
     docker:
       - image: circleci/node:14.16
+
     steps:
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package-lock.json" }}
+            - v1-dependencies-
       - checkout
       - setup_remote_docker
+
       - run:
           name: Install AWS v2
           command: |
@@ -15,22 +22,32 @@ jobs:
             unzip awscliv2.zip
             sudo ./aws/install
             rm awscliv2.zip
+
       - run:
           name: Check AWS version
           command: aws --version
+
       - run:
           name: Docker Login
           command: aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR
+
+      - save_cache:
+          key: v1-dependencies-{{ checksum "package-lock.json" }}
+          paths:
+            - ./node_modules
+
       - run:
           name: Build
           command: |
             docker build -t $DOCKER_CONTAINER_NAME .
             docker tag $DOCKER_CONTAINER_NAME:latest $ECR/$DOCKER_CONTAINER_NAME:latest
             docker push $ECR/$DOCKER_CONTAINER_NAME:latest
+
       - deploy:
           name: Deploy
           command: |
-            ssh $EC2_INSTANCE_USERNAME@$EC2_INSTANCE_IP_ADDRESS "docker pull $ECR/$DOCKER_CONTAINER_NAME:latest && docker stop $DOCKER_CONTAINER_NAME && docker rm $DOCKER_CONTAINER_NAME && docker run -d -p $DOCKER_HOST_PORT:$PORT --name $DOCKER_CONTAINER_NAME $ECR/$DOCKER_CONTAINER_NAME:latest"
+            ssh -o "StrictHostKeyChecking no" $EC2_INSTANCE_USERNAME@$EC2_INSTANCE_IP_ADDRESS "docker pull $ECR/$DOCKER_CONTAINER_NAME:latest && docker stop $DOCKER_CONTAINER_NAME && docker rm $DOCKER_CONTAINER_NAME && docker run -d -p $DOCKER_HOST_PORT:$PORT --name $DOCKER_CONTAINER_NAME $ECR/$DOCKER_CONTAINER_NAME:latest"
+
 workflows:
   version: 2.1
   build-and-deploy:
