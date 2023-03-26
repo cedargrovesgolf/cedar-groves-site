@@ -17,7 +17,7 @@ jobs:
 
       - run:
           name: Install dependencies
-          command: npm install
+          command: sudo npm install
 
       - run:
           name: Check npm version
@@ -52,7 +52,7 @@ jobs:
 
       - run:
           name: Install hub
-          command: sudo snap install hub --classic
+          command: sudo apt install hub
 
       - run:
           name: Check hub version
