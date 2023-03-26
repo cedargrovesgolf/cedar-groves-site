@@ -8,20 +8,16 @@ jobs:
       - image: circleci/node:latest
 
     steps:
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package-lock.json" }}
-            - v1-dependencies-
+      # - restore_cache:
+      #     keys:
+      #       - v1-dependencies-{{ checksum "package-lock.json" }}
+      #       - v1-dependencies-
       - checkout
       - setup_remote_docker
 
       - run:
           name: Install dependencies
-          command: sudo npm install
-
-      - run:
-          name: Check npm version
-          command: npm -v
+          command: npm install
 
       - run:
           name: Install AWS v2
@@ -36,42 +32,19 @@ jobs:
           command: aws --version
 
       - run:
-          name: Docker login
+          name: Docker Login
           command: aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR
 
-      - save_cache:
-          key: v1-dependencies-{{ checksum "package-lock.json" }}
-          paths:
-            - ./node_modules
-
-      - run:
-          name: Set up git config
-          command: |
-            git config --global user.email $GIT_USER_EMAIL
-            git config --global user.name $GIT_USER_NAME
-
-      - run:
-          name: Install hub
-          command: sudo apt install hub
-
-      - run:
-          name: Check hub version
-          command: hub --version
-
-      - run:
-          name: Create release
-          command: |
-            npm version patch
-            echo 'export RELEASE_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)' >> $BASH_ENV && source $BASH_ENV
-            echo "$GITHUB_TOKEN" | hub release create -d -m "Release $RELEASE_TAG" -t $RELEASE_TAG -c "$(git rev-parse HEAD)" -t main
+      # - save_cache:
+      #     key: v1-dependencies-{{ checksum "package-lock.json" }}
+      #     paths:
+      #       - ./node_modules
 
       - run:
           name: Build
           command: |
-            docker build -t $DOCKER_CONTAINER_NAME:$RELEASE_TAG .
-            docker tag $DOCKER_CONTAINER_NAME:$RELEASE_TAG $ECR/$DOCKER_CONTAINER_NAME:$RELEASE_TAG
-            docker push $ECR/$DOCKER_CONTAINER_NAME:$RELEASE_TAG
-            docker tag $DOCKER_CONTAINER_NAME:$RELEASE_TAG $ECR/$DOCKER_CONTAINER_NAME:latest
+            docker build -t $DOCKER_CONTAINER_NAME .
+            docker tag $DOCKER_CONTAINER_NAME:latest $ECR/$DOCKER_CONTAINER_NAME:latest
             docker push $ECR/$DOCKER_CONTAINER_NAME:latest
 
       - deploy:
@@ -87,5 +60,3 @@ workflows:
           filters:
             branches:
               only: main
-            tags:
-              only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
