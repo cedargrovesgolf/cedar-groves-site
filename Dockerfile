@@ -1,4 +1,4 @@
-FROM node:14.16
+FROM node:latest
 
 WORKDIR /usr/src/cedar-groves-site
 
