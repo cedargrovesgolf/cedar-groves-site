@@ -5,7 +5,7 @@ jobs:
     working_directory: ~/cedar-groves-site
 
     docker:
-      - image: circleci/node:v18.14.0
+      - image: circleci/node:latest
 
     steps:
       - restore_cache:
