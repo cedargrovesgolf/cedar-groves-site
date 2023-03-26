@@ -3,19 +3,21 @@ version: 2.1
 
 # Define the jobs that will run in the pipeline
 jobs:
-  build:
+  environment:
+    AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+    AWS_REGION: $AWS_REGION
+    ECR_REPOSITORY: $ECR_REPOSITORY
+    TAG: $CIRCLE_SHA1
+
+  setup-remote-docker:
     working_directory: /app
     docker:
       - image: circleci/node:14.16
     steps:
       - setup_remote_docker
-    environment:
-      AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
-      AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
-      AWS_REGION: $AWS_REGION
-      ECR_REPOSITORY: $ECR_REPOSITORY
-      TAG: $CIRCLE_SHA1
 
+  build:
     steps:
       - checkout
       - run:
@@ -43,7 +45,15 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
-      - build-and-deploy:
-          filters:
-            branches:
-              only: main
+      - setup-remote-docker
+      - build:
+          requires:
+            - setup-remote-docker
+      - deploy:
+          requires:
+            - build
+    filters:
+      branches:
+        only: main
+
+    
