@@ -14,17 +14,17 @@ jobs:
       - setup_remote_docker
       - run:
           name: Docker Login
-          command: docker login --username AWS -p $(aws ecr get-login --region $AWS_REGION --no-include-email) $ECR_REPOSITORY
+          command: aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR
       - run:
           name: Build
           command: |
             docker build -t $DOCKER_CONTAINER_NAME .
-            docker tag $DOCKER_CONTAINER_NAME:latest $ECR_REPOSITORY:latest
-            docker push $ECR_REPOSITORY:latest
+            docker tag $DOCKER_CONTAINER_NAME:latest $ECR/$DOCKER_CONTAINER_NAME:latest
+            docker push $ECR/$DOCKER_CONTAINER_NAME:latest
       - deploy:
           name: Deploy
           command: |
-            ssh -i $SSH_KEY $EC2_INSTANCE_USERNAME@$EC2_INSTANCE_IP_ADDRESS 'docker pull $ECR_REPOSITORY:latest && docker stop $DOCKER_CONTAINER_NAME && docker rm $DOCKER_CONTAINER_NAME && docker run -d -p $DOCKER_HOST_PORT:$PORT --name $DOCKER_CONTAINER_NAME $ECR_REPOSITORY:latest'
+            ssh -i $SSH_KEY $EC2_INSTANCE_USERNAME@$EC2_INSTANCE_IP_ADDRESS 'docker pull $ECR/$DOCKER_CONTAINER_NAME:latest && docker stop $DOCKER_CONTAINER_NAME && docker rm $DOCKER_CONTAINER_NAME && docker run -d -p $DOCKER_HOST_PORT:$PORT --name $DOCKER_CONTAINER_NAME $ECR/$DOCKER_CONTAINER_NAME:latest'
 workflows:
   version: 2.1
   build-and-deploy:
