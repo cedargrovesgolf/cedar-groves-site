@@ -63,7 +63,7 @@ jobs:
           command: |
             npm version patch
             echo 'export RELEASE_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)' >> $BASH_ENV && source $BASH_ENV
-            echo "$GITHUB_TOKEN" | hub release create -d -m "Release $RELEASE_TAG" -t $RELEASE_TAG -
+            echo "$GITHUB_TOKEN" | hub release create -d -m "Release $RELEASE_TAG" -t $RELEASE_TAG -c "$(git rev-parse HEAD)"
 
       - run:
           name: Build
