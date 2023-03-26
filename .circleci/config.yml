@@ -1,57 +1,33 @@
 version: 2.1
 
 jobs:
-  environment:
-    AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
-    AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
-    AWS_REGION: $AWS_REGION
-    ECR_REPOSITORY: $ECR_REPOSITORY
-    TAG: $CIRCLE_SHA1
-
-  setup-remote-docker:
-    working_directory: /app
+  build-and-deploy:
+    working_directory: ~/cedar-groves-site
     docker:
       - image: circleci/node:14.16
     steps:
-      - setup_remote_docker
-
-  build:
-    filters:
-      branches:
-        only: main
-    steps:
       - checkout
       - run:
-          name: Install dependencies
-          command: npm install
+          name: Install AWS CLI
+          command: |
+            sudo apt-get update && sudo apt-get install -y awscli
+      - setup_remote_docker
       - run:
           name: Build Docker image
           command: |
-            docker build -t $ECR_REPOSITORY:$TAG .
-            $(aws ecr get-login --no-include-email --region $AWS_REGION)
-            docker push $ECR_REPOSITORY:$TAG
-
-  deploy:
-    filters:
-      branches:
-        only: main
-    steps:
-      - run:
-          name: Deploy Docker image
+            docker login --username AWS -p $(aws ecr get-login-password --region $AWS_REGION) $ECR_REPOSITORY            
+            docker build -t $DOCKER_CONTAINER_NAME .
+            docker tag $DOCKER_CONTAINER_NAME:latest $ECR_REPOSITORY:latest
+            docker push $ECR_REPOSITORY:latest
+      - deploy:
+          name: Deploy to EC2 instance
           command: |
-            ssh -i ~/.ssh/webadmin.pem $EC2_INSTANCE_USERNAME@$EC2_INSTANCE_IP_ADDRESS "sudo docker stop $DOCKER_CONTAINER_NAME"
-            ssh -i ~/.ssh/webadmin.pem $EC2_INSTANCE_USERNAME@$EC2_INSTANCE_IP_ADDRESS "sudo docker rm $DOCKER_CONTAINER_NAME"
-            ssh -i ~/.ssh/webadmin.pem $EC2_INSTANCE_USERNAME@$EC2_INSTANCE_IP_ADDRESS "sudo docker pull $ECR_REPOSITORY:$TAG"
-            ssh -i ~/.ssh/webadmin.pem $EC2_INSTANCE_USERNAME@$EC2_INSTANCE_IP_ADDRESS "sudo docker run -d --restart=always --name $DOCKER_CONTAINER_NAME -p $DOCKER_HOST_PORT:$PORT -e HOST=$HOST -e PORT=$PORT $ECR_REPOSITORY:$TAG"
-
+            ssh -i $SSH_KEY $EC2_INSTANCE_USERNAME@$EC2_INSTANCE_IP_ADDRESS 'docker pull $ECR_REPOSITORY:latest && docker stop $DOCKER_CONTAINER_NAME && docker rm $DOCKER_CONTAINER_NAME && docker run -d -p $DOCKER_HOST_PORT:$PORT --name $DOCKER_CONTAINER_NAME $ECR_REPOSITORY:latest'
 workflows:
-  version: 2
+  version: 2.1
   build-and-deploy:
     jobs:
-      - setup-remote-docker
-      - build:
-          requires:
-            - setup-remote-docker
-      - deploy:
-          requires:
-            - build
+      - build-and-deploy:
+          filters:
+            branches:
+              only: main
