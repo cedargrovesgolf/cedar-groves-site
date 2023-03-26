@@ -56,7 +56,7 @@ jobs:
 
       - run:
           name: Check hub version
-          command: hub -v
+          command: hub --version
 
       - run:
           name: Create release
