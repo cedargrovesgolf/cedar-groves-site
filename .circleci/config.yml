@@ -17,7 +17,7 @@ jobs:
 
       - run:
           name: Install dependencies
-          command: sudo npm install -g npm@9.3.1
+          command: npm install
 
       - run:
           name: Check npm version
