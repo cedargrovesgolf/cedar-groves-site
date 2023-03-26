@@ -14,11 +14,10 @@ jobs:
       - setup_remote_docker
       - run:
           name: Docker Login
-          command: docker login --username AWS -p $(aws ecr get-login --region $AWS_REGION) $ECR_REPOSITORY
+          command: docker login --username AWS -p $(aws ecr get-login --region $AWS_REGION --no-include-email) $ECR_REPOSITORY
       - run:
           name: Build
           command: |
-            docker login --username AWS -p $(aws ecr get-login --region $AWS_REGION --no-include-email) $ECR_REPOSITORY            
             docker build -t $DOCKER_CONTAINER_NAME .
             docker tag $DOCKER_CONTAINER_NAME:latest $ECR_REPOSITORY:latest
             docker push $ECR_REPOSITORY:latest
