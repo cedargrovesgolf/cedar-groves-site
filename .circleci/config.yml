@@ -10,8 +10,6 @@ jobs:
 
     # Use remote docker to deploy the container to the EC2 instance
     working_directory: /app
-    environment:
-      DOCKER_HOST: tcp://localhost:2375
     steps:
       - setup_remote_docker
 
