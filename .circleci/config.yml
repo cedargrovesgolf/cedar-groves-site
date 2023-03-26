@@ -13,14 +13,15 @@ jobs:
             sudo apt-get update && sudo apt-get install -y awscli
       - setup_remote_docker
       - run:
-          name: Build Docker image
+          name: 'Docker: Login'
+          command: docker login --username AWS -p $(aws ecr get-login-password --region $AWS_REGION) $ECR_REPOSITORY
+          name: Build        
           command: |
-            docker login --username AWS -p $(aws ecr get-login-password --region $AWS_REGION) $ECR_REPOSITORY            
             docker build -t $DOCKER_CONTAINER_NAME .
             docker tag $DOCKER_CONTAINER_NAME:latest $ECR_REPOSITORY:latest
             docker push $ECR_REPOSITORY:latest
       - deploy:
-          name: Deploy to EC2 instance
+          name: Deploy
           command: |
             ssh -i $SSH_KEY $EC2_INSTANCE_USERNAME@$EC2_INSTANCE_IP_ADDRESS 'docker pull $ECR_REPOSITORY:latest && docker stop $DOCKER_CONTAINER_NAME && docker rm $DOCKER_CONTAINER_NAME && docker run -d -p $DOCKER_HOST_PORT:$PORT --name $DOCKER_CONTAINER_NAME $ECR_REPOSITORY:latest'
 workflows:
