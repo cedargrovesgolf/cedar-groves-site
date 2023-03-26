@@ -16,16 +16,8 @@ jobs:
             sudo ./aws/install
             rm awscliv2.zip
       - run:
-          name: Clean temp files
-          command: |
-            sudo rm -rf /usr/local/aws-cli/*
-            sudo rm /usr/local/bin/aws
-            sudo rm /usr/local/bin/aws_completer
-
-      - run:
           name: Check AWS version
           command: aws --version
-
       - run:
           name: Docker Login
           command: aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR
