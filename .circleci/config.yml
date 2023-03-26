@@ -36,7 +36,7 @@ jobs:
           command: aws --version
 
       - run:
-          name: Docker Login
+          name: Docker login
           command: aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR
 
       - save_cache:
@@ -45,18 +45,35 @@ jobs:
             - ./node_modules
 
       - run:
-          name: Build
+          name: Set up git config
           command: |
             git config --global user.email $GIT_USER_EMAIL
             git config --global user.name $GIT_USER_NAME
+
+      - run: 
+          name: Install hub
+          command: sudo snap install hub --classic
+      
+      -run: 
+          name: Check hub version
+          command: hub -v
+
+      - run:
+          name: Create release
+          command: |
             npm version patch
-            RELEASE_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
+            echo 'export RELEASE_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)' >> $BASH_ENV && source $BASH_ENV
+            echo $GITHUB_TOKEN | hub issue create -m "Release $RELEASE_TAG" -a --labels release
+            echo $GITHUB_TOKEN | hub release create -m "Release $RELEASE_TAG" -t $RELEASE_TAG
+
+      - run:
+          name: Build
+          command: |
             docker build -t $DOCKER_CONTAINER_NAME:$RELEASE_TAG .
             docker tag $DOCKER_CONTAINER_NAME:$RELEASE_TAG $ECR/$DOCKER_CONTAINER_NAME:$RELEASE_TAG
             docker push $ECR/$DOCKER_CONTAINER_NAME:$RELEASE_TAG
             docker tag $DOCKER_CONTAINER_NAME:$RELEASE_TAG $ECR/$DOCKER_CONTAINER_NAME:latest
             docker push $ECR/$DOCKER_CONTAINER_NAME:latest
-            git push --follow-tags
 
       - deploy:
           name: Deploy
