@@ -3,44 +3,59 @@ version: 2.1
 
 # Define the jobs that will run in the pipeline
 jobs:
-  environment:
-    AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
-    AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
-    AWS_REGION: $AWS_REGION
-    ECR_REPOSITORY: $ECR_REPOSITORY
-    TAG: $CIRCLE_SHA1
-
-  setup-remote-docker:
-    working_directory: /app
+  build:
+    environment:
+      AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+      AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+      AWS_REGION: $AWS_REGION
+      ECR_REPOSITORY: $ECR_REPOSITORY
+      TAG: $CIRCLE_SHA1
     docker:
       - image: circleci/node:14.16
-    steps:
-      - setup_remote_docker
-
-  build:
     steps:
       - checkout
       - run:
           name: Install dependencies
           command: npm install
       - run:
+          name: Log in to ECR
+          command: $(aws ecr get-login --no-include-email --region $AWS_REGION)
+      - run:
           name: Build Docker image
-          command: |
-            docker build -t $ECR_REPOSITORY:$TAG .
-            $(aws ecr get-login --no-include-email --region $AWS_REGION)
-            docker push $ECR_REPOSITORY:$TAG
+          command: docker build -t $ECR_REPOSITORY:$TAG .
+      - run:
+          name: Push Docker image to ECR
+          command: docker push $ECR_REPOSITORY:$TAG
 
   deploy:
+    environment:
+      AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+      AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+      AWS_REGION: $AWS_REGION
+      ECR_REPOSITORY: $ECR_REPOSITORY
+      TAG: $CIRCLE_SHA1
+      DOCKER_HOST_PORT: $DOCKER_HOST_PORT
+      HOST: $HOST
+      PORT: $PORT
+    docker:
+      - image: circleci/node:14.16
     steps:
       - run:
           name: Deploy Docker image
           command: |
-            ssh -i ~/.ssh/webadmin.pem $EC2_INSTANCE_USERNAME@$EC2_INSTANCE_IP_ADDRESS "sudo docker stop $DOCKER_CONTAINER_NAME"
-            ssh -i ~/.ssh/webadmin.pem $EC2_INSTANCE_USERNAME@$EC2_INSTANCE_IP_ADDRESS "sudo docker rm $DOCKER_CONTAINER_NAME"
-            ssh -i ~/.ssh/webadmin.pem $EC2_INSTANCE_USERNAME@$EC2_INSTANCE_IP_ADDRESS "sudo docker pull $ECR_REPOSITORY:$TAG"
-            ssh -i ~/.ssh/webadmin.pem $EC2_INSTANCE_USERNAME@$EC2_INSTANCE_IP_ADDRESS "sudo docker run -d --restart=always --name $DOCKER_CONTAINER_NAME -p $DOCKER_HOST_PORT:$PORT -e HOST=$HOST -e PORT=$PORT $ECR_REPOSITORY:$TAG"
+            ssh -i ~/.ssh/webadmin.pem $EC2_INSTANCE_USERNAME@$EC2_INSTANCE_IP_ADDRESS "sudo docker stop $DOCKER_CONTAINER_NAME && sudo docker rm $DOCKER_CONTAINER_NAME && sudo docker pull $ECR_REPOSITORY:$TAG && sudo docker run -d --restart=always --name $DOCKER_CONTAINER_NAME -p $DOCKER_HOST_PORT:$PORT -e HOST=$HOST -e PORT=$PORT $ECR_REPOSITORY:$TAG"
 
-# Define the workflows that will run in the pipeline
+  setup-remote-docker:
+    docker:
+      - image: circleci/node:14.16
+    steps:
+      - setup_remote_docker:
+          version: 20.10.8-ce
+          docker_layer_caching: true
+      - run:
+          name: Set working directory
+          command: cd /app
+
 workflows:
   version: 2
   build-and-deploy:
@@ -55,5 +70,3 @@ workflows:
     filters:
       branches:
         only: main
-
-    
