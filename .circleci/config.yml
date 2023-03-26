@@ -47,6 +47,8 @@ jobs:
       - run:
           name: Build
           command: |
+            git config --global user.email $GIT_USER_EMAIL
+            git config --global user.name $GIT_USER_NAME
             npm version patch
             RELEASE_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
             docker build -t $DOCKER_CONTAINER_NAME:$RELEASE_TAG .
