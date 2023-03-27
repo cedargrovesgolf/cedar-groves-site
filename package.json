@@ -2,8 +2,8 @@
   "name": "cedar-groves-golf",
   "version": "1.0.0",
   "description": "Cedar Groves Golf Course website",
-  "main": "server.js",
   "scripts": {
+    "start": "node app/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
