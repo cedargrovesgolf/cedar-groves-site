@@ -43,6 +43,7 @@ jobs:
       - run:
           name: Build
           command: |
+            cat /etc/docker/config
             docker build -t $DOCKER_CONTAINER_NAME .
             docker tag $DOCKER_CONTAINER_NAME:latest $ECR/$DOCKER_CONTAINER_NAME:latest
             docker push $ECR/$DOCKER_CONTAINER_NAME:latest
@@ -50,8 +51,8 @@ jobs:
       - deploy:
           name: Deploy
           command: |
-            ssh-keyscan $EC2_INSTANCE_IP_ADDRESS >> ~/.ssh/known_hosts
             aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR
+            ssh-keyscan $EC2_INSTANCE_IP_ADDRESS >> ~/.ssh/known_hosts
             ssh $EC2_INSTANCE_USERNAME@$EC2_INSTANCE_IP_ADDRESS "docker pull $ECR/$DOCKER_CONTAINER_NAME:latest && docker stop $DOCKER_CONTAINER_NAME && docker rm $DOCKER_CONTAINER_NAME && docker run -d -p $DOCKER_HOST_PORT:$PORT --name $DOCKER_CONTAINER_NAME $ECR/$DOCKER_CONTAINER_NAME:latest"
 
 workflows:
