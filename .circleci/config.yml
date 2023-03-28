@@ -41,13 +41,6 @@ jobs:
           name: Build
           command: npm run build
 
-    workspace:
-      create:
-        name: build
-        paths:
-          - ./node_modules
-        propagate: true
-
   deploy:
     docker:
       - image: docker:latest
@@ -82,10 +75,14 @@ workflows:
           filters:
             branches:
               only: main
+          workspace:
+            create:
+              name: build-workspace
+              paths:
+                - ./node_modules
       - deploy:
           filters:
             branches:
               only: main
-          # Use workspaces to share data between jobs
           workspace:
-            attach: build
+            use: build-workspace
