@@ -4,7 +4,7 @@ jobs:
   build-and-deploy:
     working_directory: ~/cedar-groves-site
     docker:
-      - image: circleci/node:latest
+      - image: node:alpine
     steps:
       - restore_cache:
           keys:
@@ -14,7 +14,7 @@ jobs:
       - setup_remote_docker
       - run:
           name: Install dependencies
-          command: npm install
+          command: npm ci
       - run:
           name: Install AWS v2
           command: |
@@ -35,10 +35,7 @@ jobs:
             - ./node_modules
       - run:
           name: Build
-          command: |
-            docker build -t $DOCKER_CONTAINER_NAME .
-            docker tag $DOCKER_CONTAINER_NAME:latest $ECR/$DOCKER_CONTAINER_NAME:latest
-            docker push $ECR/$DOCKER_CONTAINER_NAME:latest
+          command: npm run build
       - deploy:
           name: Deploy
           command: |
