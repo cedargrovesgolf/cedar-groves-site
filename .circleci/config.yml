@@ -3,19 +3,19 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/node:latest
+      - image: circleci/node:lts
     steps:
       - setup_remote_docker
       - checkout
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package-lock.json" }}
+            - v1-dependencies-{{ checksum "package-lock.json" }}-{{ checksum "package.json" }}
             - v1-dependencies-
       - run:
           name: Install dependencies
           command: npm ci
       - save_cache:
-          key: v1-dependencies-{{ checksum "package-lock.json" }}
+          key: v1-dependencies-{{ checksum "package-lock.json" }}-{{ checksum "package.json" }}
           paths:
             - ./node_modules
       - run:
@@ -37,7 +37,7 @@ jobs:
 
   deploy:
     docker:
-      - image: circleci/node:latest
+      - image: circleci/node:lts
     steps:
       - setup_remote_docker
       - checkout
