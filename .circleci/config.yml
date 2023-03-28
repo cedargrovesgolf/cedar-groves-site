@@ -7,21 +7,17 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package-lock.json" }}
             - v1-dependencies-
-
       - run:
           name: Install dependencies
           command: npm ci
-
       - save_cache:
           key: v1-dependencies-{{ checksum "package-lock.json" }}
           paths:
             - ./node_modules
-
       - run:
           name: Install AWS v2
           command: |
@@ -29,22 +25,19 @@ jobs:
             unzip awscliv2.zip
             sudo ./aws/install
             rm awscliv2.zip
-
       - run:
           name: Check AWS version
           command: aws --version
-
       - run:
           name: Docker Login
           command: aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR
-
       - run:
           name: Build
           command: npm run build
 
   deploy:
     docker:
-      - image: docker:latest
+      - image: circleci/node:latest
     steps:
       - setup_remote_docker
       - checkout
