@@ -4,7 +4,7 @@ jobs:
   build-and-deploy:
     working_directory: ~/cedar-groves-site
     docker:
-      - image: node:alpine
+      - image: circleci/node:latest
     steps:
       - restore_cache:
           keys:
