@@ -131,13 +131,21 @@ a {
 }
 
 .heading,
-.heading-noline {
+.heading-noline,
+.hero-heading {
   font-family: 'Cormorant Infant', serif;
   font-weight: 600;
 }
 
 .heading {
   line-height: 2;
+}
+
+@media (max-width: 476px) {
+  .heading,
+  .heading-noline {
+    font-size: 34px;
+  }
 }
 
 .flex,
@@ -410,11 +418,11 @@ a {
   .navbar-sticky {
     height: 68px;
   }
-  .hero-divider {
-    width: 30%;
+  .hero-heading {
+    font-size: 38px;
   }
-  .hero-sub {
-    font-size: 16px;
+  .hero-divider {
+    width: 40%;
   }
 }
 
