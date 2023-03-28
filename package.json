@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "Cedar Groves Golf Course website",
   "scripts": {
-    "build": "./scripts/build.sh",
-    "start": "node app/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "chmod +x scripts/build.sh && ./scripts/build.sh",
+    "deploy": "chmod +x scripts/deploy.sh && ./scripts/deploy.sh",
+    "start": "node app/server.js"
   },
   "repository": {
     "type": "git",
