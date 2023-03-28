@@ -132,9 +132,9 @@ a {
 
 .heading,
 .heading-noline,
-.hero-heading {
+.hero-heading, .footer-heading {
   font-family: 'Cormorant Infant', serif;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .heading {
