@@ -1,20 +1,26 @@
 version: 2.1
 
 jobs:
-  build-and-deploy:
-    working_directory: ~/cedar-groves-site
+  build:
     docker:
       - image: circleci/node:latest
     steps:
+      - checkout
+
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package-lock.json" }}
             - v1-dependencies-
-      - checkout
-      - setup_remote_docker
+
       - run:
           name: Install dependencies
           command: npm ci
+
+      - save_cache:
+          key: v1-dependencies-{{ checksum "package-lock.json" }}
+          paths:
+            - ./node_modules
+
       - run:
           name: Install AWS v2
           command: |
@@ -22,6 +28,7 @@ jobs:
             unzip awscliv2.zip
             sudo ./aws/install
             rm awscliv2.zip
+
       - run:
           name: Check AWS version
           command: aws --version
@@ -29,14 +36,34 @@ jobs:
       - run:
           name: Docker Login
           command: aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR
-      - save_cache:
-          key: v1-dependencies-{{ checksum "package-lock.json" }}
-          paths:
-            - ./node_modules
+
       - run:
           name: Build
           command: npm run build
-      - deploy:
+
+  deploy:
+    docker:
+      - image: docker:latest
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run:
+          name: Install AWS v2
+          command: |
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install
+            rm awscliv2.zip
+
+      - run:
+          name: Check AWS version
+          command: aws --version
+
+      - run:
+          name: Docker Login
+          command: aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR
+
+      - run:
           name: Deploy
           command: npm run deploy
 
@@ -44,7 +71,19 @@ workflows:
   version: 2.1
   build-and-deploy:
     jobs:
-      - build-and-deploy:
+      - build:
           filters:
             branches:
               only: main
+          workspace:
+            create:
+              name: build
+              paths:
+                - ./node_modules
+              propagate: true
+      - deploy:
+          filters:
+            branches:
+              only: main
+          workspace:
+            attach: build
