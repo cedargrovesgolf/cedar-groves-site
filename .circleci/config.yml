@@ -75,14 +75,16 @@ workflows:
           filters:
             branches:
               only: main
-          workspace:
-            create:
-              name: build-workspace
-              paths:
-                - ./node_modules
       - deploy:
           filters:
             branches:
               only: main
-          workspace:
-            use: build-workspace
+    workspace:
+      create:
+        name: build-workspace
+        paths:
+          - ./node_modules
+      persist_to_workspace:
+        root: .
+        paths:
+          - .
