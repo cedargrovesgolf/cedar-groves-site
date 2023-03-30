@@ -1,103 +1,72 @@
 <!-- rates-fees.ejs -->
 <!DOCTYPE html>
 <html lang="en">
-  <%- include('common/head.ejs', { pageTitle: 'Rates & Fees' }); %>
-  <body>
-    <%- include('common/header.ejs'); %>
-    <!-- main -->
-    <main class="main">
-      <div class="main-item vflex">
-        <h2 class="heading display-5 text-center">
-          <span id="year"></span> Golf Season
-        </h2>
-        <p class="text-center text-restrict">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Accusantium,
-          ad officiis voluptate necessitatibus tenetur odio eveniet provident
-          autem nulla. Dolor?
-        </p>
-        <hr
-          class="divider text-center opacity-100 mt-4"
-          style="border-top-color: #9d7700; border-width: 3px; width: 100px"
-        />
-      </div>
+<%- include('common/head.ejs', { pageTitle: 'Rates & Fees' }); %>
 
-      <div class="main-item ps">
-        <div class="card-s">
-          <h5
-            class="text-center pb-3 mb-4 fw-bold"
-            style="border-bottom: solid 1px #ddd"
-          >
-            Green Fees
-          </h5>
-          <div class="flex justify-content-evenly p-3 g-32">
-            <table class="table table-borderless rates-table flex-eq">
-              <tbody>
-                <tr>
-                  <th scope="row">9 Hole</th>
-                  <td>$20</td>
-                </tr>
-                <tr>
-                  <th scope="row">9 Hole &mdash; Senior</th>
-                  <td>$15</td>
-                </tr>
-                <tr>
-                  <th scope="row">9 Hole &mdash; Junior</th>
-                  <td>$10</td>
-                </tr>
-                <tr>
-                  <th scope="row">18 Hole</th>
-                  <td>$28</td>
-                </tr>
-                <tr>
-                  <th scope="row">18 Hole &mdash; Senior</th>
-                  <td>$20</td>
-                </tr>
-                <tr>
-                  <th scope="row">18 Hole &mdash; Junior</th>
-                  <td>$14</td>
-                </tr>
-              </tbody>
-            </table>
+<body>
+  <%- include('common/header.ejs'); %>
+  <!-- main -->
+  <main class="main">
+    <div class="main-item vflex">
+      <h2 class="heading display-5 text-center">
+        <span id="year"></span> Golf Season
+      </h2>
+      <p class="text-center text-restrict">
+        At Cedar Groves, we are committed to providing a top-notch experience without breaking the bank. Our rates and
+        fees are designed to be affordable for everyone, while still maintaining high quality.
+      </p>
+      <hr class="divider text-center opacity-100 mt-4"
+        style="border-top-color: #9d7700; border-width: 3px; width: 120px" />
+    </div>
 
-            <img
-              src="assets/images/drone-22.jpg"
-              alt=""
-              class="flex-eq border-rad shadow-2"
-            />
+    <div class="main-item ps">
+      <div class="price-cards res-flex g-32 pb-5 img-anim">
+        <div class="card-s vflex flex-eq g-16 p-5">
+          <h4 class="text-center">9 Hole</h4>
+          <div class="vflex g-32" style="transform: translateY(80px)">
+            <div class="flex color-main bg-acc px-5 py-3 border-rad shadow-2" style="font-weight: 600">
+              <h3>?</h3>
+            </div>
+          </div>
+        </div>
+        <div class="card-s vflex flex-eq g-16 p-5">
+          <h4 class="text-center">18 Hole</h4>
+          <div class="vflex g-32" style="transform: translateY(80px)">
+            <div class="flex color-main bg-acc px-5 py-3 border-rad shadow-2" style="font-weight: 600">
+              <h3>?</h3>
+            </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="main-item ps">
-        <div class="card-s">
-          <h5 class="text-center pb-3" style="border-bottom: solid 1px #ddd">
-            Driving Range
-          </h5>
-        </div>
-      </div>
-
-      <div class="main-item ps">
-        <div class="card-s">
-          <h5 class="text-center pb-3" style="border-bottom: solid 1px #ddd">
-            For The Course
-          </h5>
-        </div>
-      </div>
-
-      <div class="main-item large">
-        <div class="res-flex align-items-stretch pb-5">
-          <img src="assets/images/drone-17.jpg" alt="Golf" class="flex-eq" />
-          <div class="bg-sec flex-eq p-5">
-            <h4 class="text-center pb-5">Heading 1</h4>
-            <p class="text-center">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-              Aspernatur officiis autem libero? Voluptas commodi nihil est
-              exercitationem fuga error id?
-            </p>
+    <div class="main-item ps">
+      <div class="card-s vflex flex-eq g-16 p-5 img-anim">
+        <h4 class="text-center">Driving Range</h4>
+        <div class="vflex g-32" style="transform: translateY(80px)">
+          <div class="flex color-main bg-acc px-5 py-3 border-rad shadow-2" style="font-weight: 600">
+            <h3>?</h3>
           </div>
         </div>
       </div>
-    </main>
-    <%- include('common/footer.html'); %>
-  </body>
+    </div>
+
+    <div class="main-item">
+      <div class="card-s vflex flex-eq g-16 p-5 img-anim">
+        <h4 class="text-center">Amenities</h4>
+        <div class="vflex g-32" style="transform: translateY(80px)">
+          <div class="flex color-main bg-acc px-5 py-3 border-rad shadow-2" style="font-weight: 600">
+            <h3>?</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+  </main>
+  <%- include('common/footer.html'); %>
+</body>
+
 </html>

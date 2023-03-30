@@ -41,15 +41,6 @@ video {
   width: 100%;
 }
 
-.form-control:focus {
-  box-shadow: none !important;
-  border-color: #283927ac;
-}
-
-i:focus {
-  outline: none;
-}
-
 body {
   margin: 0;
   min-height: 100vh;
@@ -75,6 +66,15 @@ a {
   text-decoration: none;
   color: var(--color-prim);
   transition: color 0.2s ease-in-out;
+}
+
+i:focus {
+  outline: none;
+}
+
+.form-control:focus {
+  box-shadow: none !important;
+  border-color: #283927ac;
 }
 
 /* utilities */
@@ -134,28 +134,6 @@ a {
   color: var(--color-sec);
 }
 
-.heading,
-.heading-noline,
-.hero-heading,
-.footer-heading {
-  font-family: 'Cormorant Infant', serif;
-  font-weight: 600;
-}
-
-.heading {
-  line-height: 2;
-}
-
-@media (max-width: 476px) {
-  .heading,
-  .heading-noline {
-    font-size: 34px;
-  }
-  .footer-heading {
-    font-size: 28px;
-  }
-}
-
 .flex,
 .vflex,
 .res-flex {
@@ -206,18 +184,28 @@ a {
   gap: 128px;
 }
 
-.full-bleed {
-  box-shadow: 0 0 0 100vmax var(--color-sec);
-  clip-path: inset(0 -100vmax);
-  padding: 48px 16px !important;
+.heading,
+.heading-noline,
+.hero-heading,
+.footer-heading {
+  font-family: 'Cormorant Infant', serif;
+  font-weight: 500;
 }
 
-.shadow-1 {
-  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+.heading {
+  line-height: 2;
 }
 
-.shadow-2 {
-  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 8%), 0 2px 10px 0 rgb(0 0 0 / 4%);
+@media (max-width: 476px) {
+
+  .heading,
+  .heading-noline {
+    font-size: 34px;
+  }
+
+  .footer-heading {
+    font-size: 28px;
+  }
 }
 
 .main {
@@ -253,6 +241,20 @@ a {
   }
 }
 
+.full-bleed {
+  box-shadow: 0 0 0 100vmax var(--color-sec);
+  clip-path: inset(0 -100vmax);
+  padding: 48px 16px !important;
+}
+
+.shadow-1 {
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+}
+
+.shadow-2 {
+  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 8%), 0 2px 10px 0 rgb(0 0 0 / 4%);
+}
+
 .divider {
   border-top: solid 1px var(--color-prim);
   opacity: 0.5;
@@ -266,10 +268,6 @@ a {
 
 .transition {
   transition: all 0.2s ease-in-out;
-}
-
-.transition-long {
-  transition: all 0.3s ease-in-out;
 }
 
 .hover:hover {
@@ -351,7 +349,7 @@ a {
   z-index: 99;
 }
 
-.navbar-sticky .logo > img {
+.navbar-sticky .logo>img {
   display: none;
 }
 
@@ -396,7 +394,7 @@ a {
 }
 
 @media (min-width: 992px) {
-  nav > .nav-button {
+  nav>.nav-button {
     display: none;
   }
 }
@@ -405,30 +403,42 @@ a {
   .navbar .navbar-nav {
     display: none;
   }
+
   .navbar-nav {
     gap: 0px;
   }
+
   .nav-item:not(:last-child) {
     border-bottom: solid 0.5px #8e8e8e;
   }
+
   .nav-link {
     padding: 18px 0;
   }
-  .navbar .logo > img {
+
+  .navbar .logo>img {
     display: none;
   }
+
   .navbar .logo {
-    font-size: 30px;
+    font-size: 32px;
     text-align: center;
     flex-grow: 1;
     align-items: flex-start;
   }
+
   .navbar-sticky {
     height: 68px;
   }
+
   .hero-heading {
     font-size: 38px;
   }
+
+  .hero-sub {
+    font-size: 18px;
+  }
+
   .hero-divider {
     width: 40%;
   }
@@ -465,16 +475,20 @@ a {
   .how-to-area {
     gap: 32px;
   }
-  .how-to-area > div {
+
+  .how-to-area>div {
     align-items: center !important;
     text-align: center;
   }
+
   .how-to-area img {
     width: 100% !important;
   }
+
   .price-cards {
     gap: 72px;
   }
+
   .price-cards .card {
     padding: 48px 24px !important;
   }
@@ -482,27 +496,29 @@ a {
 
 /* rules & regulations */
 @media (max-width: 992px) {
-  .rules-card ol {
-    padding: 0 !important;
-  }
-}
-
-@media (max-width: 992px) {
   .hours-area img {
     order: -1;
   }
+
   .text-img-box {
     gap: 16px;
   }
+
   .text-img-box div {
     align-items: center !important;
   }
+
   .text-img-box p {
     text-align: center !important;
     padding: 0 !important;
   }
+
   .text-img-box .order {
     order: 1;
+  }
+
+  .rules-card ol {
+    padding: 0 !important;
   }
 }
 
@@ -512,13 +528,16 @@ a {
     align-items: center !important;
     gap: 16px;
   }
-  .contact-wrapper > div {
+
+  .contact-wrapper>div {
     align-items: center !important;
   }
-  .contact-wrapper > div > div {
+
+  .contact-wrapper>div>div {
     gap: 0px;
     text-align: center;
   }
+
   .contact-wrapper h5 {
     font-size: 18px;
   }
@@ -535,7 +554,8 @@ a {
     align-items: center !important;
     padding: 0 !important;
   }
-  .footer-content-area > div {
+
+  .footer-content-area>div {
     padding: 16px;
     align-items: center !important;
   }

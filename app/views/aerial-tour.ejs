@@ -1,17 +1,19 @@
 <!-- aerial-tour.ejs -->
 <!DOCTYPE html>
 <html lang="en">
-    <%- include('common/head.ejs', { pageTitle: 'Aerial Tour' }); %>
-    <body>
-        <%- include('common/header.ejs'); %>
-        <!-- main -->
-        <main class="main">
-        <% if (typeof hole !== 'undefined') { %> 
-          <%- include('partials/hole.ejs'); %> 
-        <% } else { %> 
-          <%- include('partials/hole-nav.ejs'); %> 
-        <% } %>
-        </main>
-        <%- include('common/footer.html'); %>
-    </body>
+<%- include('common/head.ejs', { pageTitle: 'Aerial Tour' }); %>
+
+<body>
+  <%- include('common/header.ejs'); %>
+  <!-- main -->
+  <main class="main">
+    <% if (typeof hole !== 'undefined') { %>
+    <%- include('partials/hole.ejs'); %>
+    <% } else { %>
+    <%- include('partials/hole-nav.ejs'); %>
+    <% } %>
+  </main>
+  <%- include('common/footer.html'); %>
+</body>
+
 </html>

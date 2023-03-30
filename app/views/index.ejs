@@ -1,280 +1,260 @@
 <!-- index.ejs -->
 <!DOCTYPE html>
 <html lang="en">
-  <%- include('common/head.ejs', { pageTitle: 'Home' }); %>
-  <body>
-    <%- include('common/header.ejs'); %>
-    <!-- main -->
-    <main class="main">
-      <div class="main-item">
-        <h2 class="heading display-5 text-center">Golfing at The Groves</h2>
-        <p class="text-restrict text-center">
-          Cedar Groves Executive Par 3 Golf Course and Driving Range is an attractive nine-hole
-          course located between Saint John and Rothesay, nestled in the shadows of Dolan Lake.
-          <br /><br />
-          With most holes having three decks to tee from, Cedar Groves offers an excellent playing
-          experience for golfers of all levels. In addition to the two Par 4 holes and seven Par 3
-          holes, there is a driving range and a spacious practice green where golfers can sharpen
-          their skills before heading out for a round.
-        </p>
-      </div>
-      <!-- hours and weather -->
-      <div class="main-item large full-bleed" id="hours">
-        <div class="hours-area res-flex justify-content-between g-32">
-          <div class="hours-wrapper vflex flex-eq">
-            <h2 class="heading display-5">On the Course</h2>
-            <p class="text-center pb-4">
-              Visit us at Cedar Groves for a beautiful day with friends and family, whether you have
-              time for a quick 9 holes or a full day at the range.
-            </p>
-            <p class="text-center">
-              Our hours may be updated throughout the season.<br />Check here for the most
-              up-to-date hours of operation.
-            </p>
-            <h6 class="pb-2 pt-3 fw-bold">
-              Monday &mdash; Sunday &emsp; 9<span class="font-xs text-uppercase">am</span> &mdash;
-              8:30<span class="font-xs text-uppercase">pm</span>
-            </h6>
-            <div class="weather-widg">
-              <a
-                class="weatherwidget-io w-100"
-                href="https://forecast7.com/en/45d27n66d06/saint-john/"
-                data-label_1="CEDAR GROVES"
-                data-label_2="WEATHER"
-                data-font="Open Sans"
-                you
-                data-days="3"
-                >CEDAR GROVES WEATHER</a
-              >
-            </div>
-            <script src="scripts/weather_widget.js" charset="utf-8"></script>
-          </div>
+<%- include('common/head.ejs', { pageTitle: null }); %>
 
-          <div class="flex-eq">
-            <img
-              src="assets/images/drone-3.jpg"
-              alt="Course"
-              class="shadow-2 border-rad img-anim" />
-          </div>
-        </div>
-      </div>
-      <!-- join community -->
-      <div class="main-item large">
-        <h2 class="heading display-5 text-center">Join the Community</h2>
-        <div class="vflex g-64 p-2">
-          <div class="text-img-box res-flex g-32">
-            <div class="vflex align-items-start flex-eq g-16">
-              <img src="assets/icons/tee.svg" alt="Golf Icon" style="width: 2.5rem" />
-              <h4 class="text-start">The Range</h4>
-              <p class="text-start pe-5">
-                Unwind and practice your swing at our 250-yard driving range with target greens,
-                distance markers, and a practice green. Perfect your accuracy and power, and hone
-                your putting skills.
-              </p>
-            </div>
-            <div class="flex-eq">
-              <img
-                src="assets/images/drone-15.jpg"
-                class="border-rad img-anim shadow-2"
-                alt="Range" />
-            </div>
-          </div>
-          <div class="text-img-box res-flex g-32">
-            <div class="order flex-eq">
-              <img
-                src="assets/images/drone-5.jpg"
-                class="border-rad img-anim shadow-2"
-                alt="Member" />
-            </div>
-            <div class="vflex align-items-end flex-eq g-16">
-              <img src="assets/icons/clubhouse.svg" alt="Club Icon" style="width: 2.5rem" />
-              <h4 class="text-end">Become a Member</h4>
-              <p class="text-end ps-5">
-                Become a part of the vibrant golfing community at Cedar Groves by becoming a member.
-                Enjoy regular play on our course, consistent practice on our driving range and
-                practice green, and a lively social scene with fellow golf enthusiasts.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- video -->
-      <div class="main-item">
-        <h2 class="heading-noline display-5 text-center">Experience Cedar Groves</h2>
-        <p class="text-restrict text-center mb-4 pt-3">
-          Soar above Cedar Groves and witness all aspects of our course. From lush greenery to
-          serene bodies of water, our facility offers an unforgettable experience for golfers of all
-          levels.
-        </p>
-        <video
-          id="myVideo"
-          class="shadow"
-          preload=""
-          controls=""
-          controlslist="nodownload noplaybackrate"
-          disablepictureinpicture=""
-          poster="assets/images/drone-1.jpg">
-          <source src="assets/drone.mov" type="video/mp4" />
-        </video>
-      </div>
-      <!-- reviews -->
-      <div class="main-item">
-        <h2 class="heading display-5 text-center">What We've Heard</h2>
-        <div class="vflex g-16">
-          <p class="text-restrict text-center">
-            At Cedar Groves, we are dedicated to providing our guests with an exceptional
-            experience. Don't just take our word for it &mdash; read reviews from other visitors to
-            see what they loved about their time on our course.
+<body>
+  <%- include('common/header.ejs'); %>
+  <!-- main -->
+  <main class="main">
+    <div class="main-item">
+      <h2 class="heading display-5 text-center">Golfing at The Groves</h2>
+      <p class="text-restrict text-center">
+        Cedar Groves Executive Par 3 Golf Course and Driving Range is an attractive nine-hole
+        course located between Saint John and Rothesay, nestled in the shadows of Dolan Lake.
+        <br /><br />
+        With most holes having three decks to tee from, Cedar Groves offers an excellent playing
+        experience for golfers of all levels. In addition to the two Par 4 holes and seven Par 3
+        holes, there is a driving range and a spacious practice green where golfers can sharpen
+        their skills before heading out for a round.
+      </p>
+    </div>
+    <!-- hours and weather -->
+    <div class="main-item large full-bleed" id="hours">
+      <div class="hours-area res-flex justify-content-between g-32">
+        <div class="hours-wrapper vflex flex-eq">
+          <h2 class="heading display-5">On the Course</h2>
+          <p class="text-center pb-4">
+            Visit us at Cedar Groves for a beautiful day with friends and family, whether you have
+            time for a quick 9 holes or a full day at the range.
           </p>
-          <div class="review-area w-100">
-            <div class="swiper py-4 px-2">
-              <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                  <div class="card vflex justify-content-start">
-                    <div class="stars flex g-4">
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                    </div>
-                    <p class="text-center font-weight-light py-2">
-                      I love this course, the people who work there are friendly the course is
-                      great. I love the lay out and it has helped my my chip game a ton.
-                    </p>
-                    <h6 class="text-center py-2 pb-4">Allan Shephard</h6>
+          <p class="text-center">
+            Our hours may be updated throughout the season.<br />Check here for the most
+            up-to-date hours of operation.
+          </p>
+          <h6 class="pb-2 pt-3 fw-bold">
+            Monday &mdash; Sunday &emsp; 9<span class="font-xs text-uppercase">am</span> &mdash;
+            8:30<span class="font-xs text-uppercase">pm</span>
+          </h6>
+          <div class="weather-widg">
+            <a class="weatherwidget-io w-100" href="https://forecast7.com/en/45d27n66d06/saint-john/"
+              data-label_1="CEDAR GROVES" data-label_2="WEATHER" data-font="Open Sans" you data-days="3">CEDAR
+              GROVES WEATHER</a>
+          </div>
+          <script src="scripts/weather_widget.js" charset="utf-8"></script>
+        </div>
+
+        <div class="flex-eq">
+          <img src="assets/images/drone-3.jpg" alt="Course" class="shadow-2 border-rad img-anim" />
+        </div>
+      </div>
+    </div>
+    <!-- join community -->
+    <div class="main-item large">
+      <h2 class="heading display-5 text-center">Join the Community</h2>
+      <div class="vflex g-64 p-2">
+        <div class="text-img-box res-flex g-32">
+          <div class="vflex align-items-start flex-eq g-16">
+            <img src="assets/icons/tee.svg" alt="Golf Icon" style="width: 2.5rem" />
+            <h4 class="text-start">The Range</h4>
+            <p class="text-start pe-5">
+              Unwind and practice your swing at our 250-yard driving range with target greens,
+              distance markers, and a practice green. Perfect your accuracy and power, and hone
+              your putting skills.
+            </p>
+          </div>
+          <div class="flex-eq">
+            <img src="assets/images/drone-15.jpg" class="border-rad img-anim shadow-2" alt="Range" />
+          </div>
+        </div>
+        <div class="text-img-box res-flex g-32">
+          <div class="order flex-eq">
+            <img src="assets/images/drone-5.jpg" class="border-rad img-anim shadow-2" alt="Member" />
+          </div>
+          <div class="vflex align-items-end flex-eq g-16">
+            <img src="assets/icons/clubhouse.svg" alt="Club Icon" style="width: 2.5rem" />
+            <h4 class="text-end">Become a Member</h4>
+            <p class="text-end ps-5">
+              Become a part of the vibrant golfing community at Cedar Groves by becoming a member.
+              Enjoy regular play on our course, consistent practice on our driving range and
+              practice green, and a lively social scene with fellow golf enthusiasts.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- video -->
+    <div class="main-item">
+      <h2 class="heading-noline display-5 text-center">Experience Cedar Groves</h2>
+      <p class="text-restrict text-center mb-4 pt-3">
+        Soar above Cedar Groves and witness all aspects of our course. From lush greenery to
+        serene bodies of water, our facility offers an unforgettable experience for golfers of all
+        levels.
+      </p>
+      <video id="myVideo" class="shadow" preload="" controls="" controlslist="nodownload noplaybackrate"
+        disablepictureinpicture="" poster="assets/images/drone-1.jpg">
+        <source src="assets/drone.mov" type="video/mp4" />
+      </video>
+    </div>
+    <!-- reviews -->
+    <div class="main-item">
+      <h2 class="heading display-5 text-center">What We've Heard</h2>
+      <div class="vflex g-16">
+        <p class="text-restrict text-center">
+          At Cedar Groves, we are dedicated to providing our guests with an exceptional
+          experience. Don't just take our word for it &mdash; read reviews from other visitors to
+          see what they loved about their time on our course.
+        </p>
+        <div class="review-area w-100">
+          <div class="swiper py-4 px-2">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide">
+                <div class="card vflex justify-content-start">
+                  <div class="stars flex g-4">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
                   </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="card vflex justify-content-start">
-                    <div class="stars flex g-4">
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                    </div>
-                    <p class="text-center font-weight-light py-2">
-                      By far the most executive par 3 I have ever played. Best greens in the city
-                      and the tee boxes were very well maintained. I took my boss for a quick 9
-                      after work and got a raise out of it.
-                    </p>
-                    <h6 class="text-center py-2 pb-4">Carson Dorcas</h6>
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="card vflex justify-content-start">
-                    <div class="stars flex g-4">
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                    </div>
-                    <p class="text-center font-weight-light py-2">
-                      Awesome place. Great staff. Ample tee areas. Great putting green. They only
-                      thing you really need is ice cream!
-                    </p>
-                    <h6 class="text-center py-2 pb-4">D Conzie Connell</h6>
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="card vflex justify-content-start">
-                    <div class="stars flex g-4">
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                    </div>
-                    <p class="text-center font-weight-light py-2">
-                      I love this course, the people who work there are friendly the course is
-                      great. I love the lay out and it has helped my my chip game a ton.
-                    </p>
-                    <h6 class="text-center py-2 pb-4">Allan Shephard</h6>
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="card vflex justify-content-start">
-                    <div class="stars flex g-4">
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                    </div>
-                    <p class="text-center font-weight-light py-2">
-                      By far the most executive par 3 I have ever played. Best greens in the city
-                      and the tee boxes were very well maintained. I took my boss for a quick 9
-                      after work and got a raise out of it.
-                    </p>
-                    <h6 class="text-center py-2 pb-4">Carson Dorcas</h6>
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="card vflex justify-content-start">
-                    <div class="stars flex g-4">
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                    </div>
-                    <p class="text-center font-weight-light py-2">
-                      By far the most executive par 3 I have ever played. Best greens in the city
-                      and the tee boxes were very well maintained. I took my boss for a quick 9
-                      after work and got a raise out of it.
-                    </p>
-                    <h6 class="text-center py-2 pb-4">Carson Dorcas</h6>
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="card vflex justify-content-start">
-                    <div class="stars flex g-4">
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                    </div>
-                    <p class="text-center font-weight-light py-2">
-                      By far the most executive par 3 I have ever played. Best greens in the city
-                      and the tee boxes were very well maintained. I took my boss for a quick 9
-                      after work and got a raise out of it.
-                    </p>
-                    <h6 class="text-center py-2 pb-4">Carson Dorcas</h6>
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="card vflex justify-content-start">
-                    <div class="stars flex g-4">
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                    </div>
-                    <p class="text-center font-weight-light py-2">
-                      By far the most executive par 3 I have ever played. Best greens in the city
-                      and the tee boxes were very well maintained. I took my boss for a quick 9
-                      after work and got a raise out of it.
-                    </p>
-                    <h6 class="text-center py-2 pb-4">Carson Dorcas</h6>
-                  </div>
+                  <p class="text-center font-weight-light py-2">
+                    I love this course, the people who work there are friendly the course is
+                    great. I love the lay out and it has helped my my chip game a ton.
+                  </p>
+                  <h6 class="text-center py-2 pb-4">Allan Shephard</h6>
                 </div>
               </div>
-              <div class="swiper-pagination"></div>
-              <div class="swiper-button-next"></div>
-              <div class="swiper-button-prev"></div>
+              <div class="swiper-slide">
+                <div class="card vflex justify-content-start">
+                  <div class="stars flex g-4">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                  </div>
+                  <p class="text-center font-weight-light py-2">
+                    By far the most executive par 3 I have ever played. Best greens in the city
+                    and the tee boxes were very well maintained. I took my boss for a quick 9
+                    after work and got a raise out of it.
+                  </p>
+                  <h6 class="text-center py-2 pb-4">Carson Dorcas</h6>
+                </div>
+              </div>
+              <div class="swiper-slide">
+                <div class="card vflex justify-content-start">
+                  <div class="stars flex g-4">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                  </div>
+                  <p class="text-center font-weight-light py-2">
+                    Awesome place. Great staff. Ample tee areas. Great putting green. They only
+                    thing you really need is ice cream!
+                  </p>
+                  <h6 class="text-center py-2 pb-4">D Conzie Connell</h6>
+                </div>
+              </div>
+              <div class="swiper-slide">
+                <div class="card vflex justify-content-start">
+                  <div class="stars flex g-4">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                  </div>
+                  <p class="text-center font-weight-light py-2">
+                    I love this course, the people who work there are friendly the course is
+                    great. I love the lay out and it has helped my my chip game a ton.
+                  </p>
+                  <h6 class="text-center py-2 pb-4">Allan Shephard</h6>
+                </div>
+              </div>
+              <div class="swiper-slide">
+                <div class="card vflex justify-content-start">
+                  <div class="stars flex g-4">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                  </div>
+                  <p class="text-center font-weight-light py-2">
+                    By far the most executive par 3 I have ever played. Best greens in the city
+                    and the tee boxes were very well maintained. I took my boss for a quick 9
+                    after work and got a raise out of it.
+                  </p>
+                  <h6 class="text-center py-2 pb-4">Carson Dorcas</h6>
+                </div>
+              </div>
+              <div class="swiper-slide">
+                <div class="card vflex justify-content-start">
+                  <div class="stars flex g-4">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                  </div>
+                  <p class="text-center font-weight-light py-2">
+                    By far the most executive par 3 I have ever played. Best greens in the city
+                    and the tee boxes were very well maintained. I took my boss for a quick 9
+                    after work and got a raise out of it.
+                  </p>
+                  <h6 class="text-center py-2 pb-4">Carson Dorcas</h6>
+                </div>
+              </div>
+              <div class="swiper-slide">
+                <div class="card vflex justify-content-start">
+                  <div class="stars flex g-4">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                  </div>
+                  <p class="text-center font-weight-light py-2">
+                    By far the most executive par 3 I have ever played. Best greens in the city
+                    and the tee boxes were very well maintained. I took my boss for a quick 9
+                    after work and got a raise out of it.
+                  </p>
+                  <h6 class="text-center py-2 pb-4">Carson Dorcas</h6>
+                </div>
+              </div>
+              <div class="swiper-slide">
+                <div class="card vflex justify-content-start">
+                  <div class="stars flex g-4">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                  </div>
+                  <p class="text-center font-weight-light py-2">
+                    By far the most executive par 3 I have ever played. Best greens in the city
+                    and the tee boxes were very well maintained. I took my boss for a quick 9
+                    after work and got a raise out of it.
+                  </p>
+                  <h6 class="text-center py-2 pb-4">Carson Dorcas</h6>
+                </div>
+              </div>
             </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
           </div>
-          <a href="https://g.page/r/CbNd-HdtLRAYEBM/review" target="_blank">
-            <button class="button-1">Leave a Review</button>
-          </a>
         </div>
+        <a href="https://g.page/r/CbNd-HdtLRAYEBM/review" target="_blank">
+          <button class="button-1">Leave a Review</button>
+        </a>
       </div>
-    </main>
-    <%- include('common/footer.html'); %>
-  </body>
-  <script src="scripts/swiper.js" defer></script>
+    </div>
+  </main>
+  <%- include('common/footer.html'); %>
+</body>
+<script src="scripts/swiper.js" defer></script>
+
 </html>
