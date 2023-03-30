@@ -1,4 +1,5 @@
 #!/bin/bash
-docker build -t $DOCKER_CONTAINER_NAME .
-docker tag $DOCKER_CONTAINER_NAME:latest $ECR/$DOCKER_CONTAINER_NAME:latest
-docker push $ECR/$DOCKER_CONTAINER_NAME:latest
+#build.sh
+docker build -t $CIRCLE_PROJECT_REPONAME .
+docker tag $CIRCLE_PROJECT_REPONAME:latest $ECR/$CIRCLE_PROJECT_REPONAME:latest
+docker push $ECR/$CIRCLE_PROJECT_REPONAME:latest

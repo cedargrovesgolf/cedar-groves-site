@@ -1,13 +1,12 @@
 /* server.js */
 
 /* imports */
-require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 
 /* config */
-const port = process.env.PORT || 3000;
+const port = 3010 || 3000;
 
 /* app */
 const app = express();
