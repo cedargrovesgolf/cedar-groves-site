@@ -90,8 +90,7 @@ jobs:
       - run:
           name: Release
           command: npm run release
-          environment:
-            GITHUB_TOKEN: ${{ secrets.$GITHUB_TOKEN }}
+
 
 workflows:
   version: 2.1
