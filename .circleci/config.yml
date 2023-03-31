@@ -85,6 +85,8 @@ jobs:
           name: Install GitHub release notes
           command: |
             go install github.com/aktau/github-release@latest
+            echo 'export PATH=$PATH:$HOME/go/bin' >> $BASH_ENV
+            source $BASH_ENV
       - run:
           name: Release
           command: npm run release
