@@ -90,7 +90,6 @@ jobs:
           name: Release
           command: npm run release
           environment:
-            GREN_GITHUB_TOKEN: ${{ secrets.$GITHUB_TOKEN }}
             GITHUB_TOKEN: ${{ secrets.$GITHUB_TOKEN }}
 
 workflows:

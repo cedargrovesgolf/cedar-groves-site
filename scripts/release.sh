@@ -1,7 +1,5 @@
 #!/bin/bash
 #release.sh
-
-RELEASE_NOTES="$(gren release --tags=$VERSION --data-source=commits)"
 zip -r $CIRCLE_ARTIFACTS/$CIRCLE_PROJECT_REPONAME-$VERSION.zip dist/*
 github-release upload \
     --user $CIRCLE_USERNAME \
@@ -9,4 +7,3 @@ github-release upload \
     --tag $VERSION \
     --name $CIRCLE_PROJECT_REPONAME"."$VERSION"-build-"$VERSION".zip" \
     --file $CIRCLE_ARTIFACTS/$CIRCLE_PROJECT_REPONAME-$VERSION.zip \
-    --description "$RELEASE_NOTES"
