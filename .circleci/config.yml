@@ -71,7 +71,9 @@ jobs:
       - checkout
       - run:
           name: Install GitHub release notes
-          command: sudo npm install -g github-release-notes
+          command: |
+            go get github.com/aktau/github-release
+            sudo npm install github-release-notes -g
       - run:
           name: Release
           command: npm run release
