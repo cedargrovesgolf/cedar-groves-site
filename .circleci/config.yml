@@ -31,6 +31,12 @@ jobs:
       - run:
           name: Docker Login
           command: aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR
+
+      - run:
+          name: Generate version tag
+          command: |
+            VERSION=$(node -p -e "require('./package.json').version")
+            echo "export VERSION=$(node -p -e "require('./package.json').version")" >> $BASH_ENV
       - run:
           name: Build
           command: npm run build
@@ -48,11 +54,9 @@ jobs:
             unzip awscliv2.zip
             sudo ./aws/install
             rm awscliv2.zip
-
       - run:
           name: Check AWS version
           command: aws --version
-
       - run:
           name: Docker Login
           command: aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR
@@ -60,6 +64,19 @@ jobs:
       - run:
           name: Deploy
           command: npm run deploy
+  release:
+    docker:
+      - image: circleci/node:lts
+    steps:
+      - checkout
+      - run:
+          name: Install GitHub release notes
+          command: npm install -g github-release-notes
+      - run:
+          name: Release
+          command: npm run release
+          environment:
+            GREN_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 workflows:
   version: 2.1
@@ -72,6 +89,9 @@ workflows:
       - deploy:
           requires:
             - build
+      - release:
+          requires:
+            - deploy
 workspace:
   create:
     name: build-workspace

@@ -5,6 +5,7 @@
   "scripts": {
     "build": "chmod +x scripts/build.sh && ./scripts/build.sh",
     "deploy": "chmod +x scripts/deploy.sh && ./scripts/deploy.sh",
+    "release": "chmod +x scripts/release.sh && ./scripts/release.sh",
     "start": "node app/server.js"
   },
   "repository": {
