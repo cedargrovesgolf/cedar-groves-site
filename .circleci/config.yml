@@ -85,8 +85,7 @@ jobs:
           name: Install GitHub release notes
           command: |
             sudo npm install github-release-notes
-            sudo npm install go
-            go get github.com/aktau/github-release
+            go install github.com/aktau/github-release
       - run:
           name: Release
           command: npm run release
