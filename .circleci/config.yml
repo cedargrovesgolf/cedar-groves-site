@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/node:lts
+      - image: cimg/node:lts
     steps:
       - setup_remote_docker
       - checkout
@@ -40,10 +40,9 @@ jobs:
       - run:
           name: Build
           command: npm run build
-
   deploy:
     docker:
-      - image: circleci/node:lts
+      - image: cimg/node:lts
     steps:
       - setup_remote_docker
       - checkout
@@ -60,40 +59,10 @@ jobs:
       - run:
           name: Docker Login
           command: aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR
-
       - run:
           name: Deploy
           command: npm run deploy
-  release:
-    docker:
-      - image: circleci/node:lts
-    steps:
-      - checkout
-      - run:
-          name: Install Go
-          command: |
-            curl -O https://dl.google.com/go/go1.17.6.linux-amd64.tar.gz
-            tar -xvf go1.17.6.linux-amd64.tar.gz
-            sudo chown -R root:root ./go
-            sudo mv go /usr/local
-            echo 'export PATH=$PATH:/usr/local/go/bin' >> $BASH_ENV
-            source $BASH_ENV
-            sudo rm -rf go1.17.6.linux-amd64.tar.gz
-            sudo apt-get autoremove -y
-            sudo apt-get autoclean -y
-      - run:
-          name: Install GitHub release notes
-          command: |
-            go install github.com/aktau/github-release@latest
-            echo 'export PATH=$PATH:$HOME/go/bin' >> $BASH_ENV
-            source $BASH_ENV
-      - run:
-          name: Release
-          command: npm run release
-
-
 workflows:
-  version: 2.1
   build-and-deploy:
     jobs:
       - build:
@@ -103,10 +72,6 @@ workflows:
       - deploy:
           requires:
             - build
-      - release:
-          requires:
-            - build
-
 workspace:
   create:
     name: build-workspace

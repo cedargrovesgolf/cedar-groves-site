@@ -104,6 +104,4 @@ dist
 .tern-port
 
 # Extra
-drone.mov
 .vscode/
-test.yml
