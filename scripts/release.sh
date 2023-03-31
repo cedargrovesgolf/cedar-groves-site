@@ -3,4 +3,4 @@
 github-release release \
     --user $CIRCLE_USERNAME \
     --repo $CIRCLE_PROJECT_REPONAME \
-    --tag $VERSION \
+    --tag "v1.0.0" \
