@@ -71,7 +71,7 @@ jobs:
       - checkout
       - run:
           name: Install GitHub release notes
-          command: npm install -g github-release-notes
+          command: sudo npm install -g github-release-notes
       - run:
           name: Release
           command: npm run release
