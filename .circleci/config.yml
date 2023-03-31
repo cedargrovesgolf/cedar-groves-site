@@ -91,7 +91,8 @@ workflows:
             - build
       - release:
           requires:
-            - deploy
+            - build
+
 workspace:
   create:
     name: build-workspace
