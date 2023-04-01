@@ -1,6 +1,6 @@
 {
   "name": "cedar-groves-golf",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "Cedar Groves Golf Course website",
   "scripts": {
     "build": "chmod +x scripts/build.sh && ./scripts/build.sh",
