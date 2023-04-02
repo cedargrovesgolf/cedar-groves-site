@@ -30,7 +30,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding: 6rem;
+  scroll-padding: 12rem;
 }
 
 img,
@@ -66,6 +66,7 @@ a {
   text-decoration: none;
   color: var(--color-prim);
   transition: color 0.2s ease-in-out;
+  --bs-link-hover-color: currentColor;
 }
 
 i:focus {
@@ -271,6 +272,10 @@ i:focus {
   transition: all 0.2s ease-in-out;
 }
 
+.transition-long {
+  transition: all 0.4s ease-in-out;
+}
+
 .hover:hover {
   color: currentColor;
   background-color: inherit !important;
@@ -462,13 +467,33 @@ i:focus {
   color: #d4be19;
 }
 
-/* rates & fees */
-.rates-table tr:not(:last-of-type) {
-  border-bottom: 1px solid #dddddd;
+/* aerial tour */
+
+.hole-nav-img>img {
+  filter: brightness(80%);
 }
 
-.rates-table th {
+.hole-nav-img:hover>img {
+  transform: scale(1.1);
+  filter: brightness(50%);
+}
+
+.hole-nav-img::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  box-shadow: inset 0 0 0 1px var(--color-white);
+  border-radius: 2px;
+  z-index: 1;
+}
+
+.hole-nav-text {
+  font-family: 'Cormorant Infant', serif;
   font-weight: 500;
+  transform: translate(-50%, -50%);
 }
 
 /* memberships */
@@ -569,6 +594,10 @@ i:focus {
 
 .swiper-button-next {
   right: 2px !important;
+}
+
+.swiper-slide {
+  height: auto !important;
 }
 
 .swiper-button-prev {

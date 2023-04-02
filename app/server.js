@@ -61,6 +61,54 @@ app.get('/aerial-tour', async function (req, res) {
         par: 3,
         desc: 'This is a hole',
       },
+      2: {
+        hole: 2,
+        yardage: [20, 10, 5],
+        par: 3,
+        desc: 'This is a hole',
+      },
+      3: {
+        hole: 3,
+        yardage: [20, 10, 5],
+        par: 3,
+        desc: 'This is a hole',
+      },
+      4: {
+        hole: 4,
+        yardage: [20, 10, 5],
+        par: 3,
+        desc: 'This is a hole',
+      },
+      5: {
+        hole: 5,
+        yardage: [20, 10, 5],
+        par: 3,
+        desc: 'This is a hole',
+      },
+      6: {
+        hole: 6,
+        yardage: [20, 10, 5],
+        par: 3,
+        desc: 'This is a hole',
+      },
+      7: {
+        hole: 7,
+        yardage: [20, 10, 5],
+        par: 3,
+        desc: 'This is a hole',
+      },
+      8: {
+        hole: 8,
+        yardage: [20, 10, 5],
+        par: 3,
+        desc: 'This is a hole',
+      },
+      9: {
+        hole: 9,
+        yardage: [20, 10, 5],
+        par: 3,
+        desc: 'This is a hole',
+      }
     };
 
     body = {

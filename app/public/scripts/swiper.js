@@ -28,24 +28,5 @@ const swiper = new Swiper(".swiper", {
     1030: {
       slidesPerView: 3,
     },
-  },
-
-  on: {
-    resize: function () {
-      const swiperSlides = this.el.querySelectorAll(".swiper-slide");
-      swiperSlides.forEach((slide) => {
-        slide.style.height = "auto";
-      });
-      let maxHeight = 0;
-      swiperSlides.forEach((slide) => {
-        const slideHeight = slide.offsetHeight;
-        if (slideHeight > maxHeight) {
-          maxHeight = slideHeight;
-        }
-      });
-      swiperSlides.forEach((slide) => {
-        slide.style.height = `${maxHeight}px`;
-      });
-    },
-  },
+  }
 });
