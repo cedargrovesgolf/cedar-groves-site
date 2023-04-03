@@ -1,5 +1,5 @@
 {
-  "name": "cedar-groves-golf",
+  "name": "cedar-groves-site",
   "version": "1.0.0",
   "description": "Cedar Groves Golf Course website",
   "scripts": {
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/matthew-collett/cedar-groves-golf.git"
+    "url": "git+https://github.com/matthew-collett/cedargrovesgolf/cedar-groves-site.git"
   },
   "author": "Matthew Collett",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/matthew-collett/cedar-groves-golf/issues"
+    "url": "https://github.com/matthew-collett/cedargrovesgolf/cedar-groves-site/issues"
   },
-  "homepage": "https://github.com/matthew-collett/cedar-groves-golf#readme",
+  "homepage": "https://github.com/matthew-collett/cedargrovesgolf/cedar-groves-site#readme",
   "dependencies": {
     "body-parser": "^1.20.2",
     "ejs": "^3.1.8",
