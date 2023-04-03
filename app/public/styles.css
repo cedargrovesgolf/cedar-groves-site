@@ -30,7 +30,6 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding: 12rem;
 }
 
 img,
@@ -131,6 +130,10 @@ i:focus {
   color: var(--color-main);
 }
 
+.color-acc {
+  color: var(--color-acc);
+}
+
 .color-sec {
   color: var(--color-sec);
 }
@@ -186,6 +189,7 @@ i:focus {
 }
 
 .heading,
+.heading-no-res,
 .heading-noline,
 .hero-heading,
 .footer-heading {
@@ -467,8 +471,34 @@ i:focus {
   color: #d4be19;
 }
 
-/* aerial tour */
+@media(max-width: 992px) {
+  .hours-scroll-padding {
+    scroll-padding-top: 68px !important;
+  }
 
+  .hours-area img {
+    order: -1;
+  }
+
+  .text-img-box {
+    gap: 16px;
+  }
+
+  .text-img-box div {
+    align-items: center !important;
+  }
+
+  .text-img-box p {
+    text-align: center !important;
+    padding: 0 !important;
+  }
+
+  .text-img-box .order {
+    order: 1;
+  }
+}
+
+/* aerial tour */
 .hole-nav-img>img {
   filter: brightness(80%);
 }
@@ -490,10 +520,35 @@ i:focus {
   z-index: 1;
 }
 
-.hole-nav-text {
-  font-family: 'Cormorant Infant', serif;
-  font-weight: 500;
-  transform: translate(-50%, -50%);
+.tour-pag:hover {
+  color: #9d7700;
+}
+
+@media (max-width: 992px) {
+  .tour-scroll-padding {
+    scroll-padding-top: 68px !important;
+  }
+
+  .tour-area {
+    gap: 64px;
+  }
+
+  .tour-info {
+    gap: 16px;
+  }
+
+
+  .tour-info p {
+    padding: 0 !important;
+  }
+
+  .tour-info-vid {
+    gap: 16px;
+  }
+
+  .tour-pagination h6 {
+    font-size: 15px;
+  }
 }
 
 /* memberships */
@@ -522,27 +577,6 @@ i:focus {
 
 /* rules & regulations */
 @media (max-width: 992px) {
-  .hours-area img {
-    order: -1;
-  }
-
-  .text-img-box {
-    gap: 16px;
-  }
-
-  .text-img-box div {
-    align-items: center !important;
-  }
-
-  .text-img-box p {
-    text-align: center !important;
-    padding: 0 !important;
-  }
-
-  .text-img-box .order {
-    order: 1;
-  }
-
   .rules-card ol {
     padding: 0 !important;
   }
