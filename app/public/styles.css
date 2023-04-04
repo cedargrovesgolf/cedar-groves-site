@@ -20,6 +20,7 @@
 *::before,
 *::after {
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparen !important;
 }
 
 * {
@@ -28,8 +29,8 @@
   font: inherit;
 }
 
-html {
-  scroll-behavior: smooth;
+*:focus {
+  outline: none !important;
 }
 
 img,
@@ -66,10 +67,6 @@ a {
   color: var(--color-prim);
   transition: color 0.2s ease-in-out;
   --bs-link-hover-color: currentColor;
-}
-
-i:focus {
-  outline: none;
 }
 
 .form-control:focus {
@@ -265,6 +262,13 @@ i:focus {
   border-top: solid 1px var(--color-prim);
   opacity: 0.5;
   width: 100%;
+}
+
+.heading-divider {
+  border-top: solid 3px #9d7700;
+  opacity: 100%;
+  width: 10%;
+  margin: 24px 0;
 }
 
 .text-restrict {
@@ -482,6 +486,7 @@ i:focus {
 
   .text-img-box {
     gap: 16px;
+    align-items: center !important;
   }
 
   .text-img-box div {
@@ -495,6 +500,17 @@ i:focus {
 
   .text-img-box .order {
     order: 1;
+  }
+}
+
+/* rates & fees */
+@media (max-width: 992px) {
+  .rates-wrapper {
+    gap: 64px !important;
+  }
+
+  .rates-area>.text-img-box {
+    gap: 32px;
   }
 }
 
@@ -520,7 +536,7 @@ i:focus {
   z-index: 1;
 }
 
-.tour-pag:hover {
+.tour-pagination a:hover {
   color: #9d7700;
 }
 
@@ -536,7 +552,6 @@ i:focus {
   .tour-info {
     gap: 16px;
   }
-
 
   .tour-info p {
     padding: 0 !important;

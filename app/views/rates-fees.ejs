@@ -6,148 +6,145 @@
 <body>
   <%- include('common/header.ejs'); %>
   <main class="main">
-    <div class="main-item vflex">
-      <h2 class="heading display-5 text-center">
-        <span id="year"></span> Golf Season
-      </h2>
-      <p class="text-center text-restrict">
-        At Cedar Groves, we are committed to providing a top-notch experience without at an affordable price. Our rates
-        and fees are designed to be affordable for everyone, while still maintaining high quality.
-      </p>
-      <hr class="divider text-center opacity-100 mt-4"
-        style="border-top-color: #9d7700; border-width: 3px; width: 120px" />
+    <div class="main-item">
+      <div class="vflex">
+        <h2 class="heading display-5 text-center">
+          <span id="year"></span> Golf Season
+        </h2>
+        <p class="text-center text-restrict">
+          At Cedar Groves, we are committed to providing a top-notch experience without at an affordable price. Our
+          rates
+          and fees are designed to be affordable for everyone, while still maintaining high quality.
+        </p>
+        <hr class="heading-divider" />
+      </div>
     </div>
-    <div class="main-item ps full-bleed">
-      <div class="price-cards res-flex img-anim" style="gap: 96px;">
-        <div class="card-s vflex flex-eq g-16 p-5">
-          <div class="vflex w-100 g-8">
-            <div class="vflex g-16 pb-4">
-              <img src="assets/icons/9-hole.svg" alt="Golf Icon" style="width: 2.3rem" />
-              <h4 class="text-center">9 Hole</h4>
-            </div>
-            <div class="flex justify-content-between w-100 px-2">
-              <p class="fw-bold">Regular</p>
-              <p>$25</p>
-            </div>
-            <hr class="divider my-2 opacity-25" />
-            <div class="flex justify-content-between w-100 px-2">
-              <p class="fw-bold">Senior</p>
-              <p>$20</p>
-            </div>
-            <hr class="divider my-2 opacity-25" />
-            <div class="flex justify-content-between w-100 px-2">
-              <p class="fw-bold">Junior</p>
-              <p>$15</p>
-            </div>
-            <div class="vflex w-100 pt-5">
-              <div class="res-flex justify-content-evenly w-75">
-                <small>Senior &mdash; 60 & over</small>
-                <small>Junior &mdash; 12 & under</small>
+    <div class="main-item large full-bleed">
+      <div class="rates-wrapper vflex py-3" style="gap: 92px;">
+        <div class="rates-area vflex" style="gap: 48px;">
+          <h4>The Course</h4>
+          <div class="text-img-box res-flex g-64 align-items-start">
+            <div class="vflex flex-eq w-100 g-32">
+              <div class="vflex w-100 g-4">
+                <div class="flex justify-content-between w-100 px-2">
+                  <p>9 Hole</p>
+                  <p>$25</p>
+                </div>
+                <hr class="divider my-2 opacity-25" />
+                <div class="flex justify-content-between w-100 px-2">
+                  <p>9 Hole &mdash; Senior</p>
+                  <p>$20</p>
+                </div>
+                <hr class="divider my-2 opacity-25" />
+                <div class="flex justify-content-between w-100 px-2">
+                  <p>9 Hole &mdash; Junior</p>
+                  <p>$15</p>
+                </div>
+                <hr class="divider my-2 opacity-25" />
+                <div class="flex justify-content-between w-100 px-2">
+                  <p>18 Hole</p>
+                  <p>$33</p>
+                </div>
+                <hr class="divider my-2 opacity-25" />
+                <div class="flex justify-content-between w-100 px-2">
+                  <p>18 Hole &mdash; Senior</p>
+                  <p>$28</p>
+                </div>
+                <hr class="divider my-2 opacity-25" />
+                <div class="flex justify-content-between w-100 px-2">
+                  <p>18 Hole &mdash; Junior</p>
+                  <p>$23</p>
+                </div>
               </div>
-              <small class="text-center">All listed prices include applicable taxes.</small>
+            </div>
+            <div class="flex-eq">
+              <img src="assets/images/drone-9.jpg" class="border-rad shadow-2 img-anim" alt="Golf Image" />
             </div>
           </div>
         </div>
-        <div class="card-s vflex flex-eq g-16 p-5">
-          <div class="vflex w-100 g-8">
-            <div class="vflex g-16 pb-4">
-              <img src="assets/icons/18-hole.svg" alt="Golf Icon" style="width: 2.3rem" />
-              <h4 class="text-center">18 Hole</h4>
+        <div class="rates-area vflex" style="gap: 48px;">
+          <h4>Driving Range</h4>
+          <div class="text-img-box res-flex g-64 align-items-start">
+            <div class="order flex-eq">
+              <img src="assets/images/drone-15.jpg" class="border-rad shadow-2 img-anim" alt="Golf Image" />
             </div>
-            <div class="flex justify-content-between w-100 px-2">
-              <p class="fw-bold">Regular</p>
-              <p>$33</p>
-            </div>
-            <hr class="divider my-2 opacity-25" />
-            <div class="flex justify-content-between w-100 px-2">
-              <p class="fw-bold">Senior</p>
-              <p>$28</p>
-            </div>
-            <hr class="divider my-2 opacity-25" />
-            <div class="flex justify-content-between w-100 px-2">
-              <p class="fw-bold">Junior</p>
-              <p>$23</p>
-            </div>
-            <div class="vflex w-100 pt-5">
-              <div class="res-flex justify-content-evenly w-75">
-                <small>Senior &mdash; 60 & over</small>
-                <small>Junior &mdash; 12 & under</small>
+            <div class="vflex flex-eq w-100 g-32">
+              <div class="vflex w-100 g-4">
+                <div class="flex justify-content-between w-100 px-2">
+                  <p>XS Bucket &mdash; 25 Balls</p>
+                  <p>$3.50</p>
+                </div>
+                <hr class="divider my-2 opacity-25" />
+                <div class="flex justify-content-between w-100 px-2">
+                  <p>S Bucket &mdash; 50 Balls</p>
+                  <p>$7</p>
+                </div>
+                <hr class="divider my-2 opacity-25" />
+                <div class="flex justify-content-between w-100 px-2">
+                  <p>M Bucket &mdash; 75 Balls</p>
+                  <p>$10.50</p>
+                </div>
+                <hr class="divider my-2 opacity-25" />
+                <div class="flex justify-content-between w-100 px-2">
+                  <p>L Bucket &mdash; 100 Balls</p>
+                  <p>$14</p>
+                </div>
+                <hr class="divider my-2 opacity-25" />
+                <div class="flex justify-content-between w-100 px-2">
+                  <p>Grass Tee Box</p>
+                  <p>$3</p>
+                </div>
               </div>
-              <small class="text-center">All listed prices include applicable taxes.</small>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="main-item ps pt-5">
-      <div class="card-s vflex flex-eq g-16 p-5 img-anim">
-        <div class="vflex w-100 g-8">
-          <div class="vflex g-16 pb-4">
-            <img src="assets/icons/swing.svg" alt="Golf Icon" style="width: 2.5rem" />
-            <h4 class="text-center">Driving Range</h4>
-          </div>
-          <div class="flex justify-content-between w-100 px-2">
-            <p class="fw-bold">XS Bucket &mdash; 25 Balls</p>
-            <p>$3.50</p>
-          </div>
-          <hr class="divider my-2 opacity-25" />
-          <div class="flex justify-content-between w-100 px-2">
-            <p class="fw-bold">S Bucket &mdash; 50 Balls</p>
-            <p>$7</p>
-          </div>
-          <hr class="divider my-2 opacity-25" />
-          <div class="flex justify-content-between w-100 px-2">
-            <p class="fw-bold">M Bucket &mdash; 75 Balls</p>
-            <p>$10.50</p>
-          </div>
-          <hr class="divider my-2 opacity-25" />
-          <div class="flex justify-content-between w-100 px-2">
-            <p class="fw-bold">L Bucket &mdash; 100 Balls</p>
-            <p>$14</p>
-          </div>
-          <hr class="divider my-2 opacity-25" />
-          <div class="flex justify-content-between w-100 px-2">
-            <p class="fw-bold">Grass Tee Box</p>
-            <p>$3</p>
-          </div>
-          <div class="vflex w-100 g-16 pt-5">
-            <small class="text-center">All listed prices include applicable taxes.</small>
+        <div class="rates-area vflex" style="gap: 48px;">
+          <h4>Amenities</h4>
+          <div class="text-img-box res-flex g-64 align-items-start">
+            <div class="vflex flex-eq w-100 g-32">
+              <div class="vflex w-100 g-4">
+                <div class="flex justify-content-between w-100 px-2">
+                  <p>Rental Set</p>
+                  <p>$12</p>
+                </div>
+                <hr class="divider my-2 opacity-25" />
+                <div class="flex justify-content-between w-100 px-2">
+                  <p>Pull Cart</p>
+                  <p>$5</p>
+                </div>
+                <hr class="divider my-2 opacity-25" />
+                <div class="flex justify-content-between w-100 px-2">
+                  <p>Recycled Balls (10 Pack)</p>
+                  <p>$5</p>
+                </div>
+                <hr class="divider my-2 opacity-25" />
+                <div class="flex justify-content-between w-100 px-2">
+                  <p>Tees (15 Pack)</p>
+                  <p>$1</p>
+                </div>
+              </div>
+            </div>
+            <div class="flex-eq">
+              <img src="assets/images/drone-23.jpg" class="border-rad shadow-2 img-anim" alt="Golf Image" />
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="main-item ps">
-      <div class="card-s vflex flex-eq g-16 p-5 img-anim">
-        <div class="vflex w-100 g-8">
-          <div class="vflex g-16 pb-4">
-            <img src="assets/icons/amenities.svg" alt="Golf Icon" style="width: 2.5rem" />
-            <h4 class="text-center">Amenities</h4>
+        <div class="vflex">
+          <div class="flex justify-content-between w-100">
+            <small>Senior &mdash; 60+</small>
+            <small>Junior &mdash; 12 & under</small>
           </div>
-          <div class="flex justify-content-between w-100 px-2">
-            <p class="fw-bold">Rental Set</p>
-            <p>$12</p>
-          </div>
-          <hr class="divider my-2 opacity-25" />
-          <div class="flex justify-content-between w-100 px-2">
-            <p class="fw-bold">Pull Cart</p>
-            <p>$5</p>
-          </div>
-          <hr class="divider my-2 opacity-25" />
-          <div class="flex justify-content-between w-100 px-2">
-            <p class="fw-bold">Recycled Balls (10 Pack)</p>
-            <p>$5</p>
-          </div>
-          <hr class="divider my-2 opacity-25" />
-          <div class="flex justify-content-between w-100 px-2">
-            <p class="fw-bold">Tees (15 Pack)</p>
-            <p>$1</p>
-          </div>
-          <div class="vflex w-100 g-16 pt-5">
-            <small class="text-center">All listed prices include applicable taxes.</small>
-          </div>
+          <small class="text-center">All listed prices include applicable taxes.</small>
         </div>
+
       </div>
+
+
+
+
+
     </div>
+
   </main>
   <%- include('common/footer.html'); %>
 </body>
