@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/matthew-collett/cedargrovesgolf/cedar-groves-site.git"
+    "url": "https://github.com/cedargrovesgolf/cedar-groves-site.git"
   },
   "author": "Matthew Collett",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/matthew-collett/cedargrovesgolf/cedar-groves-site/issues"
+    "url": "https://github.com/cedargrovesgolf/cedar-groves-site/issues"
   },
-  "homepage": "https://github.com/matthew-collett/cedargrovesgolf/cedar-groves-site#readme",
+  "homepage": "https://github.com/cedargrovesgolf/cedar-groves-site#readme",
   "dependencies": {
     "body-parser": "^1.20.2",
     "ejs": "^3.1.8",
