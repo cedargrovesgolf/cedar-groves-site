@@ -22,7 +22,7 @@ router.get('/', async function (req, res) {
                 hole: 2,
                 yardage: [75, 115, 125],
                 par: 3,
-                desc: 'This hole is tucked in the woods, surrounded by large trees, and features a stunning fairway. Located beside Hole 9, this hole presents a unique obstacle with trees situated in the fairway. Enjoy the natural surroundings of this hole and use them to your advantage to score well.',
+                desc: 'Arrive tucked in the woods, surrounded by large trees, and staring down a stunning fairway. On the edge of hole 9, this hole presents a unique obstacle with trees situated in the fairway. Enjoy the natural surroundings and nature of this hole.',
             },
             3: {
                 hole: 3,
@@ -34,37 +34,37 @@ router.get('/', async function (req, res) {
                 hole: 4,
                 yardage: [64, 155, 170],
                 par: 3,
-                desc: 'This is a hole',
+                desc: 'Start this hole over the water with a thrilling experience. The green is slightly elevated, requiring an strong tee shot to avoid trees and water hazards. With stunning views and challenging obstacles, hole 4 is a standout on the course.',
             },
             5: {
                 hole: 5,
                 yardage: [95, 115, 130],
                 par: 3,
-                desc: 'This is a hole',
+                desc: 'Hole 5 is short, fun to play, with a straight fairway and water hazards. Surrounded by trees, golfers must hit an accurate shot to reach the slightly sloped green. Be careful not to hit your shot too far left or right, as the surrounding trees can easily catch a wayward ball.',
             },
             6: {
                 hole: 6,
                 yardage: [46, 95, 120],
                 par: 3,
-                desc: 'This is a hole',
+                desc: 'This hole is undoubtedly one of the most beautiful and unique holes on the course. With an island green and elevated tee, it offers a enjoyable and challenging experience to golfers. Don\'\t miss out on the attractiveness and excitement of this amazing hole.',
             },
             7: {
                 hole: 7,
                 yardage: [135, 265, 270],
                 par: 4,
-                desc: 'This is a hole',
+                desc: 'Hole 7 is one of the longest holes on the course, offering a challenging Par 4 experience. With an elevated green and a breathtaking fairway, this straight hole requires a well-placed drive to set up a solid approach shot. ',
             },
             8: {
                 hole: 8,
                 yardage: [180, 265, 275],
                 par: 4,
-                desc: 'This is a hole',
+                desc: 'This dogleft left Par 4 offers a birdie opportunity for those who can navigate the landscape. From the elevated tee deck, golfers can enjoy a picturesque view of the fairway and the surrounding trees. Test your long range game, and enjoy the calming scenery while playing this hole.',
             },
             9: {
                 hole: 9,
                 yardage: [116, 160, 165],
                 par: 3,
-                desc: 'This is a hole',
+                desc: 'The 9th hole, a longer Par 3, presents golfers with a challenging finish to the course. The green is well-kept and rewards accurate tee shots. Whether looking to finish strong or just soak in the beauty of the course, this hole won\'\t disappoint.',
             }
         };
 

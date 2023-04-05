@@ -33,6 +33,10 @@
   outline: none !important;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 img,
 picture,
 svg,
@@ -267,7 +271,7 @@ a {
 .heading-divider {
   border-top: solid 3px #9d7700;
   opacity: 100%;
-  width: 10%;
+  width: 110px;
   margin: 24px 0;
 }
 
@@ -414,7 +418,9 @@ a {
 }
 
 @media (max-width: 992px) {
-  .navbar .navbar-nav {
+
+  .navbar .navbar-nav,
+  .navbar-wrapper {
     display: none;
   }
 
@@ -437,8 +443,6 @@ a {
   .navbar .logo {
     font-size: 32px;
     text-align: center;
-    flex-grow: 1;
-    align-items: flex-start;
   }
 
   .navbar-sticky {

@@ -33,38 +33,49 @@
                 </div>
             </div>
             <div class="flex-eq">
-                <video class="shadow no-audio" preload="metadata" controls controlslist="nodownload noplaybackrate"
-                    muted>
-                    <source src="assets/videos/hole-<%= hole %>.mov" type="video/mp4" />
+                <video class="shadow" preload="metadata" controls controlslist="nodownload noplaybackrate" muted>
+                    <source src="assets/videos/hole-<%= hole %>.mov#t=0.1" type="video/mp4" />
                 </video>
 
             </div>
         </div>
         <div class="tour-pagination flex w-100 justify-content-evenly py-4">
             <% if (hole <= 1) { %>
-            <span class="flex disabled flex-eq text-center" style="opacity: 0.7; cursor: default;">
-                <i class="bi bi-caret-left-fill font-md"></i>
-                <h6>Previous</h6>
-            </span>
+            <div class="flex flex-eq">
+                <span class="flex disabled text-center" style="opacity: 0.7; cursor: default;width: fit-content;">
+                    <i class="bi bi-caret-left-fill font-md"></i>
+                    <h6>Previous</h6>
+                </span>
+            </div>
             <% } else { %>
-            <a href="/aerial-tour?hole=<%= hole - 1 %>#tour" class="flex flex-eq text-center transition">
-                <i class="bi bi-caret-left-fill font-md"></i>
-                <h6>Previous</h6>
-            </a>
+            <div class="flex flex-eq">
+                <a href="/aerial-tour?hole=<%= hole - 1 %>#tour" class="flex text-center transition"
+                    style="width: fit-content;">
+                    <i class="bi bi-caret-left-fill font-md"></i>
+                    <h6>Previous</h6>
+                </a>
+            </div>
             <% } %>
-            <a href="/aerial-tour#overview" class="flex flex-eq text-center transition">
-                <h6><u>Back to Overview</u></h6>
-            </a>
+            <div class="flex flex-eq">
+                <a href="/aerial-tour#overview" class="flex text-center transition" style="width: fit-content;">
+                    <h6><u>Back to Overview</u></h6>
+                </a>
+            </div>
             <% if (hole >= 9) { %>
-            <span class="flex disabled flex-eq text-center" style="opacity: 0.7; cursor: default;">
-                <h6>Next</h6>
-                <i class="bi bi-caret-right-fill font-md"></i>
-            </span>
+            <div class="flex flex-eq">
+                <span class="flex disabled text-center" style="opacity: 0.7; cursor: default; width: fit-content;">
+                    <h6>Next</h6>
+                    <i class="bi bi-caret-right-fill font-md"></i>
+                </span>
+            </div>
             <% } else { %>
-            <a href="/aerial-tour?hole=<%= hole + 1 %>#tour" class="flex flex-eq text-center transition">
-                <h6>Next</h6>
-                <i class="bi bi-caret-right-fill font-md"></i>
-            </a>
+            <div class="flex flex-eq">
+                <a href="/aerial-tour?hole=<%= hole + 1 %>#tour" class="flex text-center transition"
+                    style="width: fit-content;">
+                    <h6>Next</h6>
+                    <i class="bi bi-caret-right-fill font-md"></i>
+                </a>
+            </div>
             <% } %>
         </div>
     </div>
