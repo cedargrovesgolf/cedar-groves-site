@@ -20,7 +20,6 @@
 *::before,
 *::after {
   box-sizing: border-box;
-  -webkit-tap-highlight-color: transparen !important;
 }
 
 * {

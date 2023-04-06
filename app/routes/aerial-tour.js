@@ -28,25 +28,25 @@ router.get('/', async function (req, res) {
                 hole: 3,
                 yardage: [75, 126, 132],
                 par: 3,
-                desc: 'This Par 3 is deceptively challenging, featuring a narrow, straight fairway and a small green that demands precision and a soft touch. Despite its flat terrain and straightforward layout, golfers will need to bring their best game to score well on this seemingly simple hole.'
+                desc: 'This Par 3 is deceptively challenging. Featuring a narrow, straight fairway and a small green that demands precision and a soft touch. Despite it\'s flat terrain and straightforward layout, golfers will need to bring their best game to score well on this seemingly simple hole.'
             },
             4: {
                 hole: 4,
                 yardage: [64, 155, 170],
                 par: 3,
-                desc: 'Start this hole over the water with a thrilling experience. The green is slightly elevated, requiring an strong tee shot to avoid trees and water hazards. With stunning views and challenging obstacles, hole 4 is a standout on the course.',
+                desc: 'Start this hole over the water with a thrilling experience. The green is slightly elevated, requiring a strong tee shot to avoid trees and water hazards. With stunning views and challenging obstacles, hole 4 is a standout on the course.',
             },
             5: {
                 hole: 5,
                 yardage: [95, 115, 130],
                 par: 3,
-                desc: 'Hole 5 is short, fun to play, with a straight fairway and water hazards. Surrounded by trees, golfers must hit an accurate shot to reach the slightly sloped green. Be careful not to hit your shot too far left or right, as the surrounding trees can easily catch a wayward ball.',
+                desc: 'Hole 5 is short, fun to play, with a straight fairway and water hazards. Surrounded by trees, golfers must hit an accurate shot over the water to reach the slightly sloped green. Be careful not to hit your shot too far left or right, as the surrounding trees can easily catch a wayward ball.',
             },
             6: {
                 hole: 6,
                 yardage: [46, 95, 120],
                 par: 3,
-                desc: 'This hole is undoubtedly one of the most beautiful and unique holes on the course. With an island green and elevated tee, it offers a enjoyable and challenging experience to golfers. Don\'\t miss out on the attractiveness and excitement of this amazing hole.',
+                desc: 'This hole is a hidden gem, featuring an elevated tee that provides stunning panoramic views of the surrounding landscape, and an alluring island green that is connected to the fairway by a quaint wooden bridge. It\'s a challenging yet rewarding hole that offers golfers an unforgettable experience.',
             },
             7: {
                 hole: 7,
@@ -58,13 +58,13 @@ router.get('/', async function (req, res) {
                 hole: 8,
                 yardage: [180, 265, 275],
                 par: 4,
-                desc: 'This dogleft left Par 4 offers a birdie opportunity for those who can navigate the landscape. From the elevated tee deck, golfers can enjoy a picturesque view of the fairway and the surrounding trees. Test your long range game, and enjoy the calming scenery while playing this hole.',
+                desc: 'This Par 4 offers a birdie opportunity for those who can navigate the landscape. From the elevated tee deck, appreciate a shot over the valley through the narrow fairway and the surrounding trees. Test your long range game, and enjoy the calming scenery while playing this hole.',
             },
             9: {
                 hole: 9,
                 yardage: [116, 160, 165],
                 par: 3,
-                desc: 'The 9th hole, a longer Par 3, presents golfers with a challenging finish to the course. The green is well-kept and rewards accurate tee shots. Whether looking to finish strong or just soak in the beauty of the course, this hole won\'\t disappoint.',
+                desc: 'The 9th hole, a longer Par 3, presents golfers with a challenging finish to the course. The green is well-kept and rewards accurate tee shots. Whether looking to finish strong or just soak in the beauty of the course, this hole won\'t disappoint.',
             }
         };
 
