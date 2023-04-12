@@ -9,6 +9,5 @@ RUN npm install
 COPY app ./app
 
 ENV HOST 127.0.0.1
-ENV PORT 3010
 
 CMD [ "npm", "start" ]
