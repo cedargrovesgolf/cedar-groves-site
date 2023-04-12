@@ -4,6 +4,9 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const session = require('express-session');
+const { v4: uuidv4 } = require('uuid');
+const cookieParser = require('cookie-parser');
 
 /* config */
 const port = process.env.PORT || 3000;
@@ -15,26 +18,47 @@ const app = express();
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
+app.use(session({
+  secret: uuidv4(),
+  resave: false,
+  saveUninitialized: false
+}));
 
 /* routes */
-const indexRouter = require('./routes/index');
-const ratesFeesRouter = require('./routes/rates-fees');
-const aerialTourRouter = require('./routes/aerial-tour');
-const membershipsRouter = require('./routes/memberships');
-const faqRouter = require('./routes/faq');
-const contactRouter = require('./routes/contact');
-const aboutRouter = require('./routes/about');
-const rulesRegulationsRouter = require('./routes/rules-regulations');
+const index = require('./routes/index');
+app.use('/', index);
 
-app.use('/', indexRouter);
-app.use('/rates-fees', ratesFeesRouter);
-app.use('/aerial-tour', aerialTourRouter);
-app.use('/memberships', membershipsRouter);
-app.use('/faq', faqRouter);
-app.use('/contact', contactRouter);
-app.use('/about', aboutRouter);
-app.use('/rules-regulations', rulesRegulationsRouter);
+const ratesFees = require('./routes/rates-fees');
+app.use('/rates-fees', ratesFees);
+
+const aerialTour = require('./routes/aerial-tour');
+app.use('/aerial-tour', aerialTour);
+
+const memberships = require('./routes/memberships');
+app.use('/memberships', memberships);
+
+const faq = require('./routes/faq');
+app.use('/faq', faq);
+
+const contact = require('./routes/contact');
+app.use('/contact', contact);
+
+const about = require('./routes/about');
+app.use('/about', about);
+
+const rulesRegulations = require('./routes/rules-regulations');
+app.use('/rules-regulations', rulesRegulations);
+
+const adminCms = require('./routes/cms/admin-cms');
+app.use('/admin-cms', adminCms);
+
+const auth = require('./routes/cms/auth');
+app.use('/cms/auth', auth);
+
+const logout = require('./routes/cms/logout');
+app.use('/logout', logout);
 
 app.listen(port, () => { });

@@ -1,0 +1,17 @@
+<!-- admin-cms.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<%- include('common/head.ejs', { pageTitle: 'Admin CMS' }); %>
+
+<body>
+  <main class="main">
+    <% if (!loggedIn) { %>
+    <%- include('partials/cms-login.html'); %>
+    <% } else { %>
+    <%- include('partials/cms.html'); %>
+    <% } %>
+  </main>
+</body>
+<script src="scripts/form_control.js"></script>
+
+</html>

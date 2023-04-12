@@ -72,7 +72,9 @@ a {
   --bs-link-hover-color: currentColor;
 }
 
-.form-control:focus {
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
   box-shadow: none !important;
   border-color: #283927ac;
 }
@@ -294,7 +296,8 @@ a {
 }
 
 .button-1,
-.button-2 {
+.button-2,
+.button-3 {
   border: none;
   font-weight: 500;
   border-radius: 3px;
@@ -307,19 +310,27 @@ a {
   width: 100%;
 }
 
+.button-1:hover {
+  background-color: #555555;
+}
+
 .button-2 {
   background: transparent;
   color: var(--color-white);
   border: solid 1px var(--color-white);
 }
 
-.button-1:hover {
-  background-color: #555555;
-}
-
 .button-2:hover {
   color: var(--color-prim);
   background-color: var(--color-white);
+}
+
+.button-3 {
+  background-color: var(--color-acc);
+}
+
+.button-3:hover {
+  opacity: 0.8;
 }
 
 .card,
@@ -618,6 +629,18 @@ a {
 
   .contact-wrapper h5 {
     font-size: 18px;
+  }
+}
+
+/* admin-cms */
+.cms-wrapper {
+  height: 100vh;
+  width: 100%;
+}
+
+@media (max-width: 992px) {
+  .cms-wrapper .card {
+    margin: 0 16px;
   }
 }
 

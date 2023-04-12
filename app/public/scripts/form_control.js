@@ -1,5 +1,5 @@
 /* form_control.js */
-$(".needs-validation").each(function () {
+$(".contact.needs-validation").each(function () {
   var form = $(this);
   form.submit(function (event) {
     var email = form.find('input[type="email"]');
@@ -11,5 +11,16 @@ $(".needs-validation").each(function () {
       event.stopPropagation();
     }
     form.addClass("was-validated");
+  });
+});
+
+$('.needs-validation').each(function () {
+  var form = $(this);
+  form.submit(function (event) {
+    if (!form[0].checkValidity()) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    form.addClass('was-validated');
   });
 });

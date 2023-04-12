@@ -1,0 +1,33 @@
+<div class="cms-wrapper flex bg-acc">
+  <div class="card vflex g-24" style="width: 450px; height: fit-content;">
+    <div class="vflex g-24">
+      <div class="logo vflex">
+        <img src="assets/logo-dark.svg" alt="Logo" style="width: 150px" />
+        <span class="color-acc">Cedar Groves</span>
+      </div>
+      <h5 class="text-center">Admin Content Management System</h5>
+      <p class="text-center">Login to continue to Cedar Groves Admin CMS</p>
+    </div>
+    <div class="vflex w-100">
+      <form class="needs-validation w-100" action="cms/auth" method="post" novalidate>
+        <div class="row g-3 py-2">
+          <div class="col">
+            <input class="form-control border-rad" type="text" name="username" placeholder="Username" required />
+            <span class="invalid-feedback">Username is required.</span>
+          </div>
+        </div>
+        <div class="row g-3 py-2">
+          <div class="col">
+            <input class="form-control border-rad" type="password" name="password" placeholder="Password" required />
+            <span class="invalid-feedback">Password is required.</span>
+          </div>
+        </div>
+        <% if (failedLogIn) { %>
+        <p class="text-center text-danger">Incorrect username or password. Please try again.</p>
+        <% } %>
+        <button class="button-3 bg-acc my-2" type="submit" style="padding: 12px;">Login</button>
+      </form>
+      <a href="/" class="text-center hover transition">Back to site</a>
+    </div>
+  </div>
+</div>
