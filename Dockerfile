@@ -4,7 +4,7 @@ WORKDIR /usr/src/cedar-groves-site
 
 COPY ./package*.json ./
 
-RUN npm install
+RUN npm ci
 
 COPY app ./app
 
