@@ -1,4 +1,5 @@
 /* server.js */
+require('dotenv').config({ path: './app/.env' });
 
 /* imports */
 const express = require('express');
@@ -61,4 +62,6 @@ app.use('/cms/auth', auth);
 const logout = require('./routes/cms/logout');
 app.use('/logout', logout);
 
-app.listen(port, () => { });
+app.listen(port, () => {
+  console.log(`App is listening on port ${port}`);
+});

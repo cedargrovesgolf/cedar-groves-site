@@ -5,7 +5,7 @@ const crypto = require('crypto');
 require('dotenv').config();
 
 router.post('/', function (req, res) {
-  const storedUser = process.env.USER
+  const storedUser = process.env.USER;
   const storedHash = process.env.PASS_HASH;
 
   let username = req.body.username;
