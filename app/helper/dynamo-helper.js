@@ -3,8 +3,10 @@ const util = require('util');
 
 const dynamodb = new DynamoDB({ region: process.env.AWS_REGION });
 const dynamoQuery = util.promisify(dynamodb.getItem).bind(dynamodb);
+const dynamoPut = util.promisify(dynamodb.putItem).bind(dynamodb);
 
-async function getItems(params) {
+
+async function getItem(params) {
   const query = {
     TableName: params.tableName,
     Key: {
@@ -17,10 +19,31 @@ async function getItems(params) {
     return data.Item;
   } catch (err) {
     console.log(`[DynamoDB Error]: ${err}`);
+    return null;
   }
 };
 
-module.exports = getItems;
+async function putItem(params) {
+  const data = {
+    TableName: params.tableName,
+    Item: {
+      [params.keyName]: { [params.keyType]: params.keyValue }
+    }
+  };
+
+  try {
+    await dynamoPut(data);
+  } catch (err) {
+    console.log(`[DynamoDB Error]: ${err}`);
+    return null;
+  }
+}
+
+module.exports = {
+  getItem,
+  putItem
+};
+
 
 
 

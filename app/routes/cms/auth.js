@@ -1,24 +1,23 @@
 /* ./routes/cms/auth.js */
 const express = require('express');
 const router = express.Router();
-const crypto = require('crypto');
-require('dotenv').config();
+const { getItem } = require('../../helper/dynamo-helper');
+const { compareHash } = require('../../helper/hash');
 
-router.post('/', function (req, res) {
-  const storedUser = process.env.USER;
-  const storedHash = process.env.PASS_HASH;
+router.post('/', async function (req, res) {
+  const username = req.body.username;
+  const password = req.body.password;
 
-  let username = req.body.username;
-  let password = req.body.password;
-  let hash = crypto.createHash('sha256').update(password).digest('hex');
+  const userQuery = { tableName: 'cedar-groves-cms-users', keyName: 'userID', keyType: 'N', keyValue: '0' };
+  const user = await getItem(userQuery);
 
-  if (hash === storedHash && username === storedUser) {
+  if (username === user.username.S && compareHash(password, user.passwordHash.S)) {
     req.session.loggedin = true;
     req.session.username = username;
   } else {
     res.cookie('failedLogIn', true);
   }
-  res.redirect('/admin-cms')
+  res.redirect('/admin-cms');
   res.end();
 });
 

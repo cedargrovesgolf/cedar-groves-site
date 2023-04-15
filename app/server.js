@@ -63,5 +63,5 @@ const logout = require('./routes/cms/logout');
 app.use('/logout', logout);
 
 app.listen(port, () => {
-  console.log(`App is listening on port ${port}`);
+  console.log(`Server started \u001B[32m✓\u001B[0m - port ${port}`);
 });
