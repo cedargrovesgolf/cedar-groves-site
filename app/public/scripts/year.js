@@ -1,1 +1,1 @@
-$("#year").html(new Date().getFullYear());
+$('#year').html(new Date().getFullYear());

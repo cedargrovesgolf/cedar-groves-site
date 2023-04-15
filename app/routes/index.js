@@ -9,12 +9,11 @@ const { getItem } = require('../helper/dynamo-helper');
 // }
 
 router.get('/', async function (req, res) {
-
     // const openQuery = { tableName: 'cedar-groves-hours', keyName: 'type', keyType: 'S', keyValue: 'open' };
-    // const openHour = await getItem(openQuery);
+    // const openHour = await getItems(openQuery);
 
     // const closeQuery = { tableName: 'cedar-groves-hours', keyName: 'type', keyType: 'S', keyValue: 'close' };
-    // const closeHour = await getItem(closeQuery);
+    // const closeHour = await getItems(closeQuery);
 
     var body = {
         hero_title: 'Cedar Groves Executive<br>Par 3 & Driving Range',

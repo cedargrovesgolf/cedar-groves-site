@@ -22,11 +22,13 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
-app.use(session({
-  secret: uuidv4(),
-  resave: false,
-  saveUninitialized: false
-}));
+app.use(
+  session({
+    secret: uuidv4(),
+    resave: false,
+    saveUninitialized: false
+  })
+);
 
 /* routes */
 const index = require('./routes/index');

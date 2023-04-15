@@ -1,4 +1,4 @@
-const { DynamoDB } = require("@aws-sdk/client-dynamodb");
+const { DynamoDB } = require('@aws-sdk/client-dynamodb');
 const util = require('util');
 
 const dynamodb = new DynamoDB({ region: process.env.AWS_REGION });
@@ -19,32 +19,13 @@ async function getItem(params) {
     return data.Item;
   } catch (err) {
     console.log(`[DynamoDB Error]: ${err}`);
-    return null;
   }
 };
-
-async function putItem(params) {
-  const data = {
-    TableName: params.tableName,
-    Item: {
-      [params.keyName]: { [params.keyType]: params.keyValue }
-    }
-  };
-
-  try {
-    await dynamoPut(data);
-  } catch (err) {
-    console.log(`[DynamoDB Error]: ${err}`);
-    return null;
-  }
-}
 
 module.exports = {
   getItem,
   putItem
-};
-
-
+}
 
 
 

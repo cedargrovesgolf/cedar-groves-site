@@ -1,14 +1,14 @@
 <!-- aerial-tour.ejs -->
 <!DOCTYPE html>
-<html lang="en" class="tour-scroll-padding" style="scroll-padding-top: 78px;">
-<%- include('common/head.ejs', { pageTitle: typeof hole !== 'undefined' ? 'Hole ' + hole : 'Aerial Tour' }); %>
-
-<body>
-  <%- include('common/header.ejs'); %>
-  <main class="main">
-    <%- include(typeof hole !== 'undefined' ? 'partials/hole.ejs' : 'partials/hole-nav.ejs'); %>
-  </main>
-  <%- include('common/footer.html'); %>
-</body>
-
+<html lang="en" class="tour-scroll-padding" style="scroll-padding-top: 78px">
+  <%- include('common/head.ejs', { pageTitle: typeof hole !== 'undefined' ?
+  'Hole ' + hole : 'Aerial Tour' }); %>
+  <body>
+    <%- include('common/header.ejs'); %>
+    <main class="main">
+      <%- include(typeof hole !== 'undefined' ? 'partials/hole.ejs' :
+      'partials/hole-nav.ejs'); %>
+    </main>
+    <%- include('common/footer.html'); %>
+  </body>
 </html>
