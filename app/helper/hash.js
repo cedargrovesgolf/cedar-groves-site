@@ -8,11 +8,10 @@ function hash(password) {
 }
 
 function compareHash(password, storedHash) {
-  return bcrypt.compareSync(password, storedHash)
+  return bcrypt.compareSync(password, storedHash);
 }
 
 module.exports = {
   hash,
   compareHash
-}
-
+};
