@@ -1,108 +1,126 @@
 <!-- memberships.ejs -->
 <!DOCTYPE html>
 <html lang="en">
-<%- include('common/head.ejs', { pageTitle: 'Memberships' }); %>
-
-<body>
-  <%- include('common/header.ejs'); %>
-  <main class="main">
-    <div class="main-item">
-      <h2 class="heading-noline display-5 text-center pb-3">
-        Elevate Your Golf Experience
-      </h2>
-      <p class="text-center text-restrict">
-        We invite you to become a part of our thriving community of golf
-        enthusiasts at Cedar Groves Golf Course. Our memberships are tailored
-        to provide regular access to our golf course, allowing you to practice
-        and perfect your skills in a serene and supportive environment.<br /><br />Our
-        focus is not on exclusive perks, but on connecting with like-minded individuals and
-        fostering a shared passion for the sport. Discover
-        the joys of a season pass with us and elevate your golfing experience
-        to new heights.
-      </p>
-    </div>
-    <div class="main-item large full-bleed">
-      <div class="how-to-area res-flex g-128">
-        <div class="vflex align-items-start g-32">
-          <h2 class="heading-noline display-6">How it Works</h2>
-          <div>
-            <h5>Visit Us</h5>
-            <p>
-              Stop by Cedar Groves to explore our club and membership options.
+  <%- include('common/head.ejs', { pageTitle: 'Memberships' }); %>
+  <body>
+    <%- include('common/header.ejs'); %>
+    <main class="main">
+      <div class="main-item">
+        <h2 class="heading-noline display-5 text-center pb-3">
+          Elevate Your Golf Experience
+        </h2>
+        <p class="text-center text-restrict">
+          We invite you to become a part of our thriving community of golf
+          enthusiasts at Cedar Groves Golf Course. Our memberships are tailored
+          to provide regular access to our golf course, allowing you to practice
+          and perfect your skills in a serene and supportive environment.
+          <br />
+          <br />
+          Our focus is not on exclusive perks, but on connecting with
+          like-minded individuals and fostering a shared passion for the sport.
+          Discover the joys of a season pass with us and elevate your golfing
+          experience to new heights.
+        </p>
+      </div>
+      <div class="main-item large full-bleed">
+        <div class="how-to-area res-flex g-128">
+          <div class="vflex align-items-start g-32">
+            <h2 class="heading-noline display-6">How it Works</h2>
+            <div>
+              <h5>Visit Us</h5>
+              <p>
+                Stop by Cedar Groves to explore our club and membership options.
+              </p>
+            </div>
+            <div>
+              <h5>Sign Up & Pay</h5>
+              <p>See us at the clubhouse for sign-up and payment assistance.</p>
+            </div>
+            <div>
+              <h5>Play</h5>
+              <p>Enjoy a great golfing experience.</p>
+            </div>
+          </div>
+          <img
+            src="assets/images/driving-range.jpg"
+            alt="Driving Range"
+            class="border-rad shadow-2 w-50 img-anim" />
+        </div>
+      </div>
+      <div class="main-item">
+        <h2 class="heading display-5 text-center">Season Pass Rates</h2>
+        <p class="text-center text-restrict pb-5">
+          Take your golf game to the next level with our
+          <span id="year"></span>
+          membership packages.
+        </p>
+        <div class="price-cards res-flex g-32 pb-5">
+          <div class="card-s vflex flex-eq g-16 p-5">
+            <h4 class="text-center">Year Round</h4>
+            <p class="text-center pb-5">
+              Become a season pass holder to enjoy everything the course has to
+              offer
             </p>
-          </div>
-          <div>
-            <h5>Sign Up & Pay</h5>
-            <p>See us at the clubhouse for sign-up and payment assistance.</p>
-          </div>
-          <div>
-            <h5>Play</h5>
-            <p>Enjoy a great golfing experience.</p>
-          </div>
-        </div>
-        <img src="assets/images/driving-range.jpg" alt="Driving Range" class="border-rad shadow-2 w-50 img-anim" />
-      </div>
-    </div>
-    <div class="main-item">
-      <h2 class="heading display-5 text-center">Season Pass Rates</h2>
-      <p class="text-center text-restrict pb-5">
-        Take your golf game to the next level with our
-        <span id="year"></span> membership packages.
-      </p>
-      <div class="price-cards res-flex g-32 pb-5">
-        <div class="card-s vflex flex-eq g-16 p-5">
-          <h4 class="text-center">Year Round</h4>
-          <p class="text-center pb-5">
-            Become a season pass holder to enjoy everything the course has to
-            offer
-          </p>
-          <hr class="divider my-2 opacity-25" />
-          <h6 class="text-center">
-            No tiered pricing &mdash; just one flat rate
-          </h6>
-          <hr class="divider my-2 opacity-25" />
-          <div class="vflex g-32" style="transform: translateY(80px)">
-            <img src="assets/icons/year-round.svg" alt="Golf Icon" style="width: 3rem" />
-            <div class="flex g-4 color-main bg-acc px-5 py-3 border-rad shadow-2" style="font-weight: 600">
-              <h3>$460</h3>
-              <span class="font-sm">TAX INC.</span>
+            <hr class="divider my-2 opacity-25" />
+            <h6 class="text-center">
+              No tiered pricing &mdash; just one flat rate
+            </h6>
+            <hr class="divider my-2 opacity-25" />
+            <div class="vflex g-32" style="transform: translateY(80px)">
+              <img
+                src="assets/icons/year-round.svg"
+                alt="Golf Icon"
+                style="width: 3rem" />
+              <div
+                class="flex g-4 color-main bg-acc px-5 py-3 border-rad shadow-2"
+                style="font-weight: 600">
+                <h3>$460</h3>
+                <span class="font-sm">TAX INC.</span>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="card-s vflex flex-eq g-16 p-5">
-          <h4 class="text-center">Passes</h4>
-          <p class="pb-5 text-center">
-            Purchase a 10 round pass to test out the waters and try out our
-            course
-          </p>
-          <hr class="divider my-2 opacity-25" />
-          <h6 class="text-center">Try 10 rounds to see how you like it</h6>
-          <hr class="divider my-2 opacity-25" />
-          <div class="vflex g-32" style="transform: translateY(80px)">
-            <img src="assets/icons/golf-bag.svg" alt="Golf Icon" style="width: 3rem" />
-            <div class="flex g-4 color-main bg-acc px-5 py-3 border-rad shadow-2" style="font-weight: 600">
-              <h3>$225</h3>
-              <span class="font-sm">TAX INC.</span>
+          <div class="card-s vflex flex-eq g-16 p-5">
+            <h4 class="text-center">Passes</h4>
+            <p class="pb-5 text-center">
+              Purchase a 10 round pass to test out the waters and try out our
+              course
+            </p>
+            <hr class="divider my-2 opacity-25" />
+            <h6 class="text-center">Try 10 rounds to see how you like it</h6>
+            <hr class="divider my-2 opacity-25" />
+            <div class="vflex g-32" style="transform: translateY(80px)">
+              <img
+                src="assets/icons/golf-bag.svg"
+                alt="Golf Icon"
+                style="width: 3rem" />
+              <div
+                class="flex g-4 color-main bg-acc px-5 py-3 border-rad shadow-2"
+                style="font-weight: 600">
+                <h3>$225</h3>
+                <span class="font-sm">TAX INC.</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="flex shadow-2 background-img mb-5" style="
+      <div
+        class="flex shadow-2 background-img mb-5"
+        style="
           background-image: linear-gradient(rgb(0, 0, 0, 0), rgba(0, 0, 0, 0.5)),
             url('assets/images/driving-range-pan.jpg');
           height: 400px;
         ">
-      <div class="vflex g-8" style="color: #ffffff">
-        <h4 class="text-center">Get More Value</h4>
-        <p class="text-center pb-4">
-          Looking for additional information about Cedar Groves Golf Course?
-        </p>
-        <a href="tel:5068477273" class="w-50"><button class="button-2">Call Us Now</button></a>
+        <div class="vflex g-8" style="color: #ffffff">
+          <h4 class="text-center">Get More Value</h4>
+          <p class="text-center pb-4">
+            Looking for additional information about Cedar Groves Golf Course?
+          </p>
+          <a href="tel:5068477273" class="w-50">
+            <button class="button-2">Call Us Now</button>
+          </a>
+        </div>
       </div>
-    </div>
-  </main>
-  <%- include('common/footer.html'); %>
-</body>
-
+    </main>
+    <%- include('common/footer.html'); %>
+  </body>
 </html>

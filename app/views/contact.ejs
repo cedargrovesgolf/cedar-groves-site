@@ -1,87 +1,117 @@
 <!-- contact.ejs -->
 <!DOCTYPE html>
 <html lang="en">
-<%- include('common/head.ejs', { pageTitle: 'Contact Us' }); %>
-
-<body>
-  <%- include('common/header.ejs'); %>
-  <main class="main">
-    <div class="main-item">
-      <div class="vflex">
-        <h2 class="heading-noline display-5 text-center py-3">
-          We'd Love to Hear From You
-        </h2>
-        <p class="text-center text-restrict">
-          Any questions? Please do not hesitate to contact us directly. We will
-          take your feedback and inquires into consideration as soon as
-          possible.
-        </p>
-        <hr class="heading-divider" />
-      </div>
-      <div class="contact-wrapper res-flex align-items-start pt-4">
-        <div class="vflex g-16 flex-eq align-items-start">
-          <div class="res-flex g-24">
-            <i class="bi bi-envelope-open-fill font-xl"></i>
-            <div>
-              <h5>Fill Out This Form</h5>
-              <p>Message us directly</p>
+  <%- include('common/head.ejs', { pageTitle: 'Contact Us' }); %>
+  <body>
+    <%- include('common/header.ejs'); %>
+    <main class="main">
+      <div class="main-item">
+        <div class="vflex">
+          <h2 class="heading-noline display-5 text-center py-3">
+            We'd Love to Hear From You
+          </h2>
+          <p class="text-center text-restrict">
+            Any questions? Please do not hesitate to contact us directly. We
+            will take your feedback and inquires into consideration as soon as
+            possible.
+          </p>
+          <hr class="heading-divider" />
+        </div>
+        <div class="contact-wrapper res-flex align-items-start pt-4">
+          <div class="vflex g-16 flex-eq align-items-start">
+            <div class="res-flex g-24">
+              <i class="bi bi-envelope-open-fill font-xl"></i>
+              <div>
+                <h5>Fill Out This Form</h5>
+                <p>Message us directly</p>
+              </div>
+            </div>
+            <div class="res-flex g-24">
+              <i class="bi bi-telephone-fill font-xl"></i>
+              <div>
+                <h5>Call Us</h5>
+                <a href="tel:5068477273" class="transition hover">
+                  (506) 847-7273
+                </a>
+              </div>
+            </div>
+            <div class="res-flex g-24">
+              <i class="bi bi-geo-alt-fill font-xl"></i>
+              <div>
+                <h5>Visit Us</h5>
+                <a
+                  href="https://goo.gl/maps/KqfRJ4TyofZB3y9a7"
+                  target="_blank"
+                  class="transition hover">
+                  2000 Golden Grove Road, Saint John, NB
+                </a>
+              </div>
             </div>
           </div>
-          <div class="res-flex g-24">
-            <i class="bi bi-telephone-fill font-xl"></i>
-            <div>
-              <h5>Call Us</h5>
-              <a href="tel:5068477273" class="transition hover">(506) 847-7273</a>
-            </div>
-          </div>
-          <div class="res-flex g-24">
-            <i class="bi bi-geo-alt-fill font-xl"></i>
-            <div>
-              <h5>Visit Us</h5>
-              <a href="https://goo.gl/maps/KqfRJ4TyofZB3y9a7" target="_blank" class="transition hover">2000 Golden Grove
-                Road, Saint John, NB</a>
-            </div>
+          <div class="flex-eq">
+            <form class="contact needs-validation" novalidate>
+              <div class="row g-3 py-2">
+                <div class="col">
+                  <input
+                    class="form-control border-rad"
+                    type="text"
+                    name="first-name"
+                    placeholder="First Name"
+                    required />
+                  <span class="invalid-feedback">First name is required.</span>
+                </div>
+                <div class="col">
+                  <input
+                    class="form-control border-rad"
+                    type="text"
+                    name="last-name"
+                    placeholder="Last Name"
+                    required />
+                  <span class="invalid-feedback">Last name is required.</span>
+                </div>
+              </div>
+              <div class="row g-3 py-2">
+                <div class="col">
+                  <input
+                    class="form-control border-rad"
+                    type="email"
+                    name="email"
+                    placeholder="Email Address"
+                    required />
+                  <span class="invalid-feedback">
+                    Email address is required.
+                  </span>
+                </div>
+              </div>
+              <div class="row g-3 py-2">
+                <div class="col">
+                  <input
+                    class="form-control border-rad"
+                    type="text"
+                    name="subject"
+                    placeholder="Subject" />
+                </div>
+              </div>
+              <div class="row g-3 py-2">
+                <div class="col">
+                  <textarea
+                    class="form-control border-rad"
+                    type="text"
+                    name="message"
+                    placeholder="Message"
+                    rows="4"
+                    style="resize: none"
+                    required></textarea>
+                  <span class="invalid-feedback">Message is required.</span>
+                </div>
+              </div>
+              <button class="button-1 my-2" type="submit">Send</button>
+            </form>
           </div>
         </div>
-        <div class="flex-eq">
-          <form class="contact needs-validation" novalidate>
-            <div class="row g-3 py-2">
-              <div class="col">
-                <input class="form-control border-rad" type="text" name="first-name" placeholder="First Name"
-                  required />
-                <span class="invalid-feedback">First name is required.</span>
-              </div>
-              <div class="col">
-                <input class="form-control border-rad" type="text" name="last-name" placeholder="Last Name" required />
-                <span class="invalid-feedback">Last name is required.</span>
-              </div>
-            </div>
-            <div class="row g-3 py-2">
-              <div class="col">
-                <input class="form-control border-rad" type="email" name="email" placeholder="Email Address" required />
-                <span class="invalid-feedback">Email address is required.</span>
-              </div>
-            </div>
-            <div class="row g-3 py-2">
-              <div class="col">
-                <input class="form-control border-rad" type="text" name="subject" placeholder="Subject" />
-              </div>
-            </div>
-            <div class="row g-3 py-2">
-              <div class="col">
-                <textarea class="form-control border-rad" type="text" name="message" placeholder="Message" rows="4"
-                  style="resize: none" required></textarea>
-                <span class="invalid-feedback">Message is required.</span>
-              </div>
-            </div>
-            <button class="button-1 my-2" type="submit">Send</button>
-          </form>
-        </div>
       </div>
-    </div>
-  </main>
-  <%- include('common/footer.html'); %>
-</body>
-<script src="scripts/form-control.js"></script>
-
+    </main>
+    <%- include('common/footer.html'); %>
+  </body>
+  <script src="scripts/form-control.js"></script>
 </html>

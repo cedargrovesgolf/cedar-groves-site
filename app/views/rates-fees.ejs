@@ -1,152 +1,155 @@
 <!-- rates-fees.ejs -->
 <!DOCTYPE html>
 <html lang="en">
-<%- include('common/head.ejs', { pageTitle: 'Rates & Fees' }); %>
-
-<body>
-  <%- include('common/header.ejs'); %>
-  <main class="main">
-    <div class="main-item">
-      <div class="vflex">
-        <h2 class="heading display-5 text-center">
-          <span id="year"></span> Golf Season
-        </h2>
-        <p class="text-center text-restrict">
-          At Cedar Groves, we are committed to providing a top-notch experience at an affordable price. Our
-          rates
-          and fees are designed to be affordable for everyone, while still maintaining high quality.
-        </p>
-        <hr class="heading-divider" />
-      </div>
-    </div>
-    <div class="main-item large full-bleed">
-      <div class="rates-wrapper vflex py-3" style="gap: 92px;">
-        <div class="rates-area vflex" style="gap: 48px;">
-          <h4>The Course</h4>
-          <div class="text-img-box res-flex g-64 align-items-start">
-            <div class="vflex flex-eq w-100 g-32">
-              <div class="vflex w-100 g-4">
-                <div class="flex justify-content-between w-100 px-2">
-                  <p>9 Hole</p>
-                  <p>$25</p>
-                </div>
-                <hr class="divider my-2 opacity-25" />
-                <div class="flex justify-content-between w-100 px-2">
-                  <p>9 Hole &mdash; Senior</p>
-                  <p>$20</p>
-                </div>
-                <hr class="divider my-2 opacity-25" />
-                <div class="flex justify-content-between w-100 px-2">
-                  <p>9 Hole &mdash; Junior</p>
-                  <p>$15</p>
-                </div>
-                <hr class="divider my-2 opacity-25" />
-                <div class="flex justify-content-between w-100 px-2">
-                  <p>18 Hole</p>
-                  <p>$36</p>
-                </div>
-                <hr class="divider my-2 opacity-25" />
-                <div class="flex justify-content-between w-100 px-2">
-                  <p>18 Hole &mdash; Senior</p>
-                  <p>$28</p>
-                </div>
-                <hr class="divider my-2 opacity-25" />
-                <div class="flex justify-content-between w-100 px-2">
-                  <p>18 Hole &mdash; Junior</p>
-                  <p>$23</p>
-                </div>
-              </div>
-            </div>
-            <div class="flex-eq">
-              <img src="assets/images/drone-9.jpg" class="border-rad shadow-2 img-anim" alt="Golf Image" />
-            </div>
-          </div>
-        </div>
-        <div class="rates-area vflex" style="gap: 48px;">
-          <h4>Driving Range</h4>
-          <div class="text-img-box res-flex g-64 align-items-start">
-            <div class="order flex-eq">
-              <img src="assets/images/drone-15.jpg" class="border-rad shadow-2 img-anim" alt="Golf Image" />
-            </div>
-            <div class="vflex flex-eq w-100 g-32">
-              <div class="vflex w-100 g-4">
-                <div class="flex justify-content-between w-100 px-2">
-                  <p>XS Bucket &mdash; 25 Balls</p>
-                  <p>$3.50</p>
-                </div>
-                <hr class="divider my-2 opacity-25" />
-                <div class="flex justify-content-between w-100 px-2">
-                  <p>S Bucket &mdash; 50 Balls</p>
-                  <p>$7</p>
-                </div>
-                <hr class="divider my-2 opacity-25" />
-                <div class="flex justify-content-between w-100 px-2">
-                  <p>M Bucket &mdash; 75 Balls</p>
-                  <p>$10.50</p>
-                </div>
-                <hr class="divider my-2 opacity-25" />
-                <div class="flex justify-content-between w-100 px-2">
-                  <p>L Bucket &mdash; 100 Balls</p>
-                  <p>$14</p>
-                </div>
-                <hr class="divider my-2 opacity-25" />
-                <div class="flex justify-content-between w-100 px-2">
-                  <p>Grass Tee Box</p>
-                  <p>$3</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="rates-area vflex" style="gap: 48px;">
-          <h4>Amenities</h4>
-          <div class="text-img-box res-flex g-64 align-items-start">
-            <div class="vflex flex-eq w-100 g-32">
-              <div class="vflex w-100 g-4">
-                <div class="flex justify-content-between w-100 px-2">
-                  <p>Rental Set</p>
-                  <p>$12</p>
-                </div>
-                <hr class="divider my-2 opacity-25" />
-                <div class="flex justify-content-between w-100 px-2">
-                  <p>Pull Cart</p>
-                  <p>$5</p>
-                </div>
-                <hr class="divider my-2 opacity-25" />
-                <div class="flex justify-content-between w-100 px-2">
-                  <p>Recycled Balls (6 Pack)</p>
-                  <p>$5</p>
-                </div>
-                <hr class="divider my-2 opacity-25" />
-                <div class="flex justify-content-between w-100 px-2">
-                  <p>Tees (15 Pack)</p>
-                  <p>$1</p>
-                </div>
-              </div>
-            </div>
-            <div class="flex-eq">
-              <img src="assets/images/drone-6.jpg" class="border-rad shadow-2 img-anim" alt="Golf Image" />
-            </div>
-          </div>
-        </div>
+  <%- include('common/head.ejs', { pageTitle: 'Rates & Fees' }); %>
+  <body>
+    <%- include('common/header.ejs'); %>
+    <main class="main">
+      <div class="main-item">
         <div class="vflex">
-          <div class="flex justify-content-between w-100">
-            <small>Senior &mdash; 60+</small>
-            <small>Junior &mdash; 12 & under</small>
-          </div>
-          <small class="text-center">All listed prices include applicable taxes.</small>
+          <h2 class="heading display-5 text-center">
+            <span id="year"></span>
+            Golf Season
+          </h2>
+          <p class="text-center text-restrict">
+            At Cedar Groves, we are committed to providing a top-notch
+            experience at an affordable price. Our rates and fees are designed
+            to be affordable for everyone, while still maintaining high quality.
+          </p>
+          <hr class="heading-divider" />
         </div>
-
       </div>
-
-
-
-
-
-    </div>
-
-  </main>
-  <%- include('common/footer.html'); %>
-</body>
-
+      <div class="main-item large full-bleed">
+        <div class="rates-wrapper vflex py-3" style="gap: 92px">
+          <div class="rates-area vflex" style="gap: 48px">
+            <h4>The Course</h4>
+            <div class="text-img-box res-flex g-64 align-items-start">
+              <div class="vflex flex-eq w-100 g-32">
+                <div class="vflex w-100 g-4">
+                  <div class="flex justify-content-between w-100 px-2">
+                    <p>9 Hole</p>
+                    <p>$25</p>
+                  </div>
+                  <hr class="divider my-2 opacity-25" />
+                  <div class="flex justify-content-between w-100 px-2">
+                    <p>9 Hole &mdash; Senior</p>
+                    <p>$20</p>
+                  </div>
+                  <hr class="divider my-2 opacity-25" />
+                  <div class="flex justify-content-between w-100 px-2">
+                    <p>9 Hole &mdash; Junior</p>
+                    <p>$15</p>
+                  </div>
+                  <hr class="divider my-2 opacity-25" />
+                  <div class="flex justify-content-between w-100 px-2">
+                    <p>18 Hole</p>
+                    <p>$36</p>
+                  </div>
+                  <hr class="divider my-2 opacity-25" />
+                  <div class="flex justify-content-between w-100 px-2">
+                    <p>18 Hole &mdash; Senior</p>
+                    <p>$28</p>
+                  </div>
+                  <hr class="divider my-2 opacity-25" />
+                  <div class="flex justify-content-between w-100 px-2">
+                    <p>18 Hole &mdash; Junior</p>
+                    <p>$23</p>
+                  </div>
+                </div>
+              </div>
+              <div class="flex-eq">
+                <img
+                  src="assets/images/drone-9.jpg"
+                  class="border-rad shadow-2 img-anim"
+                  alt="Golf Image" />
+              </div>
+            </div>
+          </div>
+          <div class="rates-area vflex" style="gap: 48px">
+            <h4>Driving Range</h4>
+            <div class="text-img-box res-flex g-64 align-items-start">
+              <div class="order flex-eq">
+                <img
+                  src="assets/images/drone-15.jpg"
+                  class="border-rad shadow-2 img-anim"
+                  alt="Golf Image" />
+              </div>
+              <div class="vflex flex-eq w-100 g-32">
+                <div class="vflex w-100 g-4">
+                  <div class="flex justify-content-between w-100 px-2">
+                    <p>XS Bucket &mdash; 25 Balls</p>
+                    <p>$3.50</p>
+                  </div>
+                  <hr class="divider my-2 opacity-25" />
+                  <div class="flex justify-content-between w-100 px-2">
+                    <p>S Bucket &mdash; 50 Balls</p>
+                    <p>$7</p>
+                  </div>
+                  <hr class="divider my-2 opacity-25" />
+                  <div class="flex justify-content-between w-100 px-2">
+                    <p>M Bucket &mdash; 75 Balls</p>
+                    <p>$10.50</p>
+                  </div>
+                  <hr class="divider my-2 opacity-25" />
+                  <div class="flex justify-content-between w-100 px-2">
+                    <p>L Bucket &mdash; 100 Balls</p>
+                    <p>$14</p>
+                  </div>
+                  <hr class="divider my-2 opacity-25" />
+                  <div class="flex justify-content-between w-100 px-2">
+                    <p>Grass Tee Box</p>
+                    <p>$3</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="rates-area vflex" style="gap: 48px">
+            <h4>Amenities</h4>
+            <div class="text-img-box res-flex g-64 align-items-start">
+              <div class="vflex flex-eq w-100 g-32">
+                <div class="vflex w-100 g-4">
+                  <div class="flex justify-content-between w-100 px-2">
+                    <p>Rental Set</p>
+                    <p>$12</p>
+                  </div>
+                  <hr class="divider my-2 opacity-25" />
+                  <div class="flex justify-content-between w-100 px-2">
+                    <p>Pull Cart</p>
+                    <p>$5</p>
+                  </div>
+                  <hr class="divider my-2 opacity-25" />
+                  <div class="flex justify-content-between w-100 px-2">
+                    <p>Recycled Balls (6 Pack)</p>
+                    <p>$5</p>
+                  </div>
+                  <hr class="divider my-2 opacity-25" />
+                  <div class="flex justify-content-between w-100 px-2">
+                    <p>Tees (15 Pack)</p>
+                    <p>$1</p>
+                  </div>
+                </div>
+              </div>
+              <div class="flex-eq">
+                <img
+                  src="assets/images/drone-6.jpg"
+                  class="border-rad shadow-2 img-anim"
+                  alt="Golf Image" />
+              </div>
+            </div>
+          </div>
+          <div class="vflex">
+            <div class="flex justify-content-between w-100">
+              <small>Senior &mdash; 60+</small>
+              <small>Junior &mdash; 12 & under</small>
+            </div>
+            <small class="text-center">
+              All listed prices include applicable taxes.
+            </small>
+          </div>
+        </div>
+      </div>
+    </main>
+    <%- include('common/footer.html'); %>
+  </body>
 </html>

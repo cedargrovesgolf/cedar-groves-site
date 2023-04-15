@@ -1,4 +1,4 @@
-const { DynamoDB } = require("@aws-sdk/client-dynamodb");
+const { DynamoDB } = require('@aws-sdk/client-dynamodb');
 const util = require('util');
 
 const dynamodb = new DynamoDB({ region: process.env.AWS_REGION });
@@ -18,11 +18,6 @@ async function getItems(params) {
   } catch (err) {
     console.log(`[DynamoDB Error]: ${err}`);
   }
-};
+}
 
 module.exports = getItems;
-
-
-
-
-

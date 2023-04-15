@@ -1,18 +1,18 @@
-const swiper = new Swiper(".swiper", {
+const swiper = new Swiper('.swiper', {
   direction: 'horizontal',
   slidesPerView: 3,
   slidesPerGroup: 1,
   spaceBetween: 20,
-  scrollDirection: "horizontal",
+  scrollDirection: 'horizontal',
   loop: true,
   lazy: true,
   allowTouchMove: false,
   pagination: {
-    el: ".swiper-pagination",
+    el: '.swiper-pagination'
   },
   navigation: {
-    nextEl: ".swiper-button-next",
-    prevEl: ".swiper-button-prev",
+    nextEl: '.swiper-button-next',
+    prevEl: '.swiper-button-prev'
   },
   breakpoints: {
     320: {

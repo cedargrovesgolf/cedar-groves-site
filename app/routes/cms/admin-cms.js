@@ -12,13 +12,12 @@ router.get('/', async function (req, res) {
   if (loggedIn) {
     var username = req.session.username;
     body = {
-      'failedLogIn': false,
-      'loggedIn': loggedIn,
-      'user': username
+      failedLogIn: false,
+      loggedIn: loggedIn,
+      user: username
     };
-
   } else {
-    body = { 'loggedIn': false, 'failedLogIn': failedLogIn };
+    body = { loggedIn: false, failedLogIn: failedLogIn };
   }
   // render the page
   res.render('admin-cms', body);

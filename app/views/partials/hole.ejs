@@ -1,82 +1,114 @@
 <!-- hole.ejs -->
 <div class="main-item large" id="tour">
-    <h2 class="heading text-center display-5">Hole <%= hole %></h2>
-    <div class="tour-area vflex g-32">
-        <div class="tour-info-vid res-flex g-64">
-            <div class="tour-info vflex g-32 flex-eq">
-                <div class="flex w-100 g-16">
-                    <hr class="divider opacity-100" style="border-top-color: #9d7700; border-width: 3px;" />
-                    <div class="position-relative">
-                        <img src="assets/icons/par.svg" alt="Par" style="width: 6rem;">
-                        <p
-                            class="text-center lh-1 fw-bold color-main position-absolute top-50 start-50 translate-middle">
-                            PAR<br><%= par %>
-                        </p>
-                    </div>
-                    <hr class="divider text-center opacity-100" style="border-top-color: #9d7700; border-width: 3px;" />
-                </div>
-                <p class="text-center px-5"><%= desc %></p>
-                <div class="flex g-32 py-4">
-                    <h3 class="heading-no-res">YARDS</h3>
-                    <div class="vflex g-8">
-                        <img src="assets/icons/pro-tee.svg" alt="Pro Yardage" style="width: 2rem;">
-                        <h3 class="heading-no-res"><%= yardage[2] %></h3>
-                    </div>
-                    <div class="vflex g-8">
-                        <img src="assets/icons/reg-tee.svg" alt="Regular Yardage" style="width: 2rem;">
-                        <h3 class="heading-no-res"><%= yardage[1] %></h3>
-                    </div>
-                    <div class="vflex g-8">
-                        <img src="assets/icons/women-tee.svg" alt="Women Yardage" style="width: 2rem;">
-                        <h3 class="heading-no-res"><%= yardage[0] %></h3>
-                    </div>
-                </div>
-            </div>
-            <div class="flex-eq">
-                <video class="shadow" preload="metadata" controls controlslist="nodownload noplaybackrate" muted>
-                    <source src="assets/videos/hole-<%= hole %>.mov#t=0.1" type="video/mp4" />
-                </video>
-
-            </div>
+  <h2 class="heading text-center display-5">Hole <%= hole %></h2>
+  <div class="tour-area vflex g-32">
+    <div class="tour-info-vid res-flex g-64">
+      <div class="tour-info vflex g-32 flex-eq">
+        <div class="flex w-100 g-16">
+          <hr
+            class="divider opacity-100"
+            style="border-top-color: #9d7700; border-width: 3px" />
+          <div class="position-relative">
+            <img src="assets/icons/par.svg" alt="Par" style="width: 6rem" />
+            <p
+              class="text-center lh-1 fw-bold color-main position-absolute top-50 start-50 translate-middle">
+              PAR
+              <br />
+              <%= par %>
+            </p>
+          </div>
+          <hr
+            class="divider text-center opacity-100"
+            style="border-top-color: #9d7700; border-width: 3px" />
         </div>
-        <div class="tour-pagination flex w-100 justify-content-evenly py-4">
-            <% if (hole <= 1) { %>
-            <div class="flex flex-eq">
-                <span class="flex disabled text-center" style="opacity: 0.7; cursor: default;width: fit-content;">
-                    <i class="bi bi-caret-left-fill font-md"></i>
-                    <h6>Previous</h6>
-                </span>
-            </div>
-            <% } else { %>
-            <div class="flex flex-eq">
-                <a href="/aerial-tour?hole=<%= hole - 1 %>#tour" class="flex text-center transition"
-                    style="width: fit-content;">
-                    <i class="bi bi-caret-left-fill font-md"></i>
-                    <h6>Previous</h6>
-                </a>
-            </div>
-            <% } %>
-            <div class="flex flex-eq">
-                <a href="/aerial-tour#overview" class="flex text-center transition" style="width: fit-content;">
-                    <h6><u>Back to Overview</u></h6>
-                </a>
-            </div>
-            <% if (hole >= 9) { %>
-            <div class="flex flex-eq">
-                <span class="flex disabled text-center" style="opacity: 0.7; cursor: default; width: fit-content;">
-                    <h6>Next</h6>
-                    <i class="bi bi-caret-right-fill font-md"></i>
-                </span>
-            </div>
-            <% } else { %>
-            <div class="flex flex-eq">
-                <a href="/aerial-tour?hole=<%= hole + 1 %>#tour" class="flex text-center transition"
-                    style="width: fit-content;">
-                    <h6>Next</h6>
-                    <i class="bi bi-caret-right-fill font-md"></i>
-                </a>
-            </div>
-            <% } %>
+        <p class="text-center px-5"><%= desc %></p>
+        <div class="flex g-32 py-4">
+          <h3 class="heading-no-res">YARDS</h3>
+          <div class="vflex g-8">
+            <img
+              src="assets/icons/pro-tee.svg"
+              alt="Pro Yardage"
+              style="width: 2rem" />
+            <h3 class="heading-no-res"><%= yardage[2] %></h3>
+          </div>
+          <div class="vflex g-8">
+            <img
+              src="assets/icons/reg-tee.svg"
+              alt="Regular Yardage"
+              style="width: 2rem" />
+            <h3 class="heading-no-res"><%= yardage[1] %></h3>
+          </div>
+          <div class="vflex g-8">
+            <img
+              src="assets/icons/women-tee.svg"
+              alt="Women Yardage"
+              style="width: 2rem" />
+            <h3 class="heading-no-res"><%= yardage[0] %></h3>
+          </div>
         </div>
+      </div>
+      <div class="flex-eq">
+        <video
+          class="shadow"
+          preload="metadata"
+          controls
+          controlslist="nodownload noplaybackrate"
+          muted>
+          <source
+            src="assets/videos/hole-<%= hole %>.mov#t=0.1"
+            type="video/mp4" />
+        </video>
+      </div>
     </div>
+    <div class="tour-pagination flex w-100 justify-content-evenly py-4">
+      <% if (hole <= 1) { %>
+      <div class="flex flex-eq">
+        <span
+          class="flex disabled text-center"
+          style="opacity: 0.7; cursor: default; width: fit-content">
+          <i class="bi bi-caret-left-fill font-md"></i>
+          <h6>Previous</h6>
+        </span>
+      </div>
+      <% } else { %>
+      <div class="flex flex-eq">
+        <a
+          href="/aerial-tour?hole=<%= hole - 1 %>#tour"
+          class="flex text-center transition"
+          style="width: fit-content">
+          <i class="bi bi-caret-left-fill font-md"></i>
+          <h6>Previous</h6>
+        </a>
+      </div>
+      <% } %>
+      <div class="flex flex-eq">
+        <a
+          href="/aerial-tour#overview"
+          class="flex text-center transition"
+          style="width: fit-content">
+          <h6><u>Back to Overview</u></h6>
+        </a>
+      </div>
+      <% if (hole >= 9) { %>
+      <div class="flex flex-eq">
+        <span
+          class="flex disabled text-center"
+          style="opacity: 0.7; cursor: default; width: fit-content">
+          <h6>Next</h6>
+          <i class="bi bi-caret-right-fill font-md"></i>
+        </span>
+      </div>
+      <% } else { %>
+      <div class="flex flex-eq">
+        <a
+          href="/aerial-tour?hole=<%= hole + 1 %>#tour"
+          class="flex text-center transition"
+          style="width: fit-content">
+          <h6>Next</h6>
+          <i class="bi bi-caret-right-fill font-md"></i>
+        </a>
+      </div>
+      <% } %>
+    </div>
+  </div>
 </div>

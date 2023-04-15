@@ -18,7 +18,7 @@ router.post('/', function (req, res) {
   } else {
     res.cookie('failedLogIn', true);
   }
-  res.redirect('/admin-cms')
+  res.redirect('/admin-cms');
   res.end();
 });
 
