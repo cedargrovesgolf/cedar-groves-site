@@ -61,10 +61,7 @@ workflows:
       - build:
           filters:
             branches:
-              only: 
-                - main
-                - /^fix/
-                - /^feat/
+              ignore: /.*/
 
       - deploy:
           requires:

@@ -1,3 +1,4 @@
+/* animations.js */
 ScrollTrigger.batch('.img-anim', {
   onEnter: batch =>
     gsap.from(batch, {
