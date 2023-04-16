@@ -4,9 +4,9 @@ const router = express.Router();
 
 router.get('/', async function (req, res) {
   var body = {
-    hero_title: 'Frequently Asked Questions',
-    hero_subtitle: 'Your Questions, Answered',
-    hero_img: 'assets/images/drone-14.jpg'
+    heroTitle: 'Frequently Asked Questions',
+    heroSubtitle: 'Your Questions, Answered',
+    heroImg: 'assets/images/drone-14.jpg'
   };
   // render the page
   res.render('faq', body);

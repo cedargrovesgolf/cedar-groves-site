@@ -4,9 +4,9 @@ const router = express.Router();
 
 router.get('/', async function (req, res) {
   var body = {
-    hero_title: 'Aerial Tour',
-    hero_subtitle: 'Take Your Swing to New Heights',
-    hero_img: 'assets/images/drone-8.jpg'
+    heroTitle: 'Aerial Tour',
+    heroSubtitle: 'Take Your Swing to New Heights',
+    heroImg: 'assets/images/drone-8.jpg'
   };
 
   let hole = req.query.hole;

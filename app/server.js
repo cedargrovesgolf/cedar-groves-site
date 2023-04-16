@@ -61,9 +61,12 @@ app.use('/admin-cms', adminCms);
 const auth = require('./routes/cms/auth');
 app.use('/cms/auth', auth);
 
+const updateContent = require('./routes/cms/update-content');
+app.use('/cms/update-content', updateContent);
+
 const logout = require('./routes/cms/logout');
 app.use('/logout', logout);
 
 app.listen(port, () => {
-  console.log(`App is listening on port ${port}`);
+  console.log(`Server started \u001B[32m✓\u001B[0m\nhttp://localhost:${port}`);
 });

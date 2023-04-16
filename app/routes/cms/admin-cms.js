@@ -3,22 +3,34 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', async function (req, res) {
-  var failedLogIn = req.cookies['failedLogIn'];
+  const failedLogIn = req.cookies['failedLogIn'];
   res.clearCookie('failedLogIn');
 
-  var loggedIn = req.session.loggedin;
-  var body;
+  const loggedIn = req.session.loggedin;
+  let body;
 
   if (loggedIn) {
-    var username = req.session.username;
+    const username = req.session.username;
     body = {
       failedLogIn: false,
       loggedIn: loggedIn,
-      user: username
+      user: username,
+      updateSuccess: null,
+      updateError: null
     };
   } else {
     body = { loggedIn: false, failedLogIn: failedLogIn };
   }
+
+  const success = req.query.success;
+  body.updateSuccess = success === '1' ? 'Content successfully updated!' : null;
+  body.updateError =
+    success === '0'
+      ? 'An error occurred while updating the hours.'
+      : success === '-1'
+      ? 'Content incomplete. At least one field must be filled out.'
+      : null;
+
   // render the page
   res.render('admin-cms', body);
 });

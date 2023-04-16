@@ -45,13 +45,23 @@
             </div>
           </div>
         </div>
-        <button class="button-3 my-1" type="submit" style="padding: 12px">
-          Update Content
-        </button>
-      </form>
-      <a href="/logout">
-        <button class="button-3 my-1" style="padding: 12px">Logout</button>
-      </a>
+      </div>
     </div>
+  </form>
+  <% if (updateSuccess || updateError) { %>
+  <div
+    class="alert alert-<%= updateSuccess ? 'success' : 'danger' %> text-center border-rad"
+    role="alert">
+    <%= updateSuccess || updateError %>
+  </div>
+  <% } %>
+
+  <div class="flex g-16">
+    <a href="/logout" class="w-50">
+      <button class="button-1">Logout</button>
+    </a>
+    <button class="button-3 my-1 w-50" form="cms-update-form" type="submit">
+      Update Content
+    </button>
   </div>
 </div>

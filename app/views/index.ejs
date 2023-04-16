@@ -35,9 +35,12 @@
               Check here for the most up-to-date hours of operation.
             </p>
             <h6 class="pb-2 pt-3 fw-bold">
-              <!-- Monday &mdash; Sunday &emsp;<span class="font-xs text-uppercase">am</span> &mdash;
-            <span class="font-xs text-uppercase">pm</span> -->
-              CLOSED
+              <% if (openHour && closeHour) { %> Monday &mdash; Sunday &emsp;
+              <%= openHour.time %>
+              <span class="font-xs text-uppercase"><%= openHour.ampm %></span>
+              &mdash; <%= closeHour.time %>
+              <span class="font-xs text-uppercase"><%= closeHour.ampm %></span>
+              <% } else { %> CLOSED <% } %>
             </h6>
             <div class="weather-widg">
               <a

@@ -13,4 +13,4 @@ ssh $EC2_INSTANCE_USERNAME@$EC2_INSTANCE_IP_ADDRESS "\
     docker stop $CIRCLE_PROJECT_REPONAME; \
     docker rm $CIRCLE_PROJECT_REPONAME; \
   fi; \
-  docker run -e PORT=$PORT -d -v ~/.aws:/root/.aws -p $PORT:$PORT --name $CIRCLE_PROJECT_REPONAME $ECR/$CIRCLE_PROJECT_REPONAME:latest"
+  docker run -e PORT=$PORT -e AWS_REGION=$AWS_REGION -d -v ~/.aws:/root/.aws -p $PORT:$PORT --name $CIRCLE_PROJECT_REPONAME $ECR/$CIRCLE_PROJECT_REPONAME:latest"
