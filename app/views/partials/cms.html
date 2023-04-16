@@ -1,79 +1,65 @@
-<div class="cms-wrapper flex bg-acc">
-  <div class="card vflex g-32" style="width: 600px; height: fit-content">
-    <div class="vflex g-24">
-      <div class="logo vflex">
-        <img src="assets/logo-dark.svg" alt="Logo" style="width: 150px" />
-        <span class="color-acc">Cedar Groves</span>
-      </div>
-      <h5 class="text-center">Admin Content Management System</h5>
-    </div>
-    <div class="w-100">
-      <form class="needs-validation" novalidate>
-        <div class="row g-3 py-2">
-          <div class="col">
-            <div class="vflex g-16">
-              <h6 class="text-center">Modify Current Hours</h6>
-              <div class="flex w-100 g-8">
-                <p class="flex-eq">Open Hour</p>
-                <div class="flex g-8 flex-eq">
-                  <input
-                    class="form-control border-rad"
-                    type="text"
-                    name="open-hour"
-                    placeholder="e.g. 9"
-                    autocomplete="off" />
-                  <select
-                    class="form-select border-rad"
-                    name="ampm"
-                    aria-label="AM or PM"
-                    style="width: fit-content">
-                    <option value="am">AM</option>
-                    <option value="pm">PM</option>
-                  </select>
-                </div>
-              </div>
-              <div class="flex w-100 g-8">
-                <p class="flex-eq">Close Hour</p>
-                <div class="flex g-8 flex-eq">
-                  <input
-                    class="form-control border-rad"
-                    type="text"
-                    name="close-hour"
-                    placeholder="e.g. 8:30"
-                    autocomplete="off" />
-                  <select
-                    class="form-select border-rad"
-                    name="ampm"
-                    aria-label="AM or PM"
-                    style="width: fit-content">
-                    <option value="pm">PM</option>
-                    <option value="am">AM</option>
-                  </select>
-                </div>
-              </div>
-              <div class="vflex w-100 g-8">
-                <p class="text-center fw-bold">OR</p>
-                <div class="form-check flex g-4">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    value=""
-                    id="flexCheckDefault" />
-                  <label class="form-check-label pt-1" for="flexCheckDefault">
-                    CLOSED
-                  </label>
-                </div>
-              </div>
+<div class="main-item w-50">
+  <form
+    class="needs-validation"
+    action="cms/update-content"
+    method="post"
+    id="cms-update-form"
+    novalidate>
+    <div class="row g-3 py-2">
+      <div class="col">
+        <div class="card vflex g-16 py-5">
+          <div class="vflex">
+            <h5>Modify Hours</h5>
+            <hr class="heading-divider my-3" />
+          </div>
+          <div class="vflex g-16 w-100">
+            <div class="flex w-50 justify-content-between">
+              <p class="flex-eq">Open Hour (24 hr)</p>
+              <input
+                class="form-control border-rad flex-eq"
+                type="text"
+                name="openHour"
+                placeholder="e.g. 9"
+                autocomplete="off" />
+            </div>
+            <div class="flex w-50 justify-content-between">
+              <p class="flex-eq">Close Hour (24 hr)</p>
+              <input
+                class="form-control border-rad flex-eq"
+                type="text"
+                name="closeHour"
+                placeholder="e.g. 20:30"
+                autocomplete="off" />
+            </div>
+            <h6 class="pt-3">OR</h6>
+            <div class="form-check flex g-4">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="closed"
+                value="closed"
+                id="flexCheckDefault" />
+              <label class="form-check-label pt-1">CLOSED</label>
             </div>
           </div>
         </div>
-        <button class="button-3 my-1" type="submit" style="padding: 12px">
-          Update Content
-        </button>
-      </form>
-      <a href="/logout">
-        <button class="button-3 my-1" style="padding: 12px">Logout</button>
-      </a>
+      </div>
     </div>
+  </form>
+  <% if (updateSuccess || updateError) { %>
+  <div
+    class="alert alert-<%= updateSuccess ? 'success' : 'danger' %> text-center border-rad"
+    role="alert">
+    <%= updateSuccess || updateError %>
+  </div>
+  <% } %>
+
+  <div class="flex g-16">
+    <a href="/logout" class="w-50">
+      <button class="button-1">Logout</button>
+    </a>
+    <button class="button-3 my-1 w-50" form="cms-update-form" type="submit">
+      Update Content
+    </button>
   </div>
 </div>

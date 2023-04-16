@@ -1,4 +1,15 @@
-/* form_control.js */
+/* form-control.js */
+$('.needs-validation').each(function () {
+  var form = $(this);
+  form.submit(function (event) {
+    if (!form[0].checkValidity()) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    form.addClass('was-validated');
+  });
+});
+
 $('.contact.needs-validation').each(function () {
   var form = $(this);
   form.submit(function (event) {
@@ -14,13 +25,3 @@ $('.contact.needs-validation').each(function () {
   });
 });
 
-$('.needs-validation').each(function () {
-  var form = $(this);
-  form.submit(function (event) {
-    if (!form[0].checkValidity()) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-    form.addClass('was-validated');
-  });
-});

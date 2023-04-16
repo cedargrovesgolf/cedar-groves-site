@@ -1,3 +1,4 @@
+/* swiper.js */
 const swiper = new Swiper('.swiper', {
   direction: 'horizontal',
   slidesPerView: 3,
