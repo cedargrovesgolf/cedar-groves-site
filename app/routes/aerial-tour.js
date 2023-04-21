@@ -73,6 +73,21 @@ router.get('/', async function (req, res) {
       ...holeInfo[hole],
       url: `hole-${hole}.mov`
     };
+  } else {
+    body = {
+      ...body,
+      holeNav: [
+        'assets/images/drone-1.jpg',
+        'assets/images/drone-17.jpg',
+        'assets/images/drone-21.jpg',
+        'assets/images/drone-20.jpg',
+        'assets/images/drone-7.jpg',
+        'assets/images/drone-5.jpg',
+        'assets/images/drone-9.jpg',
+        'assets/images/drone-11.jpg',
+        'assets/images/drone-12.jpg'
+      ]
+    };
   }
 
   // render the page

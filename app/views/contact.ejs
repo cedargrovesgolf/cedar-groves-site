@@ -49,13 +49,13 @@
             </div>
           </div>
           <div class="flex-eq">
-            <form class="contact needs-validation" novalidate>
+            <form class="contact needs-validation" method="POST" action="mail/send-mail" novalidate>
               <div class="row g-3 py-2">
                 <div class="col">
                   <input
                     class="form-control border-rad"
                     type="text"
-                    name="first-name"
+                    name="firstName"
                     placeholder="First Name"
                     required />
                   <span class="invalid-feedback">First name is required.</span>
@@ -64,7 +64,7 @@
                   <input
                     class="form-control border-rad"
                     type="text"
-                    name="last-name"
+                    name="lastName"
                     placeholder="Last Name"
                     required />
                   <span class="invalid-feedback">Last name is required.</span>
@@ -75,7 +75,7 @@
                   <input
                     class="form-control border-rad"
                     type="email"
-                    name="email"
+                    name="to"
                     placeholder="Email Address"
                     required />
                   <span class="invalid-feedback">

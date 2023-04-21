@@ -64,6 +64,9 @@ app.use('/cms/auth', auth);
 const updateContent = require('./routes/cms/update-content');
 app.use('/cms/update-content', updateContent);
 
+const sendMail = require('./routes/mail/send-mail');
+app.use('/mail/send-mail', sendMail);
+
 const logout = require('./routes/cms/logout');
 app.use('/logout', logout);
 
