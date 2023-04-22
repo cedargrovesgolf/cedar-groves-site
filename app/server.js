@@ -71,5 +71,5 @@ const logout = require('./routes/cms/logout');
 app.use('/logout', logout);
 
 app.listen(port, () => {
-  console.log(`Server started \u001B[32m✓\u001B[0m\nhttp://localhost:${port}`);
+  console.log(`\nServer started ! \u001B[32m✓\u001B[0m\n\n\x1B[3m\u001b[36;1mAccess URL:\u001b[0m\x1B[0m\n---------------------\nhttp://localhost:${port}\n---------------------`);
 });
