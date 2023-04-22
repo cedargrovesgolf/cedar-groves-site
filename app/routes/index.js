@@ -16,7 +16,7 @@ const get12Hr = time => {
   };
 };
 
-router.get('/', async function (req, res) {
+router.get('/', async (req, res) => {
   const baseQuery = {
     tableName: 'cedar-groves-hours',
     keyName: 'type',

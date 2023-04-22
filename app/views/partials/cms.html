@@ -1,67 +1,86 @@
-<div class="main-item">
-  <form
-    class="needs-validation"
-    action="cms/update-content"
-    method="post"
-    id="cms-update-form"
-    novalidate>
-    <div class="row g-3 py-2">
-      <div class="col">
-        <div class="card vflex g-16 p-5">
-          <div class="vflex">
-            <h5>Modify Hours</h5>
-            <hr class="heading-divider my-3" />
+<div class="py-4">
+  <h2 class="text-center">Admin Content Management System</h2>
+  <a href="/logout" class="flex transition hover">Log Out</a>
+</div>
+<div class="main-item ps flex">
+  <div class="card">
+    <div class="vflex">
+      <h5>Modify Hours</h5>
+      <hr class="heading-divider my-3" />
+    </div>
+    <form action="cms/update-hours" method="POST">
+      <div class="vflex">
+        <small>Hours must be in 24-hour format</small>
+        <div class="res-flex g-16 py-3">
+          <div class="input-group" style="max-width: 200px">
+            <input
+              class="form-control border-rad"
+              type="text"
+              name="openHour"
+              autocomplete="off" />
+            <span class="input-group-text">&mdash;</span>
+            <input
+              class="form-control border-rad"
+              type="text"
+              name="closeHour"
+              autocomplete="off" />
           </div>
-          <div class="container-fluid vflex g-16 w-100">
-            <div
-              class="res-flex w-100 justify-content-between align-items-start">
-              <p class="flex-eq">Open Hour (24 hr)</p>
-              <input
-                class="form-control border-rad flex-eq"
-                type="text"
-                name="openHour"
-                placeholder="e.g. 9"
-                autocomplete="off" />
-            </div>
-            <div
-              class="res-flex w-100 justify-content-between align-items-start">
-              <p class="flex-eq">Close Hour (24 hr)</p>
-              <input
-                class="form-control border-rad flex-eq"
-                type="text"
-                name="closeHour"
-                placeholder="e.g. 20:30"
-                autocomplete="off" />
-            </div>
-            <h6 class="pt-3">OR</h6>
-            <div class="form-check flex g-4">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                name="closed"
-                value="closed"
-                id="flexCheckDefault" />
-              <label class="form-check-label pt-1">CLOSED</label>
-            </div>
+          <h6>OR</h6>
+          <div class="form-check flex g-4">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              name="isClosed"
+              value="closed" />
+            <label class="form-check-label pt-1">CLOSED</label>
           </div>
         </div>
+        <% if (updateSuccess || updateError) { %>
+        <div
+          class="text-<%= updateSuccess ? 'success' : 'danger' %> text-center border-rad"
+          role="alert">
+          <%= updateSuccess || updateError %>
+        </div>
+        <% } %>
+        <button
+          class="button-3 mt-3"
+          type="submit"
+          style="width: 200px; padding: 12px">
+          Save Hours
+        </button>
       </div>
-    </div>
-  </form>
-  <% if (updateSuccess || updateError) { %>
-  <div
-    class="alert alert-<%= updateSuccess ? 'success' : 'danger' %> text-center border-rad"
-    role="alert">
-    <%= updateSuccess || updateError %>
+    </form>
   </div>
-  <% } %>
-
-  <div class="flex g-16">
-    <a href="/logout" class="w-50">
-      <button class="button-1">Logout</button>
-    </a>
-    <button class="button-3 my-1 w-50" form="cms-update-form" type="submit">
-      Update Content
-    </button>
+</div>
+<div class="main-item ps flex">
+  <div class="card">
+    <div class="vflex">
+      <h5>Add to Photo Gallery</h5>
+      <hr class="heading-divider my-3" />
+    </div>
+    <form
+      action="cms/update-gallery"
+      method="POST"
+      class="needs-validation"
+      novalidate>
+      <div class="vflex">
+        <div class="vflex w-100">
+          <label for="formFile" class="form-label">
+            <small>Drag and drop or browse for a file</small>
+          </label>
+          <input
+            class="form-control border-rad"
+            type="file"
+            style="max-width: 700px"
+            required />
+        </div>
+        <button
+          class="button-3 mt-3"
+          type="submit"
+          style="width: 200px; padding: 12px">
+          Upload Photo
+        </button>
+      </div>
+    </form>
   </div>
 </div>
