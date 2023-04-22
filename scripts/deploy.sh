@@ -14,3 +14,4 @@ ssh $EC2_INSTANCE_USERNAME@$EC2_INSTANCE_IP_ADDRESS "\
     docker rm $CIRCLE_PROJECT_REPONAME; \
   fi; \
   docker run -d -v ~/.aws:/root/.aws -p $PORT:$PORT --env-file /opt/cedargroves/.env --name $CIRCLE_PROJECT_REPONAME $ECR/$CIRCLE_PROJECT_REPONAME:latest"
+
