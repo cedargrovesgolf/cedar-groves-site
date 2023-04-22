@@ -24,4 +24,3 @@ $('.contact.needs-validation').each(function () {
     form.addClass('was-validated');
   });
 });
-

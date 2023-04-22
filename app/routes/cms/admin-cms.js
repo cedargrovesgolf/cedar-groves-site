@@ -15,22 +15,14 @@ router.get('/', async function (req, res) {
       failedLogIn: false,
       loggedIn: loggedIn,
       user: username,
-      updateSuccess: null,
-      updateError: null
+      updateSuccess: req.session.updateSuccess ?? null,
+      updateError: req.session.updateError ?? null
     };
+    delete req.session.updateSuccess;
+    delete req.session.updateError;
   } else {
     body = { loggedIn: false, failedLogIn: failedLogIn };
   }
-
-  const success = req.query.success;
-  body.updateSuccess = success === '1' ? 'Content successfully updated!' : null;
-  body.updateError =
-    success === '0'
-      ? 'An error occurred while updating the hours.'
-      : success === '-1'
-      ? 'Content incomplete. At least one field must be filled out.'
-      : null;
-
   // render the page
   res.render('admin-cms', body);
 });
