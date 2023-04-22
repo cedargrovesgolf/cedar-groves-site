@@ -13,4 +13,4 @@ ssh $EC2_INSTANCE_USERNAME@$EC2_INSTANCE_IP_ADDRESS "\
     docker stop $CIRCLE_PROJECT_REPONAME; \
     docker rm $CIRCLE_PROJECT_REPONAME; \
   fi; \
-  docker run -d -p $PORT:$PORT --env-file ~/opt/cedargroves/.env --name $CIRCLE_PROJECT_REPONAME $ECR/$CIRCLE_PROJECT_REPONAME:latest"
+  docker run -d -p $PORT:$PORT --env-file /opt/cedargroves/.env --name $CIRCLE_PROJECT_REPONAME $ECR/$CIRCLE_PROJECT_REPONAME:latest"
