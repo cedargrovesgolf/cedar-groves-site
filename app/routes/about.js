@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/', async function (req, res) {
+router.get('/', (req, res) => {
   var body = {
     heroTitle: 'About Us',
     heroSubtitle: 'Find Out What Makes Us Unique',

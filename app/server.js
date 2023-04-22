@@ -55,6 +55,9 @@ app.use('/about', about);
 const rulesRegulations = require('./routes/rules-regulations');
 app.use('/rules-regulations', rulesRegulations);
 
+const sendMail = require('./routes/send-mail');
+app.use('/send-mail', sendMail);
+
 const adminCms = require('./routes/cms/admin-cms');
 app.use('/admin-cms', adminCms);
 
@@ -64,16 +67,14 @@ app.use('/cms/auth', auth);
 const updateHours = require('./routes/cms/update-hours');
 app.use('/cms/update-hours', updateHours);
 
-const sendMail = require('./routes/mail/send-mail');
-app.use('/mail/send-mail', sendMail);
-
 const logout = require('./routes/cms/logout');
 app.use('/logout', logout);
 
 app.listen(port, () => {
-  console.log(
-    `\nServer started ! \u001B[32m✓\u001B[0m\n\n\x1B[3m\u001b[36;1m` +
-      `Access URL:\u001b[0m\x1B[0m\n---------------------\n` +
-      `http://localhost:${port}\n---------------------`
-  );
+  const appMsg = `
+Server started ! \u001B[32m✓\u001B[0m\x1B[3m\n\n\u001b[36;1mAccess URL:\u001b[0m\x1B[0m
+---------------------
+http://localhost:${port}
+---------------------`;
+  console.log(appMsg);
 });

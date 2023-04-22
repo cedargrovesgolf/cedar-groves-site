@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/', async function (req, res) {
+router.get('/', (req, res) => {
   const failedLogIn = req.cookies['failedLogIn'];
   res.clearCookie('failedLogIn');
 

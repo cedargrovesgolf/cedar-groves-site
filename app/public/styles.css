@@ -72,6 +72,16 @@ a {
   --bs-link-hover-color: currentColor;
 }
 
+.scroll-padding {
+  scroll-padding-top: 78px !important;
+}
+
+@media (max-width: 476px) {
+  .scroll-padding {
+    scroll-padding-top: 68px;
+  }
+}
+
 .form-control:focus,
 .form-select:focus,
 .form-check-input:focus {
@@ -500,10 +510,6 @@ a {
 }
 
 @media (max-width: 992px) {
-  .hours-scroll-padding {
-    scroll-padding-top: 68px !important;
-  }
-
   .hours-area img {
     order: -1;
   }
@@ -565,10 +571,6 @@ a {
 }
 
 @media (max-width: 992px) {
-  .tour-scroll-padding {
-    scroll-padding-top: 68px !important;
-  }
-
   .tour-area {
     gap: 64px;
   }

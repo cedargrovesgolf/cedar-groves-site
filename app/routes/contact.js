@@ -2,20 +2,16 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/', async function (req, res) {
+router.get('/', (req, res) => {
   var body = {
     heroTitle: 'Contact Us',
     heroSubtitle: 'Let Us Know How We Can Help',
-    heroImg: 'assets/images/drone-20.jpg'
+    heroImg: 'assets/images/drone-20.jpg',
+    sentSuccess: req.session.sentSuccess ?? null,
+    sentError: req.session.sentError ?? null
   };
-
-  const sent = req.query.sent;
-  body.sent = sent === '1' ? 'Sent. Thank you for your feedback!' : null;
-  body.failedSent =
-    sent === '0'
-      ? 'An error occurred while attempting to send your message.'
-      : null;
-
+  delete req.session.sentSuccess;
+  delete req.session.sentError;
   // render the page
   res.render('contact', body);
 });

@@ -1,5 +1,6 @@
-<div class="main-item">
+<div class="py-4">
   <h2 class="text-center">Admin Content Management System</h2>
+  <a href="/logout" class="flex transition hover">Log Out</a>
 </div>
 <div class="main-item ps flex">
   <div class="card">
@@ -9,33 +10,30 @@
     </div>
     <form action="cms/update-hours" method="POST">
       <div class="vflex">
-        <div class="res-flex justify-content-around g-24 py-3 w-100">
-          <div class="flex g-8">
-            <p class="text-nowrap">Open (24 hr)</p>
+        <small>Hours must be in 24-hour format</small>
+        <div class="res-flex g-16 py-3">
+          <div class="input-group" style="max-width: 200px">
             <input
               class="form-control border-rad"
               type="text"
               name="openHour"
               autocomplete="off" />
-          </div>
-          <div class="flex g-8">
-            <p class="text-nowrap">Close (24 hr)</p>
+            <span class="input-group-text">&mdash;</span>
             <input
               class="form-control border-rad"
               type="text"
               name="closeHour"
               autocomplete="off" />
-            <span class="invalid-feedback">test</span>
           </div>
-        </div>
-        <h6 class="py-2">OR</h6>
-        <div class="form-check flex g-4">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            name="isClosed"
-            value="closed" />
-          <label class="form-check-label pt-1">CLOSED</label>
+          <h6>OR</h6>
+          <div class="form-check flex g-4">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              name="isClosed"
+              value="closed" />
+            <label class="form-check-label pt-1">CLOSED</label>
+          </div>
         </div>
         <% if (updateSuccess || updateError) { %>
         <div
@@ -66,9 +64,9 @@
       class="needs-validation"
       novalidate>
       <div class="vflex">
-        <div class="vflex w-100 py-3">
+        <div class="vflex w-100">
           <label for="formFile" class="form-label">
-            Drag and drop or browse for a file
+            <small>Drag and drop or browse for a file</small>
           </label>
           <input
             class="form-control border-rad"
@@ -80,12 +78,9 @@
           class="button-3 mt-3"
           type="submit"
           style="width: 200px; padding: 12px">
-          Save Photo
+          Upload Photo
         </button>
       </div>
     </form>
   </div>
-</div>
-<div class="main-item ps">
-  <a href="/logout"><button class="button-1">Logout</button></a>
 </div>

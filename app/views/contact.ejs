@@ -1,11 +1,11 @@
 <!-- contact.ejs -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-padding">
   <%- include('common/head.ejs', { pageTitle: 'Contact Us' }); %>
   <body>
     <%- include('common/header.ejs'); %>
     <main class="main">
-      <div class="main-item">
+      <div class="main-item" id="submitted">
         <div class="vflex">
           <h2 class="heading-noline display-5 text-center py-3">
             We'd Love to Hear From You
@@ -49,7 +49,11 @@
             </div>
           </div>
           <div class="flex-eq">
-            <form class="contact needs-validation" method="POST" action="mail/send-mail" novalidate>
+            <form
+              class="contact needs-validation"
+              method="POST"
+              action="send-mail"
+              novalidate>
               <div class="row g-3 py-2">
                 <div class="col">
                   <input
@@ -105,6 +109,13 @@
                   <span class="invalid-feedback">Message is required.</span>
                 </div>
               </div>
+              <% if (sentSuccess || sentError) { %>
+              <div
+                class="text-<%= sentSuccess ? 'success' : 'danger' %> text-center border-rad"
+                role="alert">
+                <%= sentSuccess || sentError %>
+              </div>
+              <% } %>
               <button class="button-1 my-2" type="submit">Send</button>
             </form>
           </div>

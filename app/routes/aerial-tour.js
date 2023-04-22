@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/', async function (req, res) {
+router.get('/', (req, res) => {
   var body = {
     heroTitle: 'Aerial Tour',
     heroSubtitle: 'Take Your Swing to New Heights',
@@ -89,7 +89,6 @@ router.get('/', async function (req, res) {
       ]
     };
   }
-
   // render the page
   res.render('aerial-tour', body);
 });

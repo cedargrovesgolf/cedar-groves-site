@@ -4,7 +4,7 @@ const router = express.Router();
 const { getItem } = require('../../helper/dynamo-helper');
 const { compareHash } = require('../../helper/hash');
 
-router.post('/', async function (req, res) {
+router.post('/', async (req, res) => {
   const { username, password, rememberMe } = req.body;
 
   const userQuery = {
