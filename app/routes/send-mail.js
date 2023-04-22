@@ -6,17 +6,17 @@ router.post('/', (req, res) => {
   const { firstName, lastName, to, subject, message } = req.body;
 
   const clientMessage = `
-    Dear ${firstName} ${lastName},
-    The following message was received by Cedar Groves Golf Course:
+Dear ${firstName} ${lastName},
+The following message was received by Cedar Groves Golf Course:
 
-    From: ${firstName} ${lastName}
-    Email: ${to}
+From: ${firstName} ${lastName}
+Email: ${to}
 
-    Subject: ${subject}
-    ${message}
+Subject: ${subject}
+${message}
 
-    Thank you for your feedback,
-    Cedar Groves Executive Par 3 & Driving Range
+Thank you for your feedback,
+Cedar Groves Executive Par 3 & Driving Range
   `;
 
   const mailToClient = {
@@ -27,13 +27,13 @@ router.post('/', (req, res) => {
   };
 
   const businessMessage = `
-    The following feedback was sent by a customer:
+The following feedback was sent by a customer:
 
-    From: ${firstName} ${lastName}
-    Email: ${to}
+From: ${firstName} ${lastName}
+Email: ${to}
 
-    Subject: ${subject}
-    ${message}
+Subject: ${subject}
+${message}
   `;
 
   const mailToBusiness = {

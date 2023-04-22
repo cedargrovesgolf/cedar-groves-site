@@ -1,13 +1,22 @@
 /* ./routes/cms/admin-cms.js */
 const express = require('express');
 const router = express.Router();
+const { getItem } = require('../../helper/dynamo-helper');
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   const failedLogIn = req.cookies['failedLogIn'];
   res.clearCookie('failedLogIn');
 
   const loggedIn = req.session.loggedin;
   let body;
+
+  const baseQuery = {
+    tableName: 'cedar-groves-hours',
+    keyName: 'type',
+    keyType: 'S'
+  };
+  const openHour = await getItem({ ...baseQuery, keyValue: 'open' });
+  const closeHour = await getItem({ ...baseQuery, keyValue: 'close' });
 
   if (loggedIn) {
     const username = req.session.username;
@@ -15,6 +24,8 @@ router.get('/', (req, res) => {
       failedLogIn: false,
       loggedIn: loggedIn,
       user: username,
+      openHour: openHour.hour.S,
+      closeHour: closeHour.hour.S,
       updateSuccess: req.session.updateSuccess ?? null,
       updateError: req.session.updateError ?? null
     };

@@ -16,13 +16,19 @@
             <input
               class="form-control border-rad"
               type="text"
+              value="<%= openHour %>"
+              id="openHour"
               name="openHour"
+              placeholder="9:30"
               autocomplete="off" />
             <span class="input-group-text">&mdash;</span>
             <input
               class="form-control border-rad"
               type="text"
+              value="<%= closeHour %>"
+              id="closeHour"
               name="closeHour"
+              placeholder="18:00"
               autocomplete="off" />
           </div>
           <h6>OR</h6>
@@ -31,7 +37,8 @@
               class="form-check-input"
               type="checkbox"
               name="isClosed"
-              value="closed" />
+              id="isClosed"
+              <% if (!openHour && !closeHour) { %> checked <% } %> />
             <label class="form-check-label pt-1">CLOSED</label>
           </div>
         </div>
@@ -84,3 +91,11 @@
     </form>
   </div>
 </div>
+<script>
+  $('#isClosed').on('change', function () {
+    $('#openHour').prop('disabled', this.checked);
+    $('#closeHour').prop('disabled', this.checked);
+  });
+  $('#openHour').prop('disabled', $('#isClosed').prop('checked'));
+  $('#closeHour').prop('disabled', $('#isClosed').prop('checked'));
+</script>
