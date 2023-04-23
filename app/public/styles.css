@@ -32,10 +32,6 @@
   outline: none !important;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
 img,
 picture,
 svg,
@@ -78,7 +74,7 @@ a {
 
 @media (max-width: 476px) {
   .scroll-padding {
-    scroll-padding-top: 68px;
+    scroll-padding-top: 68px !important;
   }
 }
 
@@ -423,19 +419,6 @@ a {
 }
 
 /* header */
-.header {
-  height: 100vh;
-  position: relative;
-}
-
-.hero-text {
-  color: var(--color-white);
-  position: absolute;
-  width: 100%;
-  top: 50%;
-  transform: translate(0, -50%);
-}
-
 .hero-divider {
   border-top: solid 1.5px var(--color-white);
   width: 15%;

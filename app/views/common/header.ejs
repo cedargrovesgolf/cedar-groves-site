@@ -1,11 +1,11 @@
 <!-- header.ejs -->
 <header
-  class="header background-img"
+  class="header background-img position-relative"
   style="
     background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.1)),
-      url('<%= heroImg %>');
-  ">
-  <div class="hero-text vflex">
+      url('<%= heroImg %>'); height: 100vh;">
+  <div
+    class="hero-text vflex color-w position-absolute w-100 translate-middle top-50 start-50">
     <h1 class="hero-heading display-4 text-center" style="line-height: 1">
       <%- heroTitle %>
     </h1>
