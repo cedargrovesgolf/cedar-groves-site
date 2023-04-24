@@ -35,7 +35,9 @@
               Check here for the most up-to-date hours of operation.
             </p>
             <h6 class="pb-2 pt-3 fw-bold">
-              <% if (openHour && closeHour) { %> 
+              <% if (overrideMsg) { %>
+                <%= overrideMsg %>
+              <% } else if (openHour && closeHour) { %> 
                 Monday &mdash; Sunday &emsp; <%= openHour.time %><span class="font-xs text-uppercase"><%= openHour.ampm %></span>
                 &mdash; <%= closeHour.time %><span class="font-xs text-uppercase"><%= closeHour.ampm %></span>
               <% } else { %> 

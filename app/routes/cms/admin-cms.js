@@ -17,6 +17,7 @@ router.get('/', async (req, res) => {
   };
   const openHour = await getItem({ ...baseQuery, keyValue: 'open' });
   const closeHour = await getItem({ ...baseQuery, keyValue: 'close' });
+  const overrideMsg = await getItem({ ...baseQuery, keyValue: 'override' });
 
   if (loggedIn) {
     const username = req.session.username;
@@ -26,6 +27,7 @@ router.get('/', async (req, res) => {
       user: username,
       openHour: openHour.hour.S,
       closeHour: closeHour.hour.S,
+      overrideMsg: overrideMsg.hour.S,
       updateSuccess: req.session.updateSuccess ?? null,
       updateError: req.session.updateError ?? null
     };

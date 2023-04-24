@@ -22,8 +22,10 @@ router.get('/', async (req, res) => {
     keyName: 'type',
     keyType: 'S'
   };
+  
   const openHour = await getItem({ ...baseQuery, keyValue: 'open' });
   const closeHour = await getItem({ ...baseQuery, keyValue: 'close' });
+  const overrideMsg = await getItem({ ...baseQuery, keyValue: 'override' });
 
   const reviews = [
     {
@@ -93,6 +95,7 @@ router.get('/', async (req, res) => {
     heroImg: 'assets/images/drone-1.jpg',
     openHour: get12Hr(openHour.hour.S),
     closeHour: get12Hr(closeHour.hour.S),
+    overrideMsg: overrideMsg.hour.S,
     reviews: reviews
   };
   // render the page
