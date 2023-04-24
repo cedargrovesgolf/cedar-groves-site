@@ -4,9 +4,11 @@
   <%- include('common/head.ejs', { pageTitle: 'Admin CMS' }); %>
   <body>
     <main class="main">
-      <% if (!loggedIn) { %> <%- include('partials/cms-login.ejs'); %> <% } else
-      { %> <%- include('partials/cms.ejs'); %> <% } %>
+      <% if (!loggedIn) { %> 
+        <%- include('partials/cms-login.ejs'); %> 
+      <% } else { %> 
+        <%- include('partials/cms.ejs'); %> 
+      <% } %>
     </main>
   </body>
-  <script src="scripts/form-control.js"></script>
 </html>

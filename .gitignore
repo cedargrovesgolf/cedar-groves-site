@@ -9,3 +9,4 @@ node_modules/
 .dynamodb/
 .vscode/
 .prettierrc
+.prettierignore

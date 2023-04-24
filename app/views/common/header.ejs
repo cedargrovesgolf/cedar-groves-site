@@ -1,18 +1,7 @@
 <!-- header.ejs -->
-<header
-  class="header background-img position-relative"
-  style="
-    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.1)),
-      url('<%= heroImg %>'); height: 100vh;">
+<header class="header">
   <div
-    class="hero-text vflex color-w position-absolute w-100 translate-middle top-50 start-50">
-    <h1 class="hero-heading display-4 text-center" style="line-height: 1">
-      <%- heroTitle %>
-    </h1>
-    <hr class="hero-divider opacity-100" />
-    <h5 class="hero-sub" style="font-style: italic"><%- heroSubtitle %></h5>
-  </div>
-  <div class="nav-area navbar navbar-expand p-3 transition">
+    class="nav-area navbar navbar-expand p-3 transition position-fixed w-100 z-3">
     <nav class="navbar-content container-fluid">
       <a href="/" class="logo vflex">
         <img src="assets/logo.svg" alt="Logo" style="width: 150px" />
@@ -28,6 +17,7 @@
       <div class="navbar-wrapper"><%- include('nav-links.html'); %></div>
     </nav>
   </div>
+
   <div class="nav-area offcanvas offcanvas-start bg-acc" id="mobile-nav">
     <nav class="container-fluid">
       <div class="offcanvas-header">
@@ -45,6 +35,17 @@
       </div>
       <div class="offcanvas-body"><%- include('nav-links.html'); %></div>
     </nav>
+  </div>
+
+  <div class="hero-img"><img src="<%= heroImg %>" alt="Hero Image" /></div>
+
+  <div
+    class="hero-text vflex color-w position-absolute w-100 translate-middle top-50 start-50">
+    <h1 class="hero-heading display-4 text-center" style="line-height: 1">
+      <%- heroTitle %>
+    </h1>
+    <hr class="hero-divider opacity-100" />
+    <h5 class="hero-sub" style="font-style: italic"><%= heroSubtitle %></h5>
   </div>
 </header>
 <script>

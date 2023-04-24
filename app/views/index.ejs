@@ -35,12 +35,12 @@
               Check here for the most up-to-date hours of operation.
             </p>
             <h6 class="pb-2 pt-3 fw-bold">
-              <% if (openHour && closeHour) { %> Monday &mdash; Sunday &emsp;
-              <%= openHour.time %>
-              <span class="font-xs text-uppercase"><%= openHour.ampm %></span>
-              &mdash; <%= closeHour.time %>
-              <span class="font-xs text-uppercase"><%= closeHour.ampm %></span>
-              <% } else { %> CLOSED <% } %>
+              <% if (openHour && closeHour) { %> 
+                Monday &mdash; Sunday &emsp; <%= openHour.time %><span class="font-xs text-uppercase"><%= openHour.ampm %></span>
+                &mdash; <%= closeHour.time %><span class="font-xs text-uppercase"><%= closeHour.ampm %></span>
+              <% } else { %> 
+                CLOSED 
+              <% } %>
             </h6>
             <div class="weather-widg">
               <a
@@ -54,13 +54,12 @@
                 CEDAR GROVES WEATHER
               </a>
             </div>
-            <script src="scripts/weather-widget.js" charset="utf-8"></script>
           </div>
           <div class="flex-eq">
             <img
               src="assets/images/drone-3.jpg"
               alt="Course"
-              class="shadow-2 border-rad img-anim" />
+              class="shadow-2 border-rad" />
           </div>
         </div>
       </div>
@@ -83,7 +82,7 @@
             <div class="flex-eq">
               <img
                 src="assets/images/drone-15.jpg"
-                class="border-rad img-anim shadow-2"
+                class="border-rad shadow-2"
                 alt="Range" />
             </div>
           </div>
@@ -91,7 +90,7 @@
             <div class="order flex-eq">
               <img
                 src="assets/images/drone-5.jpg"
-                class="border-rad img-anim shadow-2"
+                class="border-rad shadow-2"
                 alt="Member" />
             </div>
             <div class="vflex align-items-end flex-eq g-16">
@@ -140,172 +139,27 @@
           <div class="review-area w-100">
             <div class="swiper py-4 px-2">
               <div class="swiper-wrapper h-100">
-                <div class="swiper-slide">
+                <% reviews.forEach(item => { %>
+                  <div class="swiper-slide">
                   <div class="card vflex justify-content-start">
                     <div class="stars flex g-4">
                       <i class="bi bi-star-fill"></i>
                       <i class="bi bi-star-fill"></i>
                       <i class="bi bi-star-fill"></i>
                       <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
+                      <% if (item.stars === 5) { %>
+                        <i class="bi bi-star-fill"></i>
+                      <% } else { %>
+                        <i class="bi bi-star"></i>
+                      <% } %>
                     </div>
                     <p class="text-center fw-light py-2">
-                      I love this course, the people who work there are friendly
-                      and the course is great. I love the lay out and it has
-                      helped my my chip game a ton.
+                      <%= item.review %>
                     </p>
-                    <h6 class="text-center py-2 pb-4">Allan Shephard</h6>
+                    <h6 class="text-center py-2 pb-4"><%= item.author %></h6>
                   </div>
                 </div>
-                <div class="swiper-slide">
-                  <div class="card vflex justify-content-start">
-                    <div class="stars flex g-4">
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                    </div>
-                    <p class="text-center fw-light py-2">
-                      By far the most executive par 3 I have ever played. Best
-                      greens in the city and the tee boxes were very well
-                      maintained. I took my boss for a quick 9 after work and
-                      got a raise out of it.
-                    </p>
-                    <h6 class="text-center py-2 pb-4">Carson Dorcas</h6>
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="card vflex justify-content-start">
-                    <div class="stars flex g-4">
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                    </div>
-                    <p class="text-center fw-light py-2">
-                      Awesome place. Great staff. Ample tee areas. Great putting
-                      green. The only thing you really need is ice cream!
-                    </p>
-                    <h6 class="text-center py-2 pb-4">D Conzie Connell</h6>
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="card vflex justify-content-start">
-                    <div class="stars flex g-4">
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star"></i>
-                    </div>
-                    <p class="text-center fw-light py-2">
-                      A nice, challenging par 3 course. Greens are in good shape
-                      for how little rain we've had this year. Tee boxes have
-                      taken a beating, but is a lot of fun for the price!
-                    </p>
-                    <h6 class="text-center py-2 pb-4">Matthew Chase</h6>
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="card vflex justify-content-start">
-                    <div class="stars flex g-4">
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                    </div>
-                    <p class="text-center fw-light py-2">
-                      A great par 3 course, we are here every week.
-                    </p>
-                    <h6 class="text-center py-2 pb-4">Robert Brennan</h6>
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="card vflex justify-content-start">
-                    <div class="stars flex g-4">
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                    </div>
-                    <p class="text-center fw-light py-2">
-                      More challenging than I anticipated, which is great. I
-                      also loved that there was a recycling bin at each hole.
-                      *Patrons... please be courteous and use them!*
-                    </p>
-                    <h6 class="text-center py-2 pb-4">Denise Hutton</h6>
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="card vflex justify-content-start">
-                    <div class="stars flex g-4">
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star"></i>
-                    </div>
-                    <p class="text-center fw-light py-2">
-                      A great place to spend some time practicing on the driving
-                      range or the putting green. Very reasonably priced and the
-                      staff was friendly.
-                    </p>
-                    <h6 class="text-center py-2 pb-4">Brent</h6>
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="card vflex justify-content-start">
-                    <div class="stars flex g-4">
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                    </div>
-                    <p class="text-center fw-light py-2">
-                      This is a great par 3 course with the chance to open up
-                      with your driver a few times.
-                    </p>
-                    <h6 class="text-center py-2 pb-4">Mike Davidson</h6>
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="card vflex justify-content-start">
-                    <div class="stars flex g-4">
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                    </div>
-                    <p class="text-center fw-light py-2">
-                      Laid out well, staff is friendly. May be an executive par
-                      3, but it has its challenges. This course will test your
-                      irons.
-                    </p>
-                    <h6 class="text-center py-2 pb-4">Joe Cruise</h6>
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="card vflex justify-content-start">
-                    <div class="stars flex g-4">
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star"></i>
-                    </div>
-                    <p class="text-center fw-light py-2">
-                      Great 9 hole course with some excellent hazards to make it
-                      challenging.
-                    </p>
-                    <h6 class="text-center py-2 pb-4">Mike Goddard</h6>
-                  </div>
-                </div>
+                <% }); %>
               </div>
               <div class="swiper-pagination"></div>
               <div class="swiper-button-next"></div>
@@ -320,5 +174,4 @@
     </main>
     <%- include('common/footer.html'); %>
   </body>
-  <script src="scripts/swiper.js" defer></script>
 </html>
