@@ -1,0 +1,32 @@
+<!-- 404.ejs -->
+<html lang="en" class="scroll-padding">
+  <%- include('common/head.ejs', { pageTitle: 'Page Not Found' }); %>
+  <body>
+    <header>
+      <div class="flex w-100 justify-content-start bg-acc p-4">
+        <a href="/" class="logo">Cedar Groves</a>
+      </div>
+    </header>
+    <main class="main not-found">
+      <div
+        class="not-found-img background-img vflex g-16 p-3"
+        style="background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)),
+    url('assets/images/drone-15.jpg');">
+        <div class="flex g-32">
+          <h3 class="color-w text-center">Fore, Oh, Fore!</h3>
+          <img src="assets/icons/404.svg" alt="Fore" style="width: 3.5rem;" />
+        </div>
+        <h1 class="heading color-w lh-1 text-center" style="font-size: 110px;">
+          404
+        </h1>
+        <h3 class="color-w text-center">Oops! Page not found!</h3>
+        <p class="color-w text-center">
+          We couldn't find the page you're looking for. Please check the URL or
+          go back to the homepage.
+        </p>
+        <a href="/"><button class="button-2">Back to Homepage</button></a>
+      </div>
+    </main>
+    <%- include('common/footer.html'); %>
+  </body>
+</html>

@@ -346,7 +346,7 @@ a {
 }
 
 .button-3:hover {
-  opacity: 0.8;
+  background-color: #212f20;
 }
 
 .card,
@@ -635,6 +635,15 @@ a {
   .cms-wrapper .card {
     margin: 0 16px;
   }
+}
+
+/* 404 */
+.not-found {
+  height: calc(100vh - 297.6px - 78px);
+}
+
+.not-found-img {
+  height: calc(100vh - 297.6px - 78px);
 }
 
 /* footer */

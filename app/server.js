@@ -70,6 +70,9 @@ app.use('/cms/update-hours', updateHours);
 const logout = require('./routes/cms/logout');
 app.use('/logout', logout);
 
+const pageNotFound = require('./routes/404');
+app.use(pageNotFound);
+
 app.listen(port, () => {
   const appMsg = `
 Server started ! \u001B[32m✓\u001B[0m\x1B[3m\n\n\u001b[36;1mAccess URL:\u001b[0m\x1B[0m
