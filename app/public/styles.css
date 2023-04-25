@@ -646,10 +646,6 @@ a {
   height: calc(100vh - 297.6px - 78px);
 }
 
-.not-found-img {
-  height: calc(100vh - 297.6px - 78px);
-}
-
 /* footer */
 .footer-link,
 .social-area i {
