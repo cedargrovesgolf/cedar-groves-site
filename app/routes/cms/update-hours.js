@@ -36,11 +36,15 @@ router.post('/', async (req, res) => {
       updateHours('close', closeHour, isClosed),
       updateHours('override', overrideMsg, isClosed)
     ]);
-    req.session.updateSuccess = overrideMsg ? 'Message updated succuessfully!' : 'Hours updated successfully!';
+    req.session.updateSuccess = overrideMsg
+      ? 'Message updated succuessfully!'
+      : 'Hours updated successfully!';
     return res.redirect('/admin-cms');
   } catch (err) {
     console.error(err);
-    req.session.updateError = overrideMsg ? 'There was an error when updating the override message.' : 'There was an error when updating the hours.';
+    req.session.updateError = overrideMsg
+      ? 'There was an error when updating the override message.'
+      : 'There was an error when updating the hours.';
     return res.redirect('/admin-cms');
   }
 });
