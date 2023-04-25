@@ -4,7 +4,6 @@ const util = require('util');
 
 const dynamodb = new DynamoDB({ region: process.env.AWS_REGION });
 const dynamoQuery = util.promisify(dynamodb.getItem).bind(dynamodb);
-// const dynamoPut = util.promisify(dynamodb.putItem).bind(dynamodb);
 const dynamoUpdate = util.promisify(dynamodb.updateItem).bind(dynamodb);
 
 async function getItem(params) {
@@ -23,22 +22,6 @@ async function getItem(params) {
     return null;
   }
 }
-
-// async function putItem(params) {
-//   const data = {
-//     TableName: params.tableName,
-//     Item: {
-//       [params.itemName]: { [params.itemType]: params.itemValue }
-//     }
-//   };
-
-//   try {
-//     await dynamoPut(data);
-//   } catch (err) {
-//     console.log(`[DynamoDB Error]: ${err}`);
-//     return null;
-//   }
-// }
 
 async function updateItem(params) {
   const data = {
@@ -65,6 +48,5 @@ async function updateItem(params) {
 
 module.exports = {
   getItem,
-  // putItem,
   updateItem
 };

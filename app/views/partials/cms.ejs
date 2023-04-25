@@ -70,38 +70,6 @@
     </form>
   </div>
 </div>
-<div class="main-item ps flex">
-  <div class="card">
-    <div class="vflex">
-      <h5>Add to Photo Gallery</h5>
-      <hr class="heading-divider my-3" />
-    </div>
-    <form
-      action="cms/update-gallery"
-      method="POST"
-      class="needs-validation"
-      novalidate>
-      <div class="vflex">
-        <div class="vflex w-100">
-          <label for="formFile" class="form-label">
-            <small>Drag and drop or browse for a file</small>
-          </label>
-          <input
-            class="form-control border-rad"
-            type="file"
-            style="max-width: 700px"
-            required />
-        </div>
-        <button
-          class="button-3 mt-3"
-          type="submit"
-          style="width: 200px; padding: 12px">
-          Upload Photo
-        </button>
-      </div>
-    </form>
-  </div>
-</div>
 <script>
   $('#isClosed').on('change', function () {
     $('#openHour').prop('disabled', this.checked);
