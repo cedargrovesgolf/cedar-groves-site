@@ -523,6 +523,10 @@ a {
   .rates-area > .text-img-box {
     gap: 32px;
   }
+
+  .rates-wrapper > div:nth-child(2) .text-img-box > div:first-child {
+    order: 1;
+  }
 }
 
 /* aerial tour */
