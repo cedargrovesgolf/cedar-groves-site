@@ -1,6 +1,6 @@
-<p align="center"><img width="400" alt="Cedar Groves" src="https://user-images.githubusercontent.com/97645707/234726576-35f0823c-a3c5-47a4-9918-b67d4baa5c6e.png"></p>
+<p align="center"><img width="350" alt="Cedar Groves" src="https://user-images.githubusercontent.com/97645707/234726576-35f0823c-a3c5-47a4-9918-b67d4baa5c6e.png"></p>
 
-# Cedar Groves Executive Par 3 &amp; Driving Range
+# <p align="center">Cedar Groves Executive Par 3 &amp; Driving Range</p>
 This repository contains the codebase for the Cedar Groves Executive Par 3 & Driving Range website.<br>The website is built using Node.js and utilizes various front-end and backend technologies. 
 <br><br>
 Visit: https://cedargrovesgolf.ca
