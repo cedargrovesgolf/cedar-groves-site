@@ -474,13 +474,6 @@ a {
 }
 
 /* home */
-.weather-widg {
-  width: 325px;
-  height: 100px;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
 .review-area {
   position: relative;
   padding-inline: 32px;
@@ -511,6 +504,10 @@ a {
 
   .text-img-box .order {
     order: 1;
+  }
+
+  .weather-widget {
+    width: 100% !important;
   }
 }
 
