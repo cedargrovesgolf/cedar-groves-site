@@ -22,7 +22,7 @@ Cedar Groves Executive Par 3 & Driving Range
   const mailToClient = {
     from: `Cedar Groves Golf <${process.env.FROM_EMAIL}>`,
     to: to,
-    subject: subject,
+    subject: 'Feedback Received by Cedar Groves',
     text: clientMessage
   };
 
