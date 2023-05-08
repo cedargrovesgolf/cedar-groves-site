@@ -5,7 +5,7 @@
   <body>
     <%- include('common/header.ejs'); %>
     <main class="main">
-      <div class="main-item" id="submitted">
+      <div class="main-item">
         <div class="vflex">
           <h2 class="heading-noline display-5 text-center py-3">
             We'd Love to Hear From You
@@ -53,6 +53,7 @@
               class="contact needs-validation"
               method="POST"
               action="send-mail"
+              id="submitted"
               novalidate>
               <div class="row g-3 py-2">
                 <div class="col">
