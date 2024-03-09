@@ -117,12 +117,27 @@
                 <%= sentSuccess || sentError %>
               </div>
               <% } %>
-              <button class="button-1 my-2" type="submit">Send</button>
+              <div style="display:none;">
+                <input type="text" name="honeypot" value="" />
+              </div>
+              <input type="hidden" id="recaptchaResponse" name="recaptchaResponse">
+              <button 
+                class="button-1 my-2 g-recaptcha" 
+                data-sitekey="6LdTf5IpAAAAAN5-krGR4Dq3VbXF4Ge8FVDKBXcC" 
+                data-callback='onSubmit' 
+                data-action='submit'>Send</button>
             </form>
           </div>
         </div>
       </div>
     </main>
     <%- include('common/footer.html'); %>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+    <script>
+      function onSubmit(token) {
+        document.getElementById("recaptchaResponse").value = token;
+        document.getElementById("submitted").submit();
+      }
+    </script>
   </body>
 </html>
