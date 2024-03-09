@@ -1,10 +1,35 @@
 const express = require('express');
 const router = express.Router();
 const transporter = require('../helper/transporter');
+const validator = require('validator');
 
-router.post('/', (req, res) => {
-  const { firstName, lastName, to, subject, message } = req.body;
+router.post('/', async (req, res) => {
+  const { firstName, lastName, to, subject, message, honeypot, recaptchaResponse } = req.body;
 
+  if (!validator.isEmail(to)) {
+    req.session.sentError = 'Invalid email address.';
+    return res.redirect('/contact#submitted');
+  }
+
+  if (honeypot?.length) {
+    return res.redirect('/contact#submitted');
+  }
+
+  const secretKey = process.env.RECAPTCHA_SECRET_KEY;
+  const captchaUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${recaptchaResponse}`;
+  try {
+    const response = await fetch(captchaUrl, { method: 'POST' });
+    const data = await response.json();
+
+    if (!data.success) {
+      req.session.sentError = 'reCAPTCHA verification failed. Please try again.';
+      return res.redirect('/contact#submitted');
+    }
+  } catch (error) {
+    req.session.sentError = 'An error occurred during reCAPTCHA verification.';
+    res.redirect('/contact#submitted');
+  }
+  
   const clientMessage = `Dear ${firstName} ${lastName},
 The following message was received by Cedar Groves Golf Course:
 
@@ -39,6 +64,7 @@ ${message}`;
     text: businessMessage
   };
 
+
   transporter.sendMail(mailToBusiness, error => {
     if (error) {
       console.error(error);
@@ -50,11 +76,10 @@ ${message}`;
       console.error(error);
       req.session.sentError =
         'An error occurred while attempting to send your message.';
-      res.redirect('/contact#submitted');
     } else {
       req.session.sentSuccess = 'Sent. Thank you for your feedback!';
-      res.redirect('/contact#submitted');
     }
+    return res.redirect('/contact#submitted');
   });
 });
 
