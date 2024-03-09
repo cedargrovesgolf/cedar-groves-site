@@ -41,13 +41,11 @@ video {
 }
 
 body {
-  margin: 0;
   min-height: 100vh;
   font-family: 'Open Sans', sans-serif;
   color: var(--color-prim);
-  font-size: 15px;
+  font-size: 1rem;
   background-color: var(--color-main);
-  line-height: 2;
 }
 
 h1,

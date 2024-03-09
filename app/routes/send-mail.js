@@ -20,7 +20,6 @@ router.post('/', async (req, res) => {
   try {
     const response = await fetch(captchaUrl, { method: 'POST' });
     const data = await response.json();
-    console.log(data)
 
     if (!data.success) {
       req.session.sentError = 'reCAPTCHA verification failed. Please try again.';
