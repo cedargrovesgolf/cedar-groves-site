@@ -1,13 +1,37 @@
+# Logs
 logs
 *.log
 npm-debug.log*
-build/Release
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Dependency directories
 node_modules/
-.npm
+jspm_packages/
+
+# dotenv environment variables file
 .env
-.cache
+.env.*
+
+# DynamoDB Local files
 .dynamodb/
+
+
+# IDE / Editor specific files
 .vscode/
+
+# Mac OS specific files
+.DS_Store
+
+# Application specific
+app/public/assets
 .prettierrc
 .prettierignore
-.DS_Store
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties

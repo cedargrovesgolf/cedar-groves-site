@@ -93,9 +93,9 @@ router.get('/', async (req, res) => {
     heroTitle: 'Cedar Groves Executive<br>Par 3 & Driving Range',
     heroSubtitle: 'Golf Course & Driving Range',
     heroImg: 'assets/images/drone-1.jpg',
-    openHour: get12Hr(openHour.hour.S),
-    closeHour: get12Hr(closeHour.hour.S),
-    overrideMsg: overrideMsg.hour.S,
+    openHour: openHour && openHour.hour ? get12Hr(openHour.hour.S) : null,
+    closeHour: closeHour && closeHour.hour ? get12Hr(closeHour.hour.S) : null,
+    overrideMsg: overrideMsg && overrideMsg.hour ? overrideMsg.hour.S : null,
     reviews: reviews
   };
   // render the page

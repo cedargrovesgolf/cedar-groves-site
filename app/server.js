@@ -1,4 +1,3 @@
-/* server.js */
 require('dotenv').config({ path: './app/.env' });
 
 /* imports */
@@ -8,6 +7,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const { v4: uuidv4 } = require('uuid');
 const cookieParser = require('cookie-parser');
+const rateLimit = require('express-rate-limit');
 
 /* config */
 const port = process.env.PORT || 3000;
@@ -29,55 +29,43 @@ app.use(
     saveUninitialized: false
   })
 );
+app.use(rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 500,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: 'Too many requests, please try again after 15 minutes'
+}));
 
 /* routes */
 const index = require('./routes/index');
 app.use('/', index);
-
 const ratesFees = require('./routes/rates-fees');
 app.use('/rates-fees', ratesFees);
-
 const aerialTour = require('./routes/aerial-tour');
 app.use('/aerial-tour', aerialTour);
-
 const memberships = require('./routes/memberships');
 app.use('/memberships', memberships);
-
 const faq = require('./routes/faq');
 app.use('/faq', faq);
-
 const contact = require('./routes/contact');
 app.use('/contact', contact);
-
 const about = require('./routes/about');
 app.use('/about', about);
-
 const rulesRegulations = require('./routes/rules-regulations');
 app.use('/rules-regulations', rulesRegulations);
-
 const sendMail = require('./routes/send-mail');
 app.use('/send-mail', sendMail);
-
 const adminCms = require('./routes/cms/admin-cms');
 app.use('/admin-cms', adminCms);
-
 const auth = require('./routes/cms/auth');
 app.use('/cms/auth', auth);
-
 const updateHours = require('./routes/cms/update-hours');
 app.use('/cms/update-hours', updateHours);
-
 const logout = require('./routes/cms/logout');
 app.use('/logout', logout);
-
+app.get('/health', (req, res) => res.status(200).send('OK'));
 const pageNotFound = require('./routes/404');
 app.use(pageNotFound);
 
-app.listen(port, () => {
-  const appMsg = `
-Server started ! \u001B[32m✓\u001B[0m\x1B[3m\n\n\u001b[36;1mAccess URL:\u001b[0m\x1B[0m
----------------------
-http://localhost:${port}
----------------------`;
-  console.log(appMsg);
-});
+app.listen(port, () => console.log(`Server started on port: ${port}`));
