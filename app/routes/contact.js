@@ -6,7 +6,7 @@ router.get('/', (req, res) => {
   var body = {
     heroTitle: 'Contact Us',
     heroSubtitle: 'Let Us Know How We Can Help',
-    heroImg: 'assets/images/drone-20.jpg',
+    heroImg: 'https://cedar-groves-assets.s3.us-east-2.amazonaws.com/images/drone-20.jpg',
     sentSuccess: req.session.sentSuccess ?? null,
     sentError: req.session.sentError ?? null
   };

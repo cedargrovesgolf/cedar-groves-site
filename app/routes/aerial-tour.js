@@ -6,7 +6,7 @@ router.get('/', (req, res) => {
   var body = {
     heroTitle: 'Aerial Tour',
     heroSubtitle: 'Take Your Swing to New Heights',
-    heroImg: 'assets/images/drone-8.jpg'
+    heroImg: 'https://cedar-groves-assets.s3.us-east-2.amazonaws.com/images/drone-8.jpg'
   };
 
   let hole = req.query.hole;
@@ -77,15 +77,15 @@ router.get('/', (req, res) => {
     body = {
       ...body,
       holeNav: [
-        'assets/images/drone-1.jpg',
-        'assets/images/drone-17.jpg',
-        'assets/images/drone-21.jpg',
-        'assets/images/drone-20.jpg',
-        'assets/images/drone-7.jpg',
-        'assets/images/drone-5.jpg',
-        'assets/images/drone-9.jpg',
-        'assets/images/drone-11.jpg',
-        'assets/images/drone-12.jpg'
+        'https://cedar-groves-assets.s3.us-east-2.amazonaws.com/images/drone-1.jpg',
+        'https://cedar-groves-assets.s3.us-east-2.amazonaws.com/images/drone-17.jpg',
+        'https://cedar-groves-assets.s3.us-east-2.amazonaws.com/images/drone-21.jpg',
+        'https://cedar-groves-assets.s3.us-east-2.amazonaws.com/images/drone-20.jpg',
+        'https://cedar-groves-assets.s3.us-east-2.amazonaws.com/images/drone-7.jpg',
+        'https://cedar-groves-assets.s3.us-east-2.amazonaws.com/images/drone-5.jpg',
+        'https://cedar-groves-assets.s3.us-east-2.amazonaws.com/images/drone-9.jpg',
+        'https://cedar-groves-assets.s3.us-east-2.amazonaws.com/images/drone-11.jpg',
+        'https://cedar-groves-assets.s3.us-east-2.amazonaws.com/images/drone-12.jpg'
       ]
     };
   }

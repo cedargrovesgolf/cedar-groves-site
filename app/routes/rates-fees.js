@@ -87,7 +87,7 @@ router.get('/', (req, res) => {
   var body = {
     heroTitle: 'Rates & Fees',
     heroSubtitle: 'Affordable Golf for Every Player',
-    heroImg: 'assets/images/drone-2.jpg',
+    heroImg: 'https://cedar-groves-assets.s3.us-east-2.amazonaws.com/images/drone-2.jpg',
     ratesFees: ratesFees
   };
   // render the page

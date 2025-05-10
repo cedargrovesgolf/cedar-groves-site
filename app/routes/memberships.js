@@ -6,7 +6,7 @@ router.get('/', (req, res) => {
   var body = {
     heroTitle: 'Memberships',
     heroSubtitle: 'Join Our Community Today',
-    heroImg: 'assets/images/drone-22.jpg'
+    heroImg: 'https://cedar-groves-assets.s3.us-east-2.amazonaws.com/images/drone-22.jpg'
   };
   // render the page
   res.render('memberships', body);
