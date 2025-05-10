@@ -1,12 +1,20 @@
 /* dynamo-helper.js */
 const { DynamoDB } = require('@aws-sdk/client-dynamodb');
 const util = require('util');
+const { cache } = require('./cache');
 
 const dynamodb = new DynamoDB({ region: process.env.AWS_REGION });
 const dynamoQuery = util.promisify(dynamodb.getItem).bind(dynamodb);
 const dynamoUpdate = util.promisify(dynamodb.updateItem).bind(dynamodb);
 
 async function getItem(params) {
+  const cacheKey = `${params.tableName}-${params.keyName}-${params.keyValue}`;
+
+  const cachedItem = cache.get(cacheKey);
+  if (cachedItem !== undefined) {
+    return cachedItem;
+  }
+
   const query = {
     TableName: params.tableName,
     Key: {
@@ -16,7 +24,9 @@ async function getItem(params) {
 
   try {
     const data = await dynamoQuery(query);
-    return data.Item;
+    const result = data.Item;
+    cache.set(cacheKey, result);
+    return result;
   } catch (err) {
     console.log(`[DynamoDB Error]: ${err}`);
     return null;
@@ -38,8 +48,11 @@ async function updateItem(params) {
     }
   };
 
+
   try {
     await dynamoUpdate(data);
+    const cacheKey = `${params.tableName}-${params.keyName}-${params.keyValue}`;
+    cache.del(cacheKey);
   } catch (err) {
     console.log(`[DynamoDB Error]: ${err}`);
     return null;

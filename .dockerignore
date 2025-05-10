@@ -1,2 +1,21 @@
+# Dependencies
 node_modules
 npm-debug.log
+
+# Application specific
+app/public/assets
+
+# Development/Environment
+.git
+.gitignore
+.env
+.env.*
+.dockerignore
+.DS_Store
+Dockerfile
+docker-compose*.yml
+README.md
+*.md
+
+# IDE files
+.vscode
