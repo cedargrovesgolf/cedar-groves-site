@@ -14,6 +14,7 @@ const port = process.env.PORT || 3000;
 
 /* app */
 const app = express();
+app.set('trust proxy', 1);
 
 /* middlewares */
 app.use(express.static(path.join(__dirname, 'public')));
