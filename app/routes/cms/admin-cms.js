@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const { getItem } = require('../../helper/dynamo-helper');
+const { getRates, getMemberships, getSeasonYear } = require('../../helper/config-helper');
 
 router.get('/', async (req, res) => {
   const failedLogIn = req.cookies['failedLogIn'];
@@ -15,9 +16,16 @@ router.get('/', async (req, res) => {
     keyName: 'type',
     keyType: 'S'
   };
-  const openHour = await getItem({ ...baseQuery, keyValue: 'open' });
-  const closeHour = await getItem({ ...baseQuery, keyValue: 'close' });
-  const overrideMsg = await getItem({ ...baseQuery, keyValue: 'override' });
+
+  const [openHour, closeHour, overrideMsg, rates, memberships, seasonYear] =
+    await Promise.all([
+      getItem({ ...baseQuery, keyValue: 'open' }),
+      getItem({ ...baseQuery, keyValue: 'close' }),
+      getItem({ ...baseQuery, keyValue: 'override' }),
+      getRates(),
+      getMemberships(),
+      getSeasonYear()
+    ]);
 
   if (loggedIn) {
     const username = req.session.username;
@@ -28,6 +36,9 @@ router.get('/', async (req, res) => {
       openHour: openHour.hour.S,
       closeHour: closeHour.hour.S,
       overrideMsg: overrideMsg.hour.S,
+      rates: rates || {},
+      memberships: memberships || {},
+      seasonYear: seasonYear || '',
       updateSuccess: req.session.updateSuccess ?? null,
       updateError: req.session.updateError ?? null
     };

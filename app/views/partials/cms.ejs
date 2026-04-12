@@ -2,13 +2,20 @@
   <h2 class="text-center">Admin Content Management System</h2>
   <a href="/logout" class="flex transition hover">Log Out</a>
 </div>
+<% if (updateSuccess || updateError) { %>
+<div
+  class="text-<%= updateSuccess ? 'success' : 'danger' %> text-center border-rad px-4"
+  role="alert">
+  <%= updateSuccess || updateError %>
+</div>
+<% } %>
 <div class="main-item ps flex">
   <div class="card">
     <div class="vflex">
       <h5>Modify Hours</h5>
       <hr class="heading-divider my-3" />
     </div>
-    <form action="cms/update-hours" method="POST">
+    <form action="/cms/update-config/hours" method="POST">
       <div class="vflex">
         <small>Hours must be in 24-hour format</small>
         <div class="vflex g-24 py-3 w-100">
@@ -53,18 +60,167 @@
             <label class="form-check-label pt-1">CLOSED</label>
           </div>
         </div>
-        <% if (updateSuccess || updateError) { %>
-        <div
-          class="text-<%= updateSuccess ? 'success' : 'danger' %> text-center border-rad"
-          role="alert">
-          <%= updateSuccess || updateError %>
-        </div>
-        <% } %>
         <button
           class="button-3 mt-3"
           type="submit"
           style="width: 200px; padding: 12px">
           Save Hours
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="main-item ps flex">
+  <div class="card">
+    <div class="vflex">
+      <h5>Modify Season Year</h5>
+      <hr class="heading-divider my-3" />
+    </div>
+    <form action="/cms/update-config/season" method="POST">
+      <div class="vflex g-24 py-3 w-100">
+        <div class="input-group" style="max-width: 200px">
+          <input
+            class="form-control border-rad"
+            type="text"
+            value="<%= seasonYear %>"
+            name="year"
+            placeholder="e.g. 2026"
+            autocomplete="off" />
+        </div>
+        <button
+          class="button-3 mt-3"
+          type="submit"
+          style="width: 200px; padding: 12px">
+          Save Season Year
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="main-item ps flex">
+  <div class="card">
+    <div class="vflex">
+      <h5>Modify Rates & Fees</h5>
+      <hr class="heading-divider my-3" />
+    </div>
+    <form action="/cms/update-config/rates" method="POST">
+      <div class="vflex g-24 py-3 w-100">
+        <small>Enter prices as numbers without the $ sign</small>
+        <h6>The Course</h6>
+        <div class="vflex g-8 w-100" style="max-width: 400px">
+          <div class="flex justify-content-between w-100 g-8">
+            <label>9 Hole</label>
+            <input class="form-control border-rad" style="max-width: 120px" type="text" name="course_9hole" value="<%= rates.course_9hole %>" autocomplete="off" />
+          </div>
+          <div class="flex justify-content-between w-100 g-8">
+            <label>9 Hole - Senior</label>
+            <input class="form-control border-rad" style="max-width: 120px" type="text" name="course_9hole_senior" value="<%= rates.course_9hole_senior %>" autocomplete="off" />
+          </div>
+          <div class="flex justify-content-between w-100 g-8">
+            <label>9 Hole - Junior</label>
+            <input class="form-control border-rad" style="max-width: 120px" type="text" name="course_9hole_junior" value="<%= rates.course_9hole_junior %>" autocomplete="off" />
+          </div>
+          <div class="flex justify-content-between w-100 g-8">
+            <label>18 Hole</label>
+            <input class="form-control border-rad" style="max-width: 120px" type="text" name="course_18hole" value="<%= rates.course_18hole %>" autocomplete="off" />
+          </div>
+          <div class="flex justify-content-between w-100 g-8">
+            <label>18 Hole - Senior</label>
+            <input class="form-control border-rad" style="max-width: 120px" type="text" name="course_18hole_senior" value="<%= rates.course_18hole_senior %>" autocomplete="off" />
+          </div>
+          <div class="flex justify-content-between w-100 g-8">
+            <label>18 Hole - Junior</label>
+            <input class="form-control border-rad" style="max-width: 120px" type="text" name="course_18hole_junior" value="<%= rates.course_18hole_junior %>" autocomplete="off" />
+          </div>
+        </div>
+        <h6>Driving Range</h6>
+        <div class="vflex g-8 w-100" style="max-width: 400px">
+          <div class="flex justify-content-between w-100 g-8">
+            <label>S Bucket - 25 Balls</label>
+            <input class="form-control border-rad" style="max-width: 120px" type="text" name="range_s" value="<%= rates.range_s %>" autocomplete="off" />
+          </div>
+          <div class="flex justify-content-between w-100 g-8">
+            <label>M Bucket - 50 Balls</label>
+            <input class="form-control border-rad" style="max-width: 120px" type="text" name="range_m" value="<%= rates.range_m %>" autocomplete="off" />
+          </div>
+          <div class="flex justify-content-between w-100 g-8">
+            <label>L Bucket - 75 Balls</label>
+            <input class="form-control border-rad" style="max-width: 120px" type="text" name="range_l" value="<%= rates.range_l %>" autocomplete="off" />
+          </div>
+          <div class="flex justify-content-between w-100 g-8">
+            <label>XL Bucket - 100 Balls</label>
+            <input class="form-control border-rad" style="max-width: 120px" type="text" name="range_xl" value="<%= rates.range_xl %>" autocomplete="off" />
+          </div>
+          <div class="flex justify-content-between w-100 g-8">
+            <label>Grass Tee Box</label>
+            <input class="form-control border-rad" style="max-width: 120px" type="text" name="range_grass" value="<%= rates.range_grass %>" autocomplete="off" />
+          </div>
+        </div>
+        <h6>Amenities</h6>
+        <div class="vflex g-8 w-100" style="max-width: 400px">
+          <div class="flex justify-content-between w-100 g-8">
+            <label>Rental Set</label>
+            <input class="form-control border-rad" style="max-width: 120px" type="text" name="amenity_rental" value="<%= rates.amenity_rental %>" autocomplete="off" />
+          </div>
+          <div class="flex justify-content-between w-100 g-8">
+            <label>Pull Cart</label>
+            <input class="form-control border-rad" style="max-width: 120px" type="text" name="amenity_pullcart" value="<%= rates.amenity_pullcart %>" autocomplete="off" />
+          </div>
+          <div class="flex justify-content-between w-100 g-8">
+            <label>Recycled Balls (5 Pack)</label>
+            <input class="form-control border-rad" style="max-width: 120px" type="text" name="amenity_balls" value="<%= rates.amenity_balls %>" autocomplete="off" />
+          </div>
+          <div class="flex justify-content-between w-100 g-8">
+            <label>Tees (15 Pack)</label>
+            <input class="form-control border-rad" style="max-width: 120px" type="text" name="amenity_tees" value="<%= rates.amenity_tees %>" autocomplete="off" />
+          </div>
+          <div class="flex justify-content-between w-100 g-8">
+            <label>Water</label>
+            <input class="form-control border-rad" style="max-width: 120px" type="text" name="amenity_water" value="<%= rates.amenity_water %>" autocomplete="off" />
+          </div>
+          <div class="flex justify-content-between w-100 g-8">
+            <label>Gatorade</label>
+            <input class="form-control border-rad" style="max-width: 120px" type="text" name="amenity_gatorade" value="<%= rates.amenity_gatorade %>" autocomplete="off" />
+          </div>
+          <div class="flex justify-content-between w-100 g-8">
+            <label>Chocolate Bars, Chips, Pop</label>
+            <input class="form-control border-rad" style="max-width: 120px" type="text" name="amenity_snacks" value="<%= rates.amenity_snacks %>" autocomplete="off" />
+          </div>
+        </div>
+        <button
+          class="button-3 mt-3"
+          type="submit"
+          style="width: 200px; padding: 12px">
+          Save Rates
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="main-item ps flex">
+  <div class="card">
+    <div class="vflex">
+      <h5>Modify Membership Prices</h5>
+      <hr class="heading-divider my-3" />
+    </div>
+    <form action="/cms/update-config/memberships" method="POST">
+      <div class="vflex g-24 py-3 w-100">
+        <small>Enter prices as numbers without the $ sign</small>
+        <div class="vflex g-8 w-100" style="max-width: 400px">
+          <div class="flex justify-content-between w-100 g-8">
+            <label>Season Pass</label>
+            <input class="form-control border-rad" style="max-width: 120px" type="text" name="seasonPass" value="<%= memberships.seasonPass %>" autocomplete="off" />
+          </div>
+          <div class="flex justify-content-between w-100 g-8">
+            <label>10-Round Pass</label>
+            <input class="form-control border-rad" style="max-width: 120px" type="text" name="tenRoundPass" value="<%= memberships.tenRoundPass %>" autocomplete="off" />
+          </div>
+        </div>
+        <button
+          class="button-3 mt-3"
+          type="submit"
+          style="width: 200px; padding: 12px">
+          Save Membership Prices
         </button>
       </div>
     </form>
