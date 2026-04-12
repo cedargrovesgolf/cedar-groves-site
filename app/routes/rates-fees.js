@@ -1,94 +1,58 @@
 /* ./routes/rates-fees.js */
 const express = require('express');
 const router = express.Router();
+const { getRates, getSeasonYear } = require('../helper/config-helper');
 
-router.get('/', (req, res) => {
-  const ratesFees = [
+function buildRatesFees(rates) {
+  return [
     {
       title: 'The Course',
       image: 9,
       rates: [
-        {
-          desc: '9 Hole',
-          price: '$25'
-        },
-        {
-          desc: '9 Hole - Senior',
-          price: '$20'
-        },
-        {
-          desc: '9 Hole - Junior',
-          price: '$15'
-        },
-        {
-          desc: '18 Hole',
-          price: '$36'
-        },
-        {
-          desc: '18 Hole - Senior',
-          price: '$28'
-        },
-        {
-          desc: '18 Hole - Junior',
-          price: '$23'
-        }
+        { desc: '9 Hole', price: `$${rates.course_9hole}` },
+        { desc: '9 Hole - Senior', price: `$${rates.course_9hole_senior}` },
+        { desc: '9 Hole - Junior', price: `$${rates.course_9hole_junior}` },
+        { desc: '18 Hole', price: `$${rates.course_18hole}` },
+        { desc: '18 Hole - Senior', price: `$${rates.course_18hole_senior}` },
+        { desc: '18 Hole - Junior', price: `$${rates.course_18hole_junior}` }
       ]
     },
     {
       title: 'Driving Range',
       image: 15,
       rates: [
-        {
-          desc: 'S Bucket - 25 Balls',
-          price: '$3.50'
-        },
-        {
-          desc: 'M Bucket - 50 Balls',
-          price: '$7'
-        },
-        {
-          desc: 'L Bucket - 75 Balls',
-          price: '$10.50'
-        },
-        {
-          desc: 'XL Bucket - 100 Balls',
-          price: '$14'
-        },
-        {
-          desc: 'Grass Tee Box',
-          price: '$3'
-        }
+        { desc: 'S Bucket - 25 Balls', price: `$${rates.range_s}` },
+        { desc: 'M Bucket - 50 Balls', price: `$${rates.range_m}` },
+        { desc: 'L Bucket - 75 Balls', price: `$${rates.range_l}` },
+        { desc: 'XL Bucket - 100 Balls', price: `$${rates.range_xl}` },
+        { desc: 'Grass Tee Box', price: `$${rates.range_grass}` }
       ]
     },
     {
       title: 'Amenities',
       image: 6,
       rates: [
-        {
-          desc: 'Rental Set',
-          price: '$12'
-        },
-        {
-          desc: 'Pull Cart',
-          price: '$5'
-        },
-        {
-          desc: 'Recycled Balls (6 Pack)',
-          price: '$5'
-        },
-        {
-          desc: 'Tees (15 Pack)',
-          price: '$1'
-        }
+        { desc: 'Rental Set', price: `$${rates.amenity_rental}` },
+        { desc: 'Pull Cart', price: `$${rates.amenity_pullcart}` },
+        { desc: 'Recycled Balls (5 Pack)', price: `$${rates.amenity_balls}` },
+        { desc: 'Tees (15 Pack)', price: `$${rates.amenity_tees}` },
+        { desc: 'Water', price: `$${rates.amenity_water}` },
+        { desc: 'Gatorade', price: `$${rates.amenity_gatorade}` },
+        { desc: 'Chocolate Bars, Chips, Pop', price: `$${rates.amenity_snacks}` }
       ]
     }
   ];
+}
+
+router.get('/', async (req, res) => {
+  const [rates, seasonYear] = await Promise.all([getRates(), getSeasonYear()]);
 
   var body = {
     heroTitle: 'Rates & Fees',
     heroSubtitle: 'Affordable Golf for Every Player',
     heroImg: 'https://cedar-groves-assets.s3.us-east-2.amazonaws.com/images/drone-2.jpg',
-    ratesFees: ratesFees
+    ratesFees: rates ? buildRatesFees(rates) : null,
+    seasonYear: seasonYear
   };
   // render the page
   res.render('rates-fees', body);

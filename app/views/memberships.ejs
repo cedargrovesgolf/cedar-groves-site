@@ -51,9 +51,10 @@
         <h2 class="heading display-5 text-center">Season Pass Rates</h2>
         <p class="text-center text-restrict pb-5">
           Take your golf game to the next level with our
-          <span id="year"></span>
+          <% if (seasonYear) { %><%= seasonYear %><% } %>
           membership packages.
         </p>
+        <% if (seasonPass && tenRoundPass) { %>
         <div class="price-cards res-flex g-32 pb-5">
           <div class="card-s vflex flex-eq g-16 p-5">
             <h4 class="text-center">Year Round</h4>
@@ -74,7 +75,7 @@
               <div
                 class="flex g-4 color-main bg-acc px-5 py-3 border-rad shadow-2"
                 style="font-weight: 600">
-                <h3>$500</h3>
+                <h3>$<%= seasonPass %></h3>
                 <span class="font-sm">TAX INC.</span>
               </div>
             </div>
@@ -96,12 +97,17 @@
               <div
                 class="flex g-4 color-main bg-acc px-5 py-3 border-rad shadow-2"
                 style="font-weight: 600">
-                <h3>$225</h3>
+                <h3>$<%= tenRoundPass %></h3>
                 <span class="font-sm">TAX INC.</span>
               </div>
             </div>
           </div>
         </div>
+        <% } else { %>
+        <div class="vflex py-5">
+          <p class="text-center">Membership pricing will be available soon. Please call us for current rates.</p>
+        </div>
+        <% } %>
       </div>
       <div
         class="flex shadow-2 background-img"
