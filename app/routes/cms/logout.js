@@ -2,10 +2,14 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  req.session.loggedin = null;
-  req.session.username = null;
-  res.redirect('/admin-cms');
+router.get('/', (req, res, next) => {
+  req.session.destroy(err => {
+    if (err) {
+      return next(err);
+    }
+    res.clearCookie('connect.sid');
+    res.redirect('/admin-cms');
+  });
 });
 
 module.exports = router;

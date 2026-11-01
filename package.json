@@ -24,7 +24,6 @@
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.1161.0",
     "bcrypt": "^6.0.0",
-    "cookie-parser": "^1.4.7",
     "dotenv": "^16.0.3",
     "ejs": "^7.0.2",
     "express": "^4.22.3",

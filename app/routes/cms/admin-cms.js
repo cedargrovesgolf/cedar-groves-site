@@ -5,8 +5,8 @@ const { getItem } = require('../../helper/dynamo-helper');
 const { getRates, getMemberships, getSeasonYear } = require('../../helper/config-helper');
 
 router.get('/', async (req, res) => {
-  const failedLogIn = req.cookies['failedLogIn'];
-  res.clearCookie('failedLogIn');
+  const failedLogIn = req.session.failedLogIn ?? false;
+  delete req.session.failedLogIn;
 
   const loggedIn = req.session.loggedin;
   let body;
