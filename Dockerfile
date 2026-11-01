@@ -8,8 +8,6 @@ RUN npm ci
 
 COPY app ./app
 
-ENV HOST 127.0.0.1
-
 USER node
 
 CMD [ "npm", "start" ]

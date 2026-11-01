@@ -1,5 +1,7 @@
 #!/bin/bash
 #build.sh
-docker build -t $ECR/$CIRCLE_PROJECT_REPONAME:$VERSION -t $ECR/$CIRCLE_PROJECT_REPONAME:latest .
-docker push $ECR/$CIRCLE_PROJECT_REPONAME:$VERSION
-docker push $ECR/$CIRCLE_PROJECT_REPONAME:latest
+set -eo pipefail
+IMAGE=$ECR/$CIRCLE_PROJECT_REPONAME
+docker build -t $IMAGE:$CIRCLE_SHA1 -t $IMAGE:latest .
+docker push $IMAGE:$CIRCLE_SHA1
+docker push $IMAGE:latest
