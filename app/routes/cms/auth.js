@@ -4,7 +4,7 @@ const router = express.Router();
 const { getItem } = require('../../helper/dynamo-helper');
 const { compareHash } = require('../../helper/hash');
 
-router.post('/', async (req, res) => {
+router.post('/', async (req, res, next) => {
   const { username, password, rememberMe } = req.body;
 
   const userQuery = {
@@ -20,19 +20,21 @@ router.post('/', async (req, res) => {
     username === user.username.S &&
     compareHash(password, user.passwordHash.S)
   ) {
-    req.session.loggedin = true;
-    req.session.username = username;
+    return req.session.regenerate(err => {
+      if (err) {
+        return next(err);
+      }
+      req.session.loggedin = true;
+      req.session.username = username;
 
-    if (rememberMe) {
-      res.cookie('rememberMe', '1', {
-        maxAge: 30 * 24 * 60 * 60 * 1000,
-        secure: true,
-        httpOnly: true
-      });
-    }
-  } else {
-    res.cookie('failedLogIn', true);
+      if (rememberMe) {
+        req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000;
+      }
+      res.redirect('/admin-cms');
+    });
   }
+
+  req.session.failedLogIn = true;
   res.redirect('/admin-cms');
 });
 
