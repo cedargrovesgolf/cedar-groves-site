@@ -16,6 +16,7 @@ router.post('/', async (req, res) => {
   const user = await getItem(userQuery);
 
   if (
+    user &&
     username === user.username.S &&
     compareHash(password, user.passwordHash.S)
   ) {

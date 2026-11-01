@@ -5,7 +5,7 @@
   "scripts": {
     "build": "chmod +x scripts/build.sh && ./scripts/build.sh",
     "deploy": "chmod +x scripts/deploy.sh && ./scripts/deploy.sh",
-    "dev": "nodemon app/server.js",
+    "dev": "node --watch app/server.js",
     "start": "node app/server.js"
   },
   "repository": {
@@ -18,21 +18,21 @@
     "url": "https://github.com/cedargrovesgolf/cedar-groves-site/issues"
   },
   "homepage": "https://github.com/cedargrovesgolf/cedar-groves-site#readme",
+  "engines": {
+    "node": ">=20"
+  },
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.312.0",
-    "bcrypt": "^5.1.0",
-    "body-parser": "^1.20.2",
-    "cookie-parser": "^1.4.6",
+    "@aws-sdk/client-dynamodb": "^3.1161.0",
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
     "dotenv": "^16.0.3",
-    "ejs": "^3.1.8",
-    "express": "^4.18.2",
+    "ejs": "^7.0.2",
+    "express": "^4.22.3",
     "express-rate-limit": "^7.5.0",
-    "express-session": "^1.17.3",
-    "express-validator": "^7.0.1",
+    "express-session": "^1.19.0",
+    "express-validator": "^7.3.2",
     "node-cache": "^5.1.2",
-    "nodemailer": "^6.9.12",
-    "nodemon": "^3.1.10",
-    "semver": "^7.6.0",
-    "uuid": "^9.0.0"
+    "nodemailer": "^10.3.1",
+    "validator": "^13.15.35"
   }
 }

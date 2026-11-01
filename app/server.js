@@ -3,9 +3,8 @@ require('dotenv').config({ path: './app/.env' });
 /* imports */
 const express = require('express');
 const path = require('path');
-const bodyParser = require('body-parser');
+const crypto = require('crypto');
 const session = require('express-session');
-const { v4: uuidv4 } = require('uuid');
 const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
 
@@ -18,14 +17,14 @@ app.set('trust proxy', 1);
 
 /* middlewares */
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(cookieParser());
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
 app.use(
   session({
-    secret: uuidv4(),
+    secret: crypto.randomBytes(32).toString('hex'),
     resave: false,
     saveUninitialized: false
   })

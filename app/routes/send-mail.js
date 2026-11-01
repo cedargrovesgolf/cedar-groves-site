@@ -27,7 +27,7 @@ router.post('/', async (req, res) => {
     }
   } catch (error) {
     req.session.sentError = 'An error occurred during reCAPTCHA verification.';
-    res.redirect('/contact#submitted');
+    return res.redirect('/contact#submitted');
   }
   
   const clientMessage = `Dear ${firstName} ${lastName},
