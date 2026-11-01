@@ -14,7 +14,7 @@ const loginLimiter = rateLimit({
 });
 
 router.post('/', loginLimiter, async (req, res, next) => {
-  const { username, password, rememberMe } = req.body;
+  const { username, password, rememberMe } = req.body ?? {};
 
   const userQuery = {
     tableName: 'cedar-groves-cms-users',

@@ -15,8 +15,18 @@ const sendMailLimiter = rateLimit({
 const isText = (value, maxLength) =>
   typeof value === 'string' && value.length <= maxLength;
 
+const recaptchaHostname = 'cedargrovesgolf.ca';
+const recaptchaMinScore = 0.5;
+
+const isHumanSubmission = data =>
+  data.success === true &&
+  data.action === 'submit' &&
+  data.hostname === recaptchaHostname &&
+  typeof data.score === 'number' &&
+  data.score >= recaptchaMinScore;
+
 router.post('/', sendMailLimiter, async (req, res) => {
-  const { firstName, lastName, to, subject, message, honeypot, recaptchaResponse } = req.body;
+  const { firstName, lastName, to, subject, message, honeypot, recaptchaResponse } = req.body ?? {};
 
   if (honeypot?.length) {
     return res.redirect('/contact#submitted');
@@ -49,7 +59,7 @@ router.post('/', sendMailLimiter, async (req, res) => {
     });
     const data = await response.json();
 
-    if (!data.success) {
+    if (!isHumanSubmission(data)) {
       req.session.sentError = 'reCAPTCHA verification failed. Please try again.';
       return res.redirect('/contact#submitted');
     }

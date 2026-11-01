@@ -5,6 +5,7 @@ const express = require('express');
 const path = require('path');
 const crypto = require('crypto');
 const session = require('express-session');
+const MemoryStore = require('memorystore')(session);
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 
@@ -53,11 +54,20 @@ app.set('views', __dirname + '/views');
 app.use(
   session({
     secret: crypto.randomBytes(32).toString('hex'),
+    store: new MemoryStore({ checkPeriod: 24 * 60 * 60 * 1000 }),
     resave: false,
     saveUninitialized: false,
     cookie: { sameSite: 'lax' }
   })
 );
+app.use((req, res, next) => {
+  const fetchSite = req.get('Sec-Fetch-Site');
+  const isSafeMethod = req.method === 'GET' || req.method === 'HEAD';
+  if (!isSafeMethod && fetchSite && fetchSite !== 'same-origin' && fetchSite !== 'none') {
+    return res.sendStatus(403);
+  }
+  next();
+});
 app.use(rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 500,
@@ -96,5 +106,12 @@ app.use('/logout', logout);
 app.get('/health', (req, res) => res.status(200).send('OK'));
 const pageNotFound = require('./routes/404');
 app.use(pageNotFound);
+app.use((err, req, res, next) => {
+  console.error(err);
+  if (res.headersSent) {
+    return next(err);
+  }
+  res.status(500).send('Something went wrong. Please try again later.');
+});
 
 app.listen(port, () => console.log(`Server started on port: ${port}`));
