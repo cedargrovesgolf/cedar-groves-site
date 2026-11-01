@@ -1,10 +1,19 @@
 /* ./routes/cms/auth.js */
 const express = require('express');
 const router = express.Router();
+const rateLimit = require('express-rate-limit');
 const { getItem } = require('../../helper/dynamo-helper');
 const { compareHash } = require('../../helper/hash');
 
-router.post('/', async (req, res, next) => {
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: 'Too many login attempts, please try again after 15 minutes'
+});
+
+router.post('/', loginLimiter, async (req, res, next) => {
   const { username, password, rememberMe } = req.body;
 
   const userQuery = {
@@ -14,12 +23,13 @@ router.post('/', async (req, res, next) => {
     keyValue: '0'
   };
   const user = await getItem(userQuery);
+  const usernameMatches = typeof username === 'string' && username === user?.username.S;
+  const passwordMatches = await compareHash(
+    typeof password === 'string' ? password : '',
+    usernameMatches ? user.passwordHash.S : undefined
+  );
 
-  if (
-    user &&
-    username === user.username.S &&
-    compareHash(password, user.passwordHash.S)
-  ) {
+  if (usernameMatches && passwordMatches) {
     return req.session.regenerate(err => {
       if (err) {
         return next(err);

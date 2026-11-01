@@ -1,6 +1,8 @@
 <div class="vflex g-8 p-4">
   <h2 class="text-center">Admin Content Management System</h2>
-  <a href="/logout" class="flex transition hover">Log Out</a>
+  <form method="post" action="/logout">
+    <button type="submit" class="link-button flex transition hover">Log Out</button>
+  </form>
 </div>
 <% if (updateSuccess || updateError) { %>
 <div

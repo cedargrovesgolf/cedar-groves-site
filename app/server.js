@@ -54,7 +54,8 @@ app.use(
   session({
     secret: crypto.randomBytes(32).toString('hex'),
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    cookie: { sameSite: 'lax' }
   })
 );
 app.use(rateLimit({
