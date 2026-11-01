@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: cimg/node:lts
+      - image: cimg/node:lts@sha256:109dac28a6a4af213fccf5776583d87092b3d919b18fed315e344f73cb36136a
     steps:
       - setup_remote_docker
       - checkout
@@ -22,7 +22,7 @@ jobs:
           command: npm run build
   deploy:
     docker:
-      - image: cimg/node:lts
+      - image: cimg/node:lts@sha256:109dac28a6a4af213fccf5776583d87092b3d919b18fed315e344f73cb36136a
     steps:
       - checkout
       - run:
@@ -46,3 +46,7 @@ workflows:
       - deploy:
           requires:
             - build
+          filters:
+            branches:
+              only:
+                - main

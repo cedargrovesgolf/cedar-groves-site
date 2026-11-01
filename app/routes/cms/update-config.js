@@ -3,6 +3,13 @@ const express = require('express');
 const router = express.Router();
 const { updateItem } = require('../../helper/dynamo-helper');
 
+router.use((req, res, next) => {
+  if (!req.session.loggedin) {
+    return res.redirect('/admin-cms');
+  }
+  next();
+});
+
 const baseQuery = {
   tableName: 'cedar-groves-hours',
   keyName: 'type',

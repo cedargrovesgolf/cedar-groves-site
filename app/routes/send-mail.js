@@ -1,24 +1,52 @@
 const express = require('express');
 const router = express.Router();
+const rateLimit = require('express-rate-limit');
 const transporter = require('../helper/transporter');
 const validator = require('validator');
 
-router.post('/', async (req, res) => {
-  const { firstName, lastName, to, subject, message, honeypot, recaptchaResponse } = req.body;
+const sendMailLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  limit: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: 'Too many messages sent, please try again in an hour'
+});
 
-  if (!validator.isEmail(to)) {
-    req.session.sentError = 'Invalid email address.';
-    return res.redirect('/contact#submitted');
-  }
+const isText = (value, maxLength) =>
+  typeof value === 'string' && value.length <= maxLength;
+
+router.post('/', sendMailLimiter, async (req, res) => {
+  const { firstName, lastName, to, subject, message, honeypot, recaptchaResponse } = req.body;
 
   if (honeypot?.length) {
     return res.redirect('/contact#submitted');
   }
 
-  const secretKey = process.env.RECAPTCHA_SECRET_KEY;
-  const captchaUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${recaptchaResponse}`;
+  if (
+    !isText(firstName, 100) ||
+    !isText(lastName, 100) ||
+    !isText(subject, 200) ||
+    !isText(message, 5000) ||
+    !isText(recaptchaResponse, 4000)
+  ) {
+    req.session.sentError = 'Please check your message and try again.';
+    return res.redirect('/contact#submitted');
+  }
+
+  if (typeof to !== 'string' || !validator.isEmail(to)) {
+    req.session.sentError = 'Invalid email address.';
+    return res.redirect('/contact#submitted');
+  }
+
   try {
-    const response = await fetch(captchaUrl, { method: 'POST' });
+    const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+      method: 'POST',
+      body: new URLSearchParams({
+        secret: process.env.RECAPTCHA_SECRET_KEY,
+        response: recaptchaResponse,
+        remoteip: req.ip
+      })
+    });
     const data = await response.json();
 
     if (!data.success) {
@@ -30,16 +58,10 @@ router.post('/', async (req, res) => {
     return res.redirect('/contact#submitted');
   }
   
-  const clientMessage = `Dear ${firstName} ${lastName},
-The following message was received by Cedar Groves Golf Course:
+  const clientMessage = `Hello,
 
-From: ${firstName} ${lastName}
-Email: ${to}
+Thank you for contacting Cedar Groves Golf Course. We have received your message and will get back to you as soon as possible.
 
-Subject: ${subject}
-${message}
-
-Thank you for your feedback,
 Cedar Groves Executive Par 3 & Driving Range`;
 
   const mailToClient = {

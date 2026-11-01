@@ -68,6 +68,13 @@ a {
   --bs-link-hover-color: currentColor;
 }
 
+.link-button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-prim);
+}
+
 .scroll-padding {
   scroll-padding-top: 78px !important;
 }

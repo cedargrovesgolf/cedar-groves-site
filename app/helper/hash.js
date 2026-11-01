@@ -1,14 +1,17 @@
 /* hash.js */
 const bcrypt = require('bcrypt');
 
+const saltRounds = 10;
+const dummyHash = bcrypt.hashSync('', saltRounds);
+
 function hash(password) {
-  const saltRounds = 10;
   const salt = bcrypt.genSaltSync(saltRounds);
   return bcrypt.hashSync(password, salt);
 }
 
-function compareHash(password, storedHash) {
-  return bcrypt.compareSync(password, storedHash);
+async function compareHash(password, storedHash) {
+  const matches = await bcrypt.compare(password, storedHash ?? dummyHash);
+  return Boolean(storedHash) && matches;
 }
 
 module.exports = {
