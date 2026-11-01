@@ -7,15 +7,45 @@ const crypto = require('crypto');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
 
 /* config */
 const port = process.env.PORT || 3000;
+const assetsOrigin = 'https://cedar-groves-assets.s3.us-east-2.amazonaws.com';
 
 /* app */
 const app = express();
 app.set('trust proxy', 1);
 
 /* middlewares */
+app.use((req, res, next) => {
+  res.locals.cspNonce = crypto.randomBytes(16).toString('base64');
+  next();
+});
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        scriptSrc: [
+          "'self'",
+          (req, res) => `'nonce-${res.locals.cspNonce}'`,
+          'https://cdn.jsdelivr.net',
+          'https://code.jquery.com',
+          'https://www.google.com/recaptcha/',
+          'https://www.gstatic.com/recaptcha/',
+          'https://weatherwidget.io'
+        ],
+        imgSrc: ["'self'", 'data:', assetsOrigin],
+        mediaSrc: ["'self'", assetsOrigin],
+        frameSrc: [
+          'https://www.google.com/recaptcha/',
+          'https://recaptcha.google.com/recaptcha/',
+          'https://weatherwidget.io'
+        ]
+      }
+    }
+  })
+);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

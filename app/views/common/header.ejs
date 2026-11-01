@@ -4,11 +4,9 @@
   style="background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.1)),
       url('<%= heroImg %>'); height: 100vh;">
   <div class="vflex position-absolute top-50 start-50 translate-middle w-100 color-w">
-    <h1 class="hero-heading display-4 text-center" style="line-height: 1">
-      <%- heroTitle %>
-    </h1>
+    <h1 class="hero-heading display-4 text-center" style="line-height: 1; white-space: pre-line"><%= heroTitle %></h1>
     <hr class="hero-divider opacity-100" />
-    <h5 class="hero-sub" style="font-style: italic"><%- heroSubtitle %></h5>
+    <h5 class="hero-sub" style="font-style: italic"><%= heroSubtitle %></h5>
   </div>
   <div class="nav-area navbar navbar-expand p-3 transition">
     <nav class="navbar-content container-fluid">
@@ -45,7 +43,7 @@
     </nav>
   </div>
 </header>
-<script>
+<script nonce="<%= cspNonce %>">
   $(document).ready(() => {
     $('#menu-button').click(function () {
       $(this).fadeOut(250);
