@@ -41,7 +41,7 @@ const updateHour = async (hourType, hourValue, isClosed) => {
 };
 
 router.post('/hours', async (req, res) => {
-  const { openHour, closeHour, overrideMsg, isClosed } = req.body;
+  const { openHour, closeHour, overrideMsg, isClosed } = req.body ?? {};
 
   if (!isClosed && !openHour && !closeHour && !overrideMsg) {
     req.session.updateError =
@@ -71,7 +71,7 @@ router.post('/hours', async (req, res) => {
 /* Season Year */
 
 router.post('/season', async (req, res) => {
-  const { year } = req.body;
+  const { year } = req.body ?? {};
 
   if (!year || !/^\d{4}$/.test(year)) {
     req.session.updateError = 'Please provide a valid 4-digit year.';
@@ -95,6 +95,9 @@ router.post('/season', async (req, res) => {
 
 /* Rates & Fees */
 
+const isPrice = value =>
+  typeof value === 'string' && /^(\d+|\d{1,3}(,\d{3})+)(\.\d{1,2})?$/.test(value.trim());
+
 const rateKeys = [
   'course_9hole', 'course_9hole_senior', 'course_9hole_junior',
   'course_18hole', 'course_18hole_senior', 'course_18hole_junior',
@@ -104,15 +107,16 @@ const rateKeys = [
 ];
 
 router.post('/rates', async (req, res) => {
+  const body = req.body ?? {};
   const rates = {};
 
   for (const key of rateKeys) {
-    const value = req.body[key];
-    if (!value || isNaN(parseFloat(value))) {
+    const value = body[key];
+    if (!isPrice(value)) {
       req.session.updateError = 'All rate fields must be valid numbers.';
       return res.redirect('/admin-cms');
     }
-    rates[key] = value;
+    rates[key] = value.trim();
   }
 
   try {
@@ -133,10 +137,9 @@ router.post('/rates', async (req, res) => {
 /* Memberships */
 
 router.post('/memberships', async (req, res) => {
-  const { seasonPass, tenRoundPass } = req.body;
+  const { seasonPass, tenRoundPass } = req.body ?? {};
 
-  if (!seasonPass || isNaN(parseFloat(seasonPass)) ||
-      !tenRoundPass || isNaN(parseFloat(tenRoundPass))) {
+  if (!isPrice(seasonPass) || !isPrice(tenRoundPass)) {
     req.session.updateError = 'All membership prices must be valid numbers.';
     return res.redirect('/admin-cms');
   }
@@ -145,7 +148,7 @@ router.post('/memberships', async (req, res) => {
     await updateItem({
       ...configBaseQuery,
       keyValue: 'memberships',
-      value: JSON.stringify({ seasonPass, tenRoundPass })
+      value: JSON.stringify({ seasonPass: seasonPass.trim(), tenRoundPass: tenRoundPass.trim() })
     });
     req.session.updateSuccess = 'Membership prices updated successfully!';
     return res.redirect('/admin-cms');
