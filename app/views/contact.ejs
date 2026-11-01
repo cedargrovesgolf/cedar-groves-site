@@ -133,7 +133,7 @@
     </main>
     <%- include('common/footer.html'); %>
     <script src="https://www.google.com/recaptcha/api.js"></script>
-    <script>
+    <script nonce="<%= cspNonce %>">
       function onSubmit(token) {
         document.getElementById("recaptchaResponse").value = token;
         document.getElementById("submitted").submit();

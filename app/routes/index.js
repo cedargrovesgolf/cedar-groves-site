@@ -90,7 +90,7 @@ router.get('/', async (req, res) => {
   ];
 
   var body = {
-    heroTitle: 'Cedar Groves Executive<br>Par 3 & Driving Range',
+    heroTitle: 'Cedar Groves Executive\nPar 3 & Driving Range',
     heroSubtitle: 'Golf Course & Driving Range',
     heroImg: 'https://cedar-groves-assets.s3.us-east-2.amazonaws.com/images/drone-1.jpg',
     openHour: openHour && openHour.hour ? get12Hr(openHour.hour.S) : null,

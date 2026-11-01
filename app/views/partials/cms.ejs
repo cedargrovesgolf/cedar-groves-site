@@ -226,7 +226,7 @@
     </form>
   </div>
 </div>
-<script>
+<script nonce="<%= cspNonce %>">
   $('#isClosed').on('change', function () {
     $('#openHour').prop('disabled', this.checked);
     $('#closeHour').prop('disabled', this.checked);
