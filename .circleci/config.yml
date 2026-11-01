@@ -7,17 +7,6 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package-lock.json" }}-{{ checksum "package.json" }}
-            - v1-dependencies-
-      - run:
-          name: Install dependencies
-          command: npm ci
-      - save_cache:
-          key: v1-dependencies-{{ checksum "package-lock.json" }}-{{ checksum "package.json" }}
-          paths:
-            - ./node_modules
       - run:
           name: Install AWS v2
           command: |
@@ -29,18 +18,12 @@ jobs:
           name: Docker Login
           command: aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR
       - run:
-          name: Generate version tag
-          command: |
-            VERSION=$(node -p -e "require('./package.json').version")
-            echo "export VERSION=$(node -p -e "require('./package.json').version")" >> $BASH_ENV
-      - run:
           name: Build
           command: npm run build
   deploy:
     docker:
       - image: cimg/node:lts
     steps:
-      - setup_remote_docker
       - checkout
       - run:
           name: Install AWS v2
@@ -49,9 +32,6 @@ jobs:
             unzip awscliv2.zip
             sudo ./aws/install
             rm awscliv2.zip
-      - run:
-          name: Docker Login
-          command: aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR
       - run:
           name: Deploy
           command: npm run deploy
@@ -66,12 +46,3 @@ workflows:
       - deploy:
           requires:
             - build
-workspace:
-  create:
-    name: build-workspace
-    paths:
-      - ./node_modules
-  persist_to_workspace:
-    root: .
-    paths:
-      - .
