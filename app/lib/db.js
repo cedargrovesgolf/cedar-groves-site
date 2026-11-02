@@ -1,18 +1,17 @@
 const { DynamoDBClient } = require('@aws-sdk/client-dynamodb')
 const { DynamoDBDocumentClient, GetCommand, PutCommand } = require('@aws-sdk/lib-dynamodb')
 
+const { hoursTable, cmsUsersTable } = require('../config')
+
 const client = DynamoDBDocumentClient.from(new DynamoDBClient())
 
-const configTable = 'cedar-groves-hours'
-const usersTable = 'cedar-groves-cms-users'
-
 const getConfig = async type => {
-  const { Item } = await client.send(new GetCommand({ TableName: configTable, Key: { type } }))
+  const { Item } = await client.send(new GetCommand({ TableName: hoursTable, Key: { type } }))
   return Item
 }
 
 const putConfig = async item => {
-  await client.send(new PutCommand({ TableName: configTable, Item: item }))
+  await client.send(new PutCommand({ TableName: hoursTable, Item: item }))
 }
 
 const getJsonConfig = async type => {
@@ -55,7 +54,7 @@ const getSeasonYear = async () => {
 const setSeasonYear = year => putJsonConfig('season', { year })
 
 const getCmsUser = async () => {
-  const { Item } = await client.send(new GetCommand({ TableName: usersTable, Key: { userID: 0 } }))
+  const { Item } = await client.send(new GetCommand({ TableName: cmsUsersTable, Key: { userID: 0 } }))
   return Item ?? null
 }
 

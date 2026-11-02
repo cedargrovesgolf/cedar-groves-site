@@ -57,6 +57,8 @@ Resources:
           RECAPTCHA_SECRET_KEY: !Ref RecaptchaSecretKey
           EMAIL: !Ref ContactEmail
           FROM_EMAIL: !Sub no-reply@${DomainName}
+          HOURS_TABLE: !Ref HoursTable
+          CMS_USERS_TABLE: !Ref CmsUsersTable
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref HoursTable
