@@ -10,5 +10,7 @@ module.exports = {
   originSecret: process.env.ORIGIN_SECRET,
   recaptchaSecretKey: process.env.RECAPTCHA_SECRET_KEY,
   contactEmail: process.env.EMAIL,
-  fromEmail: process.env.FROM_EMAIL
+  fromEmail: process.env.FROM_EMAIL,
+  configTable: process.env.CONFIG_TABLE,
+  cmsUsersTable: process.env.CMS_USERS_TABLE
 }
