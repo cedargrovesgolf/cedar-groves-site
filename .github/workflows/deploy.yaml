@@ -1,0 +1,77 @@
+name: deploy
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04-arm
+    defaults:
+      run:
+        working-directory: infra
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.13'
+      - run: pip install aws-sam-cli==1.171.0
+      - run: sam build
+      - run: tar -czf sam-build.tgz .aws-sam
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: sam-build
+          path: infra/sam-build.tgz
+          retention-days: 1
+
+  publish:
+    needs: build
+    runs-on: ubuntu-24.04-arm
+    permissions:
+      contents: read
+      id-token: write
+    defaults:
+      run:
+        working-directory: infra
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.13'
+      - run: pip install aws-sam-cli==1.171.0
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: sam-build
+          path: infra
+      - run: tar -xzf sam-build.tgz
+      - id: aws
+        uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: us-east-1
+      - run: >-
+          sam deploy
+          --role-arn "arn:aws:iam::${AWS_ACCOUNT_ID}:role/cedar-groves-cfn-execution"
+          --parameter-overrides
+          "SessionSecret=${SESSION_SECRET}"
+          "OriginSecret=${ORIGIN_SECRET}"
+          "RecaptchaSecretKey=${RECAPTCHA_SECRET_KEY}"
+        env:
+          AWS_ACCOUNT_ID: ${{ steps.aws.outputs.aws-account-id }}
+          SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+          ORIGIN_SECRET: ${{ secrets.ORIGIN_SECRET }}
+          RECAPTCHA_SECRET_KEY: ${{ secrets.RECAPTCHA_SECRET_KEY }}

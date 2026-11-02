@@ -1,9 +1,9 @@
 /* ./routes/rates-fees.js */
-const express = require('express');
-const router = express.Router();
-const { getRates, getSeasonYear } = require('../helper/config-helper');
+const express = require('express')
+const router = express.Router()
+const { getRates, getSeasonYear } = require('../lib/db')
 
-function buildRatesFees(rates) {
+const buildRatesFees = rates => {
   return [
     {
       title: 'The Course',
@@ -41,21 +41,21 @@ function buildRatesFees(rates) {
         { desc: 'Chocolate Bars, Chips, Pop', price: `$${rates.amenity_snacks}` }
       ]
     }
-  ];
+  ]
 }
 
 router.get('/', async (req, res) => {
-  const [rates, seasonYear] = await Promise.all([getRates(), getSeasonYear()]);
+  const [rates, seasonYear] = await Promise.all([getRates(), getSeasonYear()])
 
   var body = {
     heroTitle: 'Rates & Fees',
     heroSubtitle: 'Affordable Golf for Every Player',
-    heroImg: 'https://cedar-groves-assets.s3.us-east-2.amazonaws.com/images/drone-2.jpg',
+    heroImg: '/assets/images/drone-2.jpg',
     ratesFees: rates ? buildRatesFees(rates) : null,
     seasonYear: seasonYear
-  };
+  }
   // render the page
-  res.render('rates-fees', body);
-});
+  res.render('rates-fees', body)
+})
 
-module.exports = router;
+module.exports = router

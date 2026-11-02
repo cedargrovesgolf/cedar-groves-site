@@ -1,9 +1,9 @@
 <!-- index.ejs -->
 <!DOCTYPE html>
 <html lang="en" class="scroll-padding">
-  <%- include('common/head.ejs', { pageTitle: null }); %>
+  <%- include('common/head.ejs', { pageTitle: null }) %>
   <body>
-    <%- include('common/header.ejs'); %>
+    <%- include('common/header.ejs') %>
     <main class="main">
       <div class="main-item">
         <h2 class="heading display-5 text-center">Golfing at The Groves</h2>
@@ -37,7 +37,7 @@
             <h6 class="pb-2 pt-3 fw-bold text-center" style="max-width: 375px; line-height: 2;">
               <% if (overrideMsg) { %>
                 <%= overrideMsg %>
-              <% } else if (openHour && closeHour) { %> 
+              <% } else if (openHour && closeHour) { %>
                 Monday &mdash; Sunday &emsp; <%= openHour.time %><span class="font-xs text-uppercase"><%= openHour.ampm %></span>
                 &mdash; <%= closeHour.time %><span class="font-xs text-uppercase"><%= closeHour.ampm %></span>
               <% } else { %> 
@@ -57,7 +57,7 @@
           </div>
           <div class="flex-eq">
             <img
-              src="https://cedar-groves-assets.s3.us-east-2.amazonaws.com/images/drone-3.jpg"
+              src="/assets/images/drone-3.jpg"
               alt="Course"
               class="shadow-2 border-rad" />
           </div>
@@ -69,7 +69,7 @@
           <div class="text-img-box res-flex g-32">
             <div class="vflex align-items-start flex-eq g-16">
               <img
-                src="https://cedar-groves-assets.s3.us-east-2.amazonaws.com/icons/tee.svg"
+                src="/assets/icons/tee.svg"
                 alt="Golf Icon"
                 style="width: 2.5rem" />
               <h4 class="text-start">The Range</h4>
@@ -81,7 +81,7 @@
             </div>
             <div class="flex-eq">
               <img
-                src="https://cedar-groves-assets.s3.us-east-2.amazonaws.com/images/drone-15.jpg"
+                src="/assets/images/drone-15.jpg"
                 class="border-rad shadow-2"
                 alt="Range" />
             </div>
@@ -89,13 +89,13 @@
           <div class="text-img-box res-flex g-32">
             <div class="order flex-eq">
               <img
-                src="https://cedar-groves-assets.s3.us-east-2.amazonaws.com/images/drone-5.jpg"
+                src="/assets/images/drone-5.jpg"
                 class="border-rad shadow-2"
                 alt="Member" />
             </div>
             <div class="vflex align-items-end flex-eq g-16">
               <img
-                src="https://cedar-groves-assets.s3.us-east-2.amazonaws.com/icons/clubhouse.svg"
+                src="/assets/icons/clubhouse.svg"
                 alt="Club Icon"
                 style="width: 2.5rem" />
               <h4 class="text-end">Become a Member</h4>
@@ -122,8 +122,8 @@
           preload=""
           controls=""
           controlslist="nodownload noplaybackrate"
-          poster="https://cedar-groves-assets.s3.us-east-2.amazonaws.com/images/drone-1.jpg">
-          <source src="https://cedar-groves-assets.s3.us-east-2.amazonaws.com/videos/drone.mov" type="video/mp4" />
+          poster="/assets/images/drone-1.jpg">
+          <source src="/assets/videos/drone.mov" type="video/mp4" />
         </video>
       </div>
       <div class="main-item">
@@ -158,7 +158,7 @@
                     <h6 class="text-center py-2 pb-4"><%= item.author %></h6>
                   </div>
                 </div>
-                <% }); %>
+                <% }) %>
               </div>
               <div class="swiper-pagination"></div>
               <div class="swiper-button-next"></div>
@@ -171,6 +171,6 @@
         </div>
       </div>
     </main>
-    <%- include('common/footer.html'); %>
+    <%- include('common/footer.html') %>
   </body>
 </html>

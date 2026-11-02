@@ -230,11 +230,11 @@
 </div>
 <script nonce="<%= cspNonce %>">
   $('#isClosed').on('change', function () {
-    $('#openHour').prop('disabled', this.checked);
-    $('#closeHour').prop('disabled', this.checked);
-    $('#overrideMsg').prop('disabled', this.checked);
-  });
-  $('#openHour').prop('disabled', $('#isClosed').prop('checked'));
-  $('#closeHour').prop('disabled', $('#isClosed').prop('checked'));
-  $('#overrideMsg').prop('disabled', $('#isClosed').prop('checked'));
+    $('#openHour').prop('disabled', this.checked)
+    $('#closeHour').prop('disabled', this.checked)
+    $('#overrideMsg').prop('disabled', this.checked)
+  })
+  $('#openHour').prop('disabled', $('#isClosed').prop('checked'))
+  $('#closeHour').prop('disabled', $('#isClosed').prop('checked'))
+  $('#overrideMsg').prop('disabled', $('#isClosed').prop('checked'))
 </script>

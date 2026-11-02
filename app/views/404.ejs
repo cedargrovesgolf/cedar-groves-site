@@ -1,17 +1,17 @@
 <!-- 404.ejs -->
 <html lang="en" class="scroll-padding">
-  <%- include('common/head.ejs', { pageTitle: 'Page Not Found' }); %>
+  <%- include('common/head.ejs', { pageTitle: 'Page Not Found' }) %>
   <body>
     <main class="main not-found">
       <div
         class="background-img flex h-100 w-100 position-relative"
         style="background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)),
-    url('https://cedar-groves-assets.s3.us-east-2.amazonaws.com/images/drone-15.jpg');">
+    url('/assets/images/drone-15.jpg');">
         <div class="flex w-100 justify-content-start bg-acc p-4 position-absolute top-0">
           <a href="/" class="logo">Cedar Groves</a>
         </div>
         <div class="vflex p-4 g-24">
-          <img src="https://cedar-groves-assets.s3.us-east-2.amazonaws.com/icons/404.svg" alt="Fore" style="width: 3.5rem;" />
+          <img src="/assets/icons/404.svg" alt="Fore" style="width: 3.5rem;" />
           <h1 class="heading color-w lh-1 text-center" style="font-size: 110px;">
             404
           </h1>
@@ -24,6 +24,6 @@
         </div>
       </div>
     </main>
-    <%- include('common/footer.html'); %>
+    <%- include('common/footer.html') %>
   </body>
 </html>

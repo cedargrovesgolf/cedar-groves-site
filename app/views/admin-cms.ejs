@@ -1,13 +1,13 @@
 <!-- admin-cms.ejs -->
 <!DOCTYPE html>
 <html lang="en">
-  <%- include('common/head.ejs', { pageTitle: 'Admin CMS' }); %>
+  <%- include('common/head.ejs', { pageTitle: 'Admin CMS' }) %>
   <body>
     <main class="main">
       <% if (!loggedIn) { %> 
-        <%- include('partials/cms-login.ejs'); %> 
+        <%- include('partials/cms-login.ejs') %> 
       <% } else { %> 
-        <%- include('partials/cms.ejs'); %> 
+        <%- include('partials/cms.ejs') %> 
       <% } %>
     </main>
   </body>

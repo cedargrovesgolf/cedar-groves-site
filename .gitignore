@@ -17,6 +17,9 @@ jspm_packages/
 # DynamoDB Local files
 .dynamodb/
 
+# SAM build output
+.aws-sam/
+
 
 # IDE / Editor specific files
 .vscode/

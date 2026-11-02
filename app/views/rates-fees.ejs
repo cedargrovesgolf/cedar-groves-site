@@ -1,9 +1,9 @@
 <!-- rates-fees.ejs -->
 <!DOCTYPE html>
 <html lang="en">
-  <%- include('common/head.ejs', { pageTitle: 'Rates & Fees' }); %>
+  <%- include('common/head.ejs', { pageTitle: 'Rates & Fees' }) %>
   <body>
-    <%- include('common/header.ejs'); %>
+    <%- include('common/header.ejs') %>
     <main class="main">
       <div class="main-item">
         <div class="vflex">
@@ -29,7 +29,7 @@
               <% if (i % 2 !== 0) { %>
               <div class="flex-eq">
                 <img
-                  src="https://cedar-groves-assets.s3.us-east-2.amazonaws.com/images/drone-<%= item.image %>.jpg"
+                  src="/assets/images/drone-<%= item.image %>.jpg"
                   class="border-rad shadow-2"
                   alt="Golf Image" />
               </div>
@@ -43,20 +43,20 @@
                   </div>
                   <% if (j !== item.rates.length - 1) { %>
                   <hr class="divider my-2 opacity-25" />
-                  <% } %> <% }); %>
+                  <% } %> <% }) %>
                 </div>
               </div>
               <% if (i % 2 === 0) { %>
               <div class="flex-eq">
                 <img
-                  src="https://cedar-groves-assets.s3.us-east-2.amazonaws.com/images/drone-<%= item.image %>.jpg"
+                  src="/assets/images/drone-<%= item.image %>.jpg"
                   class="border-rad shadow-2"
                   alt="Golf Image" />
               </div>
               <% } %>
             </div>
           </div>
-          <% }); %>
+          <% }) %>
           <div class="vflex">
             <div class="flex justify-content-between w-100">
               <small>Senior &mdash; 60+</small>
@@ -74,6 +74,6 @@
         <% } %>
       </div>
     </main>
-    <%- include('common/footer.html'); %>
+    <%- include('common/footer.html') %>
   </body>
 </html>

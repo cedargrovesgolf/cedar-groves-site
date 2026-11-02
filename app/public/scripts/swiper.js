@@ -1,5 +1,5 @@
 /* swiper.js */
-const swiper = new Swiper('.swiper', {
+new Swiper('.swiper', {
   direction: 'horizontal',
   slidesPerView: 3,
   slidesPerGroup: 1,
@@ -31,4 +31,4 @@ const swiper = new Swiper('.swiper', {
       allowTouchMove: false
     }
   }
-});
+})
