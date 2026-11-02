@@ -10,6 +10,7 @@
     </div>
     <div class="vflex w-100">
       <form
+        id="cms-login"
         class="w-100"
         action="/cms/auth"
         method="post"
@@ -50,8 +51,9 @@
           type="checkbox"
           name="rememberMe"
           value="rememberMe"
-          id="flexCheckDefault" />
-        <label class="form-check-label pt-1">Remember Me</label>
+          id="remember-me"
+          form="cms-login" />
+        <label class="form-check-label pt-1" for="remember-me">Remember Me</label>
       </div>
       <a href="/" class="text-center hover transition pt-3">Back to site</a>
     </div>
