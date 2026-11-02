@@ -24,7 +24,9 @@ app.use(helmet)
 if (!config.production) {
   app.use('/assets', (req, res) => res.redirect(`https://cedargrovesgolf.ca/assets${req.url}`))
 }
-app.use(express.static(path.join(import.meta.dirname, 'public')))
+app.use(express.static(path.join(import.meta.dirname, 'public'), {
+  setHeaders: res => res.set('Cache-Control', 'public, max-age=0, s-maxage=86400')
+}))
 app.use('/vendor', vendor)
 app.use(express.urlencoded({ extended: true }))
 app.use(session)

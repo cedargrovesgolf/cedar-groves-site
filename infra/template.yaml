@@ -36,7 +36,7 @@ Resources:
         - arm64
       MemorySize: 512
       Timeout: 15
-      ReservedConcurrentExecutions: 10
+      ReservedConcurrentExecutions: 50
       AutoPublishAlias: live
       Layers:
         # Lambda Web Adapter v1.1.0
@@ -287,6 +287,26 @@ Resources:
               - EventType: viewer-request
                 FunctionARN: !GetAtt WwwRedirectFunction.FunctionMetadata.FunctionARN
           - PathPattern: /vendor/*
+            TargetOriginId: app
+            ViewerProtocolPolicy: redirect-to-https
+            AllowedMethods: [GET, HEAD]
+            CachedMethods: [GET, HEAD]
+            Compress: true
+            CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6
+            FunctionAssociations:
+              - EventType: viewer-request
+                FunctionARN: !GetAtt WwwRedirectFunction.FunctionMetadata.FunctionARN
+          - PathPattern: /scripts/*
+            TargetOriginId: app
+            ViewerProtocolPolicy: redirect-to-https
+            AllowedMethods: [GET, HEAD]
+            CachedMethods: [GET, HEAD]
+            Compress: true
+            CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6
+            FunctionAssociations:
+              - EventType: viewer-request
+                FunctionARN: !GetAtt WwwRedirectFunction.FunctionMetadata.FunctionARN
+          - PathPattern: /styles.css
             TargetOriginId: app
             ViewerProtocolPolicy: redirect-to-https
             AllowedMethods: [GET, HEAD]
