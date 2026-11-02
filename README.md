@@ -1,4 +1,3 @@
-# <p align="center">Cedar Groves Golf</p>
 <p align="center"><img alt="image" src="https://github.com/user-attachments/assets/c9ff0743-8e83-4d40-8e1e-8bc6bc73d760" /></p>
 <p align="center">Website for <a href="https://cedargrovesgolf.ca">Cedar Groves Executive Par 3 &amp; Driving Range</a>, built with Express, EJS, and Bootstrap, with a small CMS backed by DynamoDB. Runs on AWS Lambda behind CloudFront, defined with AWS SAM and deployed from GitHub Actions.</p>
 
