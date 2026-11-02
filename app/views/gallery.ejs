@@ -5,7 +5,14 @@
     <%- include('common/header.ejs') %>
     <main class="main">
       <div class="main-item">
-        <h2 class="heading display-5 text-center">Around the Course</h2>
+        <div class="vflex">
+          <h2 class="heading display-5 text-center">Around the Course</h2>
+          <p class="text-restrict text-center">
+            Take a look around Cedar Groves, from the tee boxes and greens to
+            the view from above.
+          </p>
+          <hr class="heading-divider" />
+        </div>
         <% if (photos.length) { %>
           <%- include('partials/gallery-grid.ejs', { photos }) %>
         <% } else { %>
@@ -13,15 +20,7 @@
         <% } %>
       </div>
     </main>
-    <dialog class="lightbox" aria-label="Photo viewer">
-      <button type="button" class="lightbox-close" aria-label="Close"><i class="bi bi-x-lg"></i></button>
-      <button type="button" class="lightbox-prev" aria-label="Previous photo"><i class="bi bi-chevron-left"></i></button>
-      <figure>
-        <img alt="" />
-        <figcaption></figcaption>
-      </figure>
-      <button type="button" class="lightbox-next" aria-label="Next photo"><i class="bi bi-chevron-right"></i></button>
-    </dialog>
+    <%- include('partials/lightbox.ejs') %>
     <%- include('common/footer.html') %>
   </body>
 </html>

@@ -13,6 +13,8 @@ const toInt = (value, min, max) => {
   return Number.isInteger(number) && number >= min && number <= max ? number : null
 }
 
+const toText = (value, maxLength) => String(value ?? '').trim().slice(0, maxLength)
+
 router.post('/', async (req, res) => {
   const body = req.body ?? {}
   const order = [body.order ?? []].flat()
@@ -31,7 +33,8 @@ router.post('/', async (req, res) => {
 
     const photos = order.map(id => ({
       ...existing.get(id),
-      caption: String(body[`caption_${id}`] ?? '').trim().slice(0, 200),
+      name: toText(body[`name_${id}`], 100),
+      caption: toText(body[`caption_${id}`], 200),
       shown: Boolean(body[`shown_${id}`]),
       isNew: false
     }))
@@ -69,13 +72,28 @@ router.post('/photos', async (req, res) => {
     }
     const gallery = await getGallery()
     if (!gallery.photos.some(photo => photo.id === id)) {
-      gallery.photos.push({ id, caption: '', shown: false, isNew: true, width, height })
+      gallery.photos.push({ id, name: toText(req.body.name, 100), caption: '', shown: false, isNew: true, width, height })
       await setGallery(gallery)
     }
     return reply(res, 200, 'success', 'Photo uploaded.')
   } catch (err) {
     console.error(err)
     return reply(res, 500, 'error', 'There was an error saving the photo.')
+  }
+})
+
+router.post('/photos/delete-hidden', async (req, res) => {
+  try {
+    const gallery = await getGallery()
+    const hidden = gallery.photos.filter(photo => !photo.shown).map(photo => photo.id)
+    if (hidden.length) {
+      await setGallery({ ...gallery, photos: gallery.photos.filter(photo => photo.shown) })
+      await deleteGalleryObjects(hidden)
+    }
+    return reply(res, 200, 'success', 'Hidden photos deleted.')
+  } catch (err) {
+    console.error(err)
+    return reply(res, 500, 'error', 'There was an error deleting the hidden photos.')
   }
 })
 
@@ -89,7 +107,7 @@ router.post('/photos/:id/delete', async (req, res) => {
   try {
     const gallery = await getGallery()
     await setGallery({ ...gallery, photos: gallery.photos.filter(photo => photo.id !== id) })
-    await deleteGalleryObjects(id)
+    await deleteGalleryObjects([id])
     return reply(res, 200, 'success', 'Photo deleted.')
   } catch (err) {
     console.error(err)

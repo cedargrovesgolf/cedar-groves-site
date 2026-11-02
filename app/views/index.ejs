@@ -117,7 +117,7 @@
           unforgettable experience for golfers of all levels.
         </p>
         <video
-          class="shadow"
+          class="shadow border-rad"
           preload=""
           controls=""
           controlslist="nodownload noplaybackrate"
@@ -127,9 +127,17 @@
       </div>
       <% if (galleryPhotos.length) { %>
         <div class="main-item">
-          <h2 class="heading display-5 text-center">Around the Course</h2>
+          <div class="vflex">
+            <h2 class="heading display-5 text-center">Around the Course</h2>
+            <p class="text-restrict text-center">
+              Get a feel for the course before your first swing. These are some
+              of our favourite views of Cedar Groves, with many more waiting in
+              the gallery.
+            </p>
+            <hr class="heading-divider" />
+          </div>
           <div class="vflex g-32 w-100">
-            <%- include('partials/gallery-grid.ejs', { photos: galleryPhotos, link: '/gallery' }) %>
+            <%- include('partials/gallery-grid.ejs', { photos: galleryPhotos }) %>
             <a href="/gallery"><button class="button-1">View Gallery</button></a>
           </div>
         </div>
@@ -179,6 +187,9 @@
         </div>
       </div>
     </main>
+    <% if (galleryPhotos.length) { %>
+      <%- include('partials/lightbox.ejs') %>
+    <% } %>
     <%- include('common/footer.html') %>
     <script id="weatherwidget-io-js" src="https://weatherwidget.io/js/widget.min.js" defer></script>
   </body>
