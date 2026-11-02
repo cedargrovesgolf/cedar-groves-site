@@ -229,6 +229,10 @@ Resources:
                   - s3:GetBucketLocation
                   - s3:ListBucket
                 Resource: !GetAtt ArtifactsBucket.Arn
+              - Sid: CacheInvalidation
+                Effect: Allow
+                Action: cloudfront:CreateInvalidation
+                Resource: !Sub arn:aws:cloudfront::${AWS::AccountId}:distribution/*
 
   AccountAnalyzer:
     Type: AWS::AccessAnalyzer::Analyzer

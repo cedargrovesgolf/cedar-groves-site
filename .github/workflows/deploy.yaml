@@ -72,3 +72,7 @@ jobs:
           SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
           ORIGIN_SECRET: ${{ secrets.ORIGIN_SECRET }}
           RECAPTCHA_SECRET_KEY: ${{ secrets.RECAPTCHA_SECRET_KEY }}
+      - run: >-
+          aws cloudfront create-invalidation
+          --distribution-id "$(aws cloudformation describe-stacks --stack-name cedar-groves-site --query "Stacks[0].Outputs[?OutputKey=='DistributionId'].OutputValue" --output text)"
+          --paths /styles.css '/scripts/*' '/vendor/*'
