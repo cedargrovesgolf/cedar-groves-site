@@ -1,3 +1,13 @@
+@import '@fontsource/open-sans/latin-300.css';
+@import '@fontsource/open-sans/latin-300-italic.css';
+@import '@fontsource/open-sans/latin-400.css';
+@import '@fontsource/open-sans/latin-500.css';
+@import '@fontsource/open-sans/latin-600.css';
+@import '@fontsource/cormorant-infant/latin-400.css';
+@import '@fontsource/cormorant-infant/latin-500.css';
+@import '@fontsource/cormorant-infant/latin-600.css';
+@import '@fontsource/cormorant-infant/latin-700.css';
+@import '@fontsource/cormorant-sc/latin-400.css';
 @import 'bootstrap/dist/css/bootstrap.min.css';
 @import './styles.css';
 @import 'bootstrap-icons/font/bootstrap-icons.min.css';

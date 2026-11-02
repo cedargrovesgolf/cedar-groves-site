@@ -94,6 +94,7 @@ describe('cms', () => {
     '/cms/gallery',
     '/cms/gallery/uploads',
     '/cms/gallery/photos',
+    '/cms/gallery/photos/delete-hidden',
     '/cms/gallery/photos/00000000-0000-4000-8000-000000000001/delete'
   ]
 

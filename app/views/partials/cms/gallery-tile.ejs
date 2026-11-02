@@ -1,0 +1,18 @@
+<div
+  class="cms-tile"
+  data-id="<%= photo.id %>"
+  data-full="<%= photo.full %>"
+  data-width="<%= photo.width %>"
+  data-height="<%= photo.height %>">
+  <input type="hidden" name="order" value="<%= photo.id %>" />
+  <input type="hidden" name="name_<%= photo.id %>" value="<%= photo.name ?? '' %>" />
+  <input type="hidden" name="caption_<%= photo.id %>" value="<%= photo.caption ?? '' %>" />
+  <input type="hidden" name="shown_<%= photo.id %>" value="<%= photo.shown ? '1' : '' %>" />
+  <button type="button" class="cms-tile-image" aria-label="Edit photo">
+    <img src="<%= photo.thumb %>" alt="" loading="lazy" />
+    <span class="cms-tile-number"></span>
+    <span class="cms-tile-badge"><%= photo.isNew ? 'New' : '' %></span>
+    <span class="cms-tile-caption"></span>
+  </button>
+  <span class="cms-tile-name"></span>
+</div>

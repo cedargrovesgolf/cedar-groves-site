@@ -1,3 +1,7 @@
+<%
+  const shown = photos.filter(photo => photo.shown)
+  const hidden = photos.filter(photo => !photo.shown)
+%>
 <form action="/cms/gallery" method="POST" class="cms-form cms-form-wide" novalidate data-async data-cms-form>
   <div class="cms-card">
     <div class="cms-upload">
@@ -21,51 +25,55 @@
         required />
     </div>
     <ul class="form-text cms-help">
-      <li>Only photos switched on appear on the site.</li>
-      <li>The Gallery page shows them in the order below. The first one is also the page's main image.</li>
+      <li>Photos on the site appear on the Gallery page in this order. The first one is also the page's main image.</li>
       <li>The homepage shows the top <span data-home-count><%= homeCount %></span>.</li>
+      <li>Drag to reorder, or between sections to show or hide. Click a photo to edit it.</li>
     </ul>
   </div>
-  <% if (photos.length) { %>
-    <ul class="cms-list" data-sortable>
-      <% photos.forEach(photo => { %>
-        <li class="cms-list-item">
-          <input type="hidden" name="order" value="<%= photo.id %>" />
-          <button type="button" class="cms-handle" aria-label="Drag to reorder"><i class="bi bi-grip-vertical"></i></button>
-          <img src="<%= photo.thumb %>" alt="" width="64" height="64" />
-          <div class="cms-list-body">
-            <input
-              type="text"
-              class="form-control"
-              name="caption_<%= photo.id %>"
-              value="<%= photo.caption %>"
-              maxlength="200"
-              placeholder="Caption (optional)"
-              aria-label="Caption"
-              autocomplete="off" />
-            <div class="cms-list-meta">
-              <div class="form-check form-switch">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  role="switch"
-                  id="shown_<%= photo.id %>"
-                  name="shown_<%= photo.id %>"
-                  value="1"
-                  <% if (photo.shown) { %>checked<% } %> />
-                <label class="form-check-label" for="shown_<%= photo.id %>">Shown</label>
-              </div>
-              <% if (photo.isNew) { %><span class="badge text-bg-warning">New</span><% } %>
-            </div>
-          </div>
-          <button type="button" class="btn btn-sm btn-outline-danger" data-delete="<%= photo.id %>" aria-label="Delete photo">
-            <i class="bi bi-trash"></i>
-          </button>
-        </li>
-      <% }) %>
-    </ul>
-  <% } else { %>
-    <p class="cms-empty">No photos yet. Use <strong>Add photos</strong> to upload some.</p>
-  <% } %>
+
+  <section class="cms-section">
+    <h2 class="cms-section-title">On the site</h2>
+    <div class="cms-tiles" data-tiles="shown" data-empty="No photos on the site yet.">
+      <% shown.forEach(photo => { %><%- include('gallery-tile.ejs', { photo }) %><% }) %>
+    </div>
+  </section>
+
+  <section class="cms-section">
+    <div class="cms-section-header">
+      <h2 class="cms-section-title">Hidden</h2>
+      <button type="button" class="btn btn-sm btn-outline-danger" data-delete-hidden <% if (!hidden.length) { %>hidden<% } %>>
+        Delete all hidden
+      </button>
+    </div>
+    <div class="cms-tiles" data-tiles="hidden" data-empty="No hidden photos.">
+      <% hidden.forEach(photo => { %><%- include('gallery-tile.ejs', { photo }) %><% }) %>
+    </div>
+  </section>
+
+  <dialog class="cms-editor" aria-label="Edit photo">
+    <img class="cms-editor-image" alt="" />
+    <div class="cms-editor-fields">
+      <div>
+        <label for="edit-name" class="form-label">Name</label>
+        <input type="text" class="form-control" id="edit-name" maxlength="100" autocomplete="off" />
+      </div>
+      <div>
+        <label for="edit-caption" class="form-label">Caption <span class="form-text">(shown under the photo)</span></label>
+        <input type="text" class="form-control" id="edit-caption" maxlength="200" autocomplete="off" />
+      </div>
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="edit-shown" />
+        <label class="form-check-label" for="edit-shown">On the site</label>
+      </div>
+      <div class="cms-editor-actions">
+        <button type="button" class="btn btn-sm btn-outline-danger" data-editor-delete>Delete</button>
+        <div class="cms-save-actions">
+          <button type="button" class="btn btn-link link-secondary" data-editor-cancel>Cancel</button>
+          <button type="button" class="button-3 cms-button" data-editor-done>Done</button>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
   <%- include('save-bar.ejs') %>
 </form>

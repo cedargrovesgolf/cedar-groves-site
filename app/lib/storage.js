@@ -46,9 +46,9 @@ export const galleryObjectsExist = async id => {
   }
 }
 
-export const deleteGalleryObjects = async id => {
+export const deleteGalleryObjects = async ids => {
   await client.send(new DeleteObjectsCommand({
     Bucket: config.assetsBucket,
-    Delete: { Objects: galleryKeys(id).map(Key => ({ Key })) }
+    Delete: { Objects: ids.flatMap(galleryKeys).map(Key => ({ Key })) }
   }))
 }

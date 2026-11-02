@@ -91,37 +91,133 @@ if (statusInputs.length) {
   updateHours()
 }
 
-const homeCount = form.elements.homeCount
+const showError = err => showToast({ type: 'error', message: err.message || 'Something went wrong. Please try again.' })
 
-if (homeCount) {
-  const text = form.querySelector('[data-home-count]')
-  homeCount.addEventListener('input', () => { text.textContent = homeCount.value || 0 })
+const tiles = {
+  shown: form.querySelector('[data-tiles="shown"]'),
+  hidden: form.querySelector('[data-tiles="hidden"]')
 }
 
-const list = form.querySelector('[data-sortable]')
+if (tiles.shown) {
+  const homeCount = form.elements.homeCount
+  const homeCountText = form.querySelector('[data-home-count]')
+  const deleteHiddenButton = form.querySelector('[data-delete-hidden]')
+  const editor = form.querySelector('.cms-editor')
+  const editorFields = {
+    name: editor.querySelector('#edit-name'),
+    caption: editor.querySelector('#edit-caption'),
+    shown: editor.querySelector('#edit-shown')
+  }
+  let editing
 
-if (list) {
-  Sortable.create(list, {
-    handle: '.cms-handle',
+  const field = (tile, key) => tile.querySelector(`input[name="${key}_${tile.dataset.id}"]`)
+  const markChanged = () => form.dispatchEvent(new Event('input'))
+
+  const refreshTiles = () => {
+    const count = Number(homeCount.value) || 0
+    homeCountText.textContent = count
+    tiles.shown.querySelectorAll('.cms-tile').forEach((tile, index) => {
+      tile.querySelector('.cms-tile-number').textContent = index + 1
+      tile.classList.toggle('cms-tile-home', index < count)
+    })
+    tiles.hidden.querySelectorAll('.cms-tile').forEach(tile => {
+      tile.querySelector('.cms-tile-number').textContent = ''
+      tile.classList.remove('cms-tile-home')
+    })
+    form.querySelectorAll('.cms-tile').forEach(tile => {
+      tile.querySelector('.cms-tile-name').textContent = field(tile, 'name').value || 'Untitled'
+      tile.querySelector('.cms-tile-caption').textContent = field(tile, 'caption').value
+    })
+    deleteHiddenButton.hidden = !tiles.hidden.querySelector('.cms-tile')
+  }
+
+  const placeTile = (tile, shown) => {
+    field(tile, 'shown').value = shown ? '1' : ''
+    if ((tile.parentElement === tiles.shown) !== shown) {
+      (shown ? tiles.shown : tiles.hidden).append(tile)
+    }
+  }
+
+  Object.values(tiles).forEach(container => Sortable.create(container, {
+    group: 'gallery',
     animation: 150,
-    onEnd: updateSaveBar
+    delay: 150,
+    delayOnTouchOnly: true,
+    onEnd: ({ item }) => {
+      placeTile(item, item.parentElement === tiles.shown)
+      refreshTiles()
+      markChanged()
+    }
+  }))
+
+  form.addEventListener('click', event => {
+    const tile = event.target.closest('.cms-tile-image')?.parentElement
+    if (!tile) {
+      return
+    }
+    editing = tile
+    const image = editor.querySelector('.cms-editor-image')
+    image.width = tile.dataset.width
+    image.height = tile.dataset.height
+    image.src = tile.querySelector('img').src
+    const full = new Image()
+    full.addEventListener('load', () => {
+      if (editing === tile) {
+        image.src = full.src
+      }
+    })
+    full.src = tile.dataset.full
+    editorFields.name.value = field(tile, 'name').value
+    editorFields.caption.value = field(tile, 'caption').value
+    editorFields.shown.checked = field(tile, 'shown').value === '1'
+    editor.showModal()
   })
+
+  const applyEdit = () => {
+    field(editing, 'name').value = editorFields.name.value.trim()
+    field(editing, 'caption').value = editorFields.caption.value.trim()
+    placeTile(editing, editorFields.shown.checked)
+    editor.close()
+    refreshTiles()
+    markChanged()
+  }
+
+  editor.querySelector('[data-editor-done]').addEventListener('click', applyEdit)
+  editor.querySelector('[data-editor-cancel]').addEventListener('click', () => editor.close())
+  editor.addEventListener('keydown', event => {
+    if (event.key === 'Enter') {
+      event.preventDefault()
+      applyEdit()
+    }
+  })
+
+  const deletePhoto = reloadUnlessDirty(async id => {
+    await post(`/cms/gallery/photos/${id}/delete`)
+  })
+
+  editor.querySelector('[data-editor-delete]').addEventListener('click', async () => {
+    if (!window.confirm('Delete this photo? This cannot be undone.')) {
+      return
+    }
+    editor.close()
+    await deletePhoto(editing.dataset.id).catch(showError)
+  })
+
+  const deleteHidden = reloadUnlessDirty(async () => {
+    await post('/cms/gallery/photos/delete-hidden')
+  })
+
+  deleteHiddenButton.addEventListener('click', async () => {
+    const count = tiles.hidden.querySelectorAll('.cms-tile').length
+    if (!window.confirm(`Delete all ${count} hidden photos? This cannot be undone.`)) {
+      return
+    }
+    await deleteHidden().catch(showError)
+  })
+
+  homeCount.addEventListener('input', refreshTiles)
+  refreshTiles()
 }
-
-const deletePhoto = reloadUnlessDirty(async id => {
-  await post(`/cms/gallery/photos/${id}/delete`)
-})
-
-form.querySelectorAll('[data-delete]').forEach(button => button.addEventListener('click', async () => {
-  if (!window.confirm('Delete this photo? This cannot be undone.')) {
-    return
-  }
-  try {
-    await deletePhoto(button.dataset.delete)
-  } catch (err) {
-    showToast({ type: 'error', message: err.message || 'Something went wrong. Please try again.' })
-  }
-}))
 
 const resize = (bitmap, maxSize) => {
   const scale = Math.min(1, maxSize / Math.max(bitmap.width, bitmap.height))
@@ -154,7 +250,12 @@ const uploadPhoto = async file => {
 
   const { id, uploads } = await post('/cms/gallery/uploads')
   await Promise.all([uploadToBucket(uploads.full, full.blob), uploadToBucket(uploads.thumb, thumb.blob)])
-  await post('/cms/gallery/photos', { id, width: full.width, height: full.height })
+  await post('/cms/gallery/photos', {
+    id,
+    name: file.name.replace(/\.[^.]+$/, ''),
+    width: full.width,
+    height: full.height
+  })
 }
 
 const uploadInput = form.querySelector('[data-upload]')
@@ -180,7 +281,7 @@ if (uploadInput) {
       await uploadAll(files)
     } catch (err) {
       status.textContent = ''
-      showToast({ type: 'error', message: err.message || 'Something went wrong. Please try again.' })
+      showError(err)
     } finally {
       uploadInput.disabled = false
     }
