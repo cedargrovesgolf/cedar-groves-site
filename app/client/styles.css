@@ -656,6 +656,94 @@ a {
   }
 }
 
+/* gallery */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+  width: 100%;
+}
+
+.gallery-item {
+  display: block;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  border-radius: 4px;
+  aspect-ratio: 1;
+  background: none;
+  cursor: pointer;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.05);
+}
+
+.lightbox {
+  max-width: 100vw;
+  max-height: 100vh;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+.lightbox[open] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox::backdrop {
+  background-color: rgb(0 0 0 / 90%);
+}
+
+.lightbox figure {
+  margin: 0;
+  max-width: calc(100% - 128px);
+  color: var(--color-white);
+  text-align: center;
+}
+
+.lightbox img {
+  width: auto;
+  max-width: 100%;
+  max-height: 85vh;
+  margin: auto;
+}
+
+.lightbox button {
+  border: 0;
+  background: none;
+  color: var(--color-white);
+  font-size: var(--font-lg);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+
+@media (max-width: 992px) {
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .lightbox figure {
+    max-width: calc(100% - 96px);
+  }
+}
+
 /* 404 */
 
 /* footer */
@@ -674,4 +762,37 @@ a {
     padding: 16px;
     align-items: center !important;
   }
+}
+
+/* swiper */
+.swiper {
+  position: static !important;
+  --swiper-navigation-color: var(--color-prim);
+  --swiper-navigation-size: 32px;
+}
+
+.swiper-button-next {
+  right: 2px !important;
+}
+
+.swiper-slide {
+  height: auto !important;
+}
+
+.swiper-button-prev {
+  left: 2px !important;
+}
+
+.swiper-pagination {
+  bottom: -6px !important;
+}
+
+.swiper-pagination-bullet-active {
+  background: var(--color-prim) !important;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  opacity: 1;
+  position: absolute !important;
 }

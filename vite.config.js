@@ -7,7 +7,7 @@ export default defineConfig({
   root: client,
   base: '/build/',
   publicDir: false,
-  input: ['main', 'home', 'cms', 'gallery'].flatMap(name =>
+  input: ['main', 'home', 'cms'].flatMap(name =>
     [`${name}.css`, `${name}.js`].map(file => path.join(client, file))),
   server: {
     port: 5173,
