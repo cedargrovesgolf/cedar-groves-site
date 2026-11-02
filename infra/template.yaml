@@ -344,17 +344,23 @@ Resources:
           Type: MX
           TTL: '3600'
           ResourceRecords:
-            - '0 .'
+            - 10 mxa.mailgun.org
+            - 10 mxb.mailgun.org
         - Name: !Ref DomainName
           Type: TXT
           TTL: '3600'
           ResourceRecords:
-            - '"v=spf1 -all"'
+            - '"v=spf1 include:mailgun.org ~all"'
+        - Name: !Sub mx._domainkey.${DomainName}
+          Type: TXT
+          TTL: '3600'
+          ResourceRecords:
+            - '"k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCzSAYBAavNZKS5cmXOeqg9/D53Ey2FSZ2UTY/UbHCu3aekkHgnX28lrgE9whahEJuqnxXT3CyTWsLgMrNN2E2ZQYENd3KM0IDZr/dKgS/QP5/YO+/6S+ymOpEqdwa+hChhoNGerbz3nZqe0ebBIzHXq/RE8GbPXClbhtTpP80i+wIDAQAB"'
         - Name: !Sub _dmarc.${DomainName}
           Type: TXT
           TTL: '3600'
           ResourceRecords:
-            - '"v=DMARC1; p=none"'
+            - '"v=DMARC1; p=none; pct=100; fo=1; ri=3600; rua=mailto:32a1088@dmarc.mailgun.org,mailto:7a82e45f@inbox.ondmarc.com; ruf=mailto:32a1088@dmarc.mailgun.org,mailto:7a82e45f@inbox.ondmarc.com;"'
         - Name: !Sub mail.${DomainName}
           Type: MX
           TTL: '3600'
