@@ -57,11 +57,11 @@ Resources:
           RECAPTCHA_SECRET_KEY: !Ref RecaptchaSecretKey
           EMAIL: !Ref ContactEmail
           FROM_EMAIL: !Sub no-reply@${DomainName}
-          HOURS_TABLE: !Ref HoursTable
+          CONFIG_TABLE: !Ref ConfigTable
           CMS_USERS_TABLE: !Ref CmsUsersTable
       Policies:
         - DynamoDBCrudPolicy:
-            TableName: !Ref HoursTable
+            TableName: !Ref ConfigTable
         - DynamoDBReadPolicy:
             TableName: !Ref CmsUsersTable
         - Statement:
@@ -75,12 +75,12 @@ Resources:
       LogGroupName: /aws/lambda/cedar-groves-site
       RetentionInDays: 14
 
-  HoursTable:
+  ConfigTable:
     Type: AWS::DynamoDB::Table
     DeletionPolicy: Retain
     UpdateReplacePolicy: Retain
     Properties:
-      TableName: cedar-groves-hours
+      TableName: cedar-groves-config
       BillingMode: PAY_PER_REQUEST
       DeletionProtectionEnabled: true
       PointInTimeRecoverySpecification:

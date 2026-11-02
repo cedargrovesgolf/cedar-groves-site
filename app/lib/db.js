@@ -1,17 +1,17 @@
 const { DynamoDBClient } = require('@aws-sdk/client-dynamodb')
 const { DynamoDBDocumentClient, GetCommand, PutCommand } = require('@aws-sdk/lib-dynamodb')
 
-const { hoursTable, cmsUsersTable } = require('../config')
+const { configTable, cmsUsersTable } = require('../config')
 
 const client = DynamoDBDocumentClient.from(new DynamoDBClient())
 
 const getConfig = async type => {
-  const { Item } = await client.send(new GetCommand({ TableName: hoursTable, Key: { type } }))
+  const { Item } = await client.send(new GetCommand({ TableName: configTable, Key: { type } }))
   return Item
 }
 
 const putConfig = async item => {
-  await client.send(new PutCommand({ TableName: hoursTable, Item: item }))
+  await client.send(new PutCommand({ TableName: configTable, Item: item }))
 }
 
 const getJsonConfig = async type => {

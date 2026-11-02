@@ -11,6 +11,6 @@ module.exports = {
   recaptchaSecretKey: process.env.RECAPTCHA_SECRET_KEY,
   contactEmail: process.env.EMAIL,
   fromEmail: process.env.FROM_EMAIL,
-  hoursTable: process.env.HOURS_TABLE,
+  configTable: process.env.CONFIG_TABLE,
   cmsUsersTable: process.env.CMS_USERS_TABLE
 }
