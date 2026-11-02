@@ -1,5 +1,8 @@
-const crypto = require('crypto')
-const helmet = require('helmet')
+import crypto from 'node:crypto'
+import helmet from 'helmet'
+import config from '../config.js'
+
+const assets =config.production ? [] : ['https://cedargrovesgolf.ca']
 
 const cspNonce = (req, res, next) => {
   res.locals.cspNonce = crypto.randomBytes(16).toString('base64')
@@ -12,14 +15,12 @@ const headers = helmet({
       scriptSrc: [
         "'self'",
         (req, res) => `'nonce-${res.locals.cspNonce}'`,
-        'https://cdn.jsdelivr.net',
-        'https://code.jquery.com',
         'https://www.google.com/recaptcha/',
         'https://www.gstatic.com/recaptcha/',
         'https://weatherwidget.io'
       ],
-      imgSrc: ["'self'", 'data:'],
-      mediaSrc: ["'self'"],
+      imgSrc: ["'self'", 'data:', ...assets],
+      mediaSrc: ["'self'", ...assets],
       frameSrc: [
         'https://www.google.com/recaptcha/',
         'https://recaptcha.google.com/recaptcha/',
@@ -29,4 +30,4 @@ const headers = helmet({
   }
 })
 
-module.exports = [cspNonce, headers]
+export default [cspNonce, headers]

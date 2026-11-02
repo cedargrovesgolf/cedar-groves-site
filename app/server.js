@@ -1,4 +1,4 @@
-const app = require('./app')
-const { port } = require('./config')
+import app from './app.js'
+import config from './config.js'
 
-app.listen(port, () => console.log(`Server started on port: ${port}`))
+app.listen(config.port, () => console.log(`Server running at http://localhost:${config.port}`))

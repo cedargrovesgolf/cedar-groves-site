@@ -1,61 +1,64 @@
-/* ./routes/rates-fees.js */
-const express = require('express')
-const router = express.Router()
-const { getRates, getSeasonYear } = require('../lib/db')
+import express from 'express'
+import { getRates, getSeasonYear } from '../lib/db.js'
+import { formatPrice } from '../lib/format.js'
 
-const buildRatesFees = rates => {
-  return [
-    {
-      title: 'The Course',
-      image: 9,
-      rates: [
-        { desc: '9 Hole', price: `$${rates.course_9hole}` },
-        { desc: '9 Hole - Senior', price: `$${rates.course_9hole_senior}` },
-        { desc: '9 Hole - Junior', price: `$${rates.course_9hole_junior}` },
-        { desc: '18 Hole', price: `$${rates.course_18hole}` },
-        { desc: '18 Hole - Senior', price: `$${rates.course_18hole_senior}` },
-        { desc: '18 Hole - Junior', price: `$${rates.course_18hole_junior}` }
-      ]
-    },
-    {
-      title: 'Driving Range',
-      image: 15,
-      rates: [
-        { desc: 'S Bucket - 25 Balls', price: `$${rates.range_s}` },
-        { desc: 'M Bucket - 50 Balls', price: `$${rates.range_m}` },
-        { desc: 'L Bucket - 75 Balls', price: `$${rates.range_l}` },
-        { desc: 'XL Bucket - 100 Balls', price: `$${rates.range_xl}` },
-        { desc: 'Grass Tee Box', price: `$${rates.range_grass}` }
-      ]
-    },
-    {
-      title: 'Amenities',
-      image: 6,
-      rates: [
-        { desc: 'Rental Set', price: `$${rates.amenity_rental}` },
-        { desc: 'Pull Cart', price: `$${rates.amenity_pullcart}` },
-        { desc: 'Recycled Balls (5 Pack)', price: `$${rates.amenity_balls}` },
-        { desc: 'Tees (15 Pack)', price: `$${rates.amenity_tees}` },
-        { desc: 'Water', price: `$${rates.amenity_water}` },
-        { desc: 'Gatorade', price: `$${rates.amenity_gatorade}` },
-        { desc: 'Chocolate Bars, Chips, Pop', price: `$${rates.amenity_snacks}` }
-      ]
-    }
-  ]
-}
+const router = express.Router()
+
+const sections = [
+  {
+    title: 'The Course',
+    image: 9,
+    rates: [
+      ['9 Hole', 'course_9hole'],
+      ['9 Hole - Senior', 'course_9hole_senior'],
+      ['9 Hole - Junior', 'course_9hole_junior'],
+      ['18 Hole', 'course_18hole'],
+      ['18 Hole - Senior', 'course_18hole_senior'],
+      ['18 Hole - Junior', 'course_18hole_junior']
+    ]
+  },
+  {
+    title: 'Driving Range',
+    image: 15,
+    rates: [
+      ['S Bucket - 25 Balls', 'range_s'],
+      ['M Bucket - 50 Balls', 'range_m'],
+      ['L Bucket - 75 Balls', 'range_l'],
+      ['XL Bucket - 100 Balls', 'range_xl'],
+      ['Grass Tee Box', 'range_grass']
+    ]
+  },
+  {
+    title: 'Amenities',
+    image: 6,
+    rates: [
+      ['Rental Set', 'amenity_rental'],
+      ['Pull Cart', 'amenity_pullcart'],
+      ['Recycled Balls (5 Pack)', 'amenity_balls'],
+      ['Tees (15 Pack)', 'amenity_tees'],
+      ['Water', 'amenity_water'],
+      ['Gatorade', 'amenity_gatorade'],
+      ['Chocolate Bars, Chips, Pop', 'amenity_snacks']
+    ]
+  }
+]
+
+const buildRatesFees = rates =>
+  sections.map(section => ({
+    ...section,
+    rates: section.rates.map(([desc, key]) => ({ desc, price: formatPrice(rates[key]) }))
+  }))
 
 router.get('/', async (req, res) => {
   const [rates, seasonYear] = await Promise.all([getRates(), getSeasonYear()])
 
-  var body = {
+  res.render('rates-fees', {
     heroTitle: 'Rates & Fees',
     heroSubtitle: 'Affordable Golf for Every Player',
     heroImg: '/assets/images/drone-2.jpg',
     ratesFees: rates ? buildRatesFees(rates) : null,
-    seasonYear: seasonYear
-  }
-  // render the page
-  res.render('rates-fees', body)
+    seasonYear
+  })
 })
 
-module.exports = router
+export default router

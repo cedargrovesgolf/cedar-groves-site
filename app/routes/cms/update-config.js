@@ -1,70 +1,51 @@
-/* ./routes/cms/update-config.js */
-const express = require('express')
+import express from 'express'
+import { setHours, setRates, setMemberships, setSeasonYear } from '../../lib/db.js'
+import { reply } from '../../lib/reply.js'
+
 const router = express.Router()
-const {
-  setHours,
-  setRates,
-  setMemberships,
-  setSeasonYear
-} = require('../../lib/db')
 
 router.use((req, res, next) => {
   if (!req.session.loggedin) {
-    return res.redirect('/admin-cms')
+    return reply(res, 401, 'error', 'Please log in again.', { redirect: '/admin-cms' })
   }
   next()
 })
-
-/* Hours */
 
 router.post('/hours', async (req, res) => {
   const { openHour, closeHour, overrideMsg, isClosed } = req.body ?? {}
 
   if (!isClosed && !openHour && !closeHour && !overrideMsg) {
-    req.session.updateError =
-      'Please update the hours, provide an override message, or select "CLOSED" to update.'
-    return res.redirect('/admin-cms')
+    return reply(res, 400, 'error', 'Please update the hours, provide an override message, or select "CLOSED" to update.')
   }
 
   try {
     await setHours(
       isClosed ? {} : { open: openHour, close: closeHour, override: overrideMsg }
     )
-    req.session.updateSuccess = overrideMsg
-      ? 'Message updated successfully!'
-      : 'Hours updated successfully!'
-    return res.redirect('/admin-cms')
+    return reply(res, 200, 'success', overrideMsg ? 'Message updated successfully!' : 'Hours updated successfully!')
   } catch (err) {
     console.error(err)
-    req.session.updateError = overrideMsg
+    return reply(res, 500, 'error', overrideMsg
       ? 'There was an error when updating the override message.'
-      : 'There was an error when updating the hours.'
-    return res.redirect('/admin-cms')
+      : 'There was an error when updating the hours.')
   }
 })
-
-/* Season Year */
 
 router.post('/season', async (req, res) => {
   const { year } = req.body ?? {}
 
   if (!year || !/^\d{4}$/.test(year)) {
-    req.session.updateError = 'Please provide a valid 4-digit year.'
-    return res.redirect('/admin-cms')
+    return reply(res, 400, 'error', 'Please provide a valid 4-digit year.')
   }
 
   try {
     await setSeasonYear(year)
-    req.session.updateSuccess = 'Season year updated successfully!'
-    return res.redirect('/admin-cms')
+    return reply(res, 200, 'success', 'Season year updated successfully!')
   } catch (err) {
     console.error(err)
-    req.session.updateError = 'There was an error when updating the season year.'
-    return res.redirect('/admin-cms')
+    return reply(res, 500, 'error', 'There was an error when updating the season year.')
   }
 })
-
-/* Rates & Fees */
 
 const isPrice = value =>
   typeof value === 'string' && /^(\d+|\d{1,3}(,\d{3})+)(\.\d{1,2})?$/.test(value.trim())
@@ -84,42 +65,34 @@ router.post('/rates', async (req, res) => {
   for (const key of rateKeys) {
     const value = body[key]
     if (!isPrice(value)) {
-      req.session.updateError = 'All rate fields must be valid numbers.'
-      return res.redirect('/admin-cms')
+      return reply(res, 400, 'error', 'All rate fields must be valid numbers.')
     }
     rates[key] = value.trim()
   }
 
   try {
     await setRates(rates)
-    req.session.updateSuccess = 'Rates updated successfully!'
-    return res.redirect('/admin-cms')
+    return reply(res, 200, 'success', 'Rates updated successfully!')
   } catch (err) {
     console.error(err)
-    req.session.updateError = 'There was an error when updating the rates.'
-    return res.redirect('/admin-cms')
+    return reply(res, 500, 'error', 'There was an error when updating the rates.')
   }
 })
-
-/* Memberships */
 
 router.post('/memberships', async (req, res) => {
   const { seasonPass, tenRoundPass } = req.body ?? {}
 
   if (!isPrice(seasonPass) || !isPrice(tenRoundPass)) {
-    req.session.updateError = 'All membership prices must be valid numbers.'
-    return res.redirect('/admin-cms')
+    return reply(res, 400, 'error', 'All membership prices must be valid numbers.')
   }
 
   try {
     await setMemberships({ seasonPass: seasonPass.trim(), tenRoundPass: tenRoundPass.trim() })
-    req.session.updateSuccess = 'Membership prices updated successfully!'
-    return res.redirect('/admin-cms')
+    return reply(res, 200, 'success', 'Membership prices updated successfully!')
   } catch (err) {
     console.error(err)
-    req.session.updateError = 'There was an error when updating the membership prices.'
-    return res.redirect('/admin-cms')
+    return reply(res, 500, 'error', 'There was an error when updating the membership prices.')
   }
 })
 
-module.exports = router
+export default router

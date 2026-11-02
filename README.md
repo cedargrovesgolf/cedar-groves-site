@@ -11,7 +11,7 @@
 ├── scripts/          # Lambda startup
 ├── test/             # Tests
 └── app/
-    ├── lib/          # AWS and auth
+    ├── lib/          # Shared code
     ├── middleware/   # Middleware
     ├── public/       # Static files
     ├── routes/       # Routes

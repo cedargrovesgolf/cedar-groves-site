@@ -1,8 +1,8 @@
-const { describe, it } = require('node:test')
-const request = require('supertest')
+import { describe, it } from 'node:test'
+import request from 'supertest'
 
 process.env.ORIGIN_SECRET = 'test-origin-secret'
-const app = require('../app/app')
+const { default: app } = await import('../app/app.js')
 
 describe('cloudfront origin header', () => {
   it('rejects requests without the origin header', async () => {

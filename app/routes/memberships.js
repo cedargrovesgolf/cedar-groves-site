@@ -1,7 +1,8 @@
-/* ./routes/memberships.js */
-const express = require('express')
+import express from 'express'
+import { getMemberships, getSeasonYear } from '../lib/db.js'
+import { formatPrice } from '../lib/format.js'
+
 const router = express.Router()
-const { getMemberships, getSeasonYear } = require('../lib/db')
 
 router.get('/', async (req, res) => {
   const [memberships, seasonYear] = await Promise.all([
@@ -9,16 +10,14 @@ router.get('/', async (req, res) => {
     getSeasonYear()
   ])
 
-  var body = {
+  res.render('memberships', {
     heroTitle: 'Memberships',
     heroSubtitle: 'Join Our Community Today',
     heroImg: '/assets/images/drone-22.jpg',
-    seasonPass: memberships ? memberships.seasonPass : null,
-    tenRoundPass: memberships ? memberships.tenRoundPass : null,
-    seasonYear: seasonYear
-  }
-  // render the page
-  res.render('memberships', body)
+    seasonPass: formatPrice(memberships?.seasonPass),
+    tenRoundPass: formatPrice(memberships?.tenRoundPass),
+    seasonYear
+  })
 })
 
-module.exports = router
+export default router

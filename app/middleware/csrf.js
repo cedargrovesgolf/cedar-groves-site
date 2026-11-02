@@ -9,4 +9,4 @@ const csrf = (req, res, next) => {
   next()
 }
 
-module.exports = csrf
+export default csrf

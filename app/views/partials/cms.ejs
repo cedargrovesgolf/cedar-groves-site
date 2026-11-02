@@ -4,20 +4,13 @@
     <button type="submit" class="link-button flex transition hover">Log Out</button>
   </form>
 </div>
-<% if (updateSuccess || updateError) { %>
-<div
-  class="text-<%= updateSuccess ? 'success' : 'danger' %> text-center border-rad px-4"
-  role="alert">
-  <%= updateSuccess || updateError %>
-</div>
-<% } %>
 <div class="main-item ps flex">
   <div class="card">
     <div class="vflex">
       <h5>Modify Hours</h5>
       <hr class="heading-divider my-3" />
     </div>
-    <form action="/cms/update-config/hours" method="POST">
+    <form action="/cms/update-config/hours" method="POST" data-async>
       <div class="vflex">
         <small>Hours must be in 24-hour format</small>
         <div class="vflex g-24 py-3 w-100">
@@ -78,7 +71,7 @@
       <h5>Modify Season Year</h5>
       <hr class="heading-divider my-3" />
     </div>
-    <form action="/cms/update-config/season" method="POST">
+    <form action="/cms/update-config/season" method="POST" data-async>
       <div class="vflex g-24 py-3 w-100">
         <div class="input-group" style="max-width: 200px">
           <input
@@ -105,7 +98,7 @@
       <h5>Modify Rates & Fees</h5>
       <hr class="heading-divider my-3" />
     </div>
-    <form action="/cms/update-config/rates" method="POST">
+    <form action="/cms/update-config/rates" method="POST" data-async>
       <div class="vflex g-24 py-3 w-100">
         <small>Enter prices as numbers without the $ sign</small>
         <h6>The Course</h6>
@@ -205,7 +198,7 @@
       <h5>Modify Membership Prices</h5>
       <hr class="heading-divider my-3" />
     </div>
-    <form action="/cms/update-config/memberships" method="POST">
+    <form action="/cms/update-config/memberships" method="POST" data-async>
       <div class="vflex g-24 py-3 w-100">
         <small>Enter prices as numbers without the $ sign</small>
         <div class="vflex g-8 w-100" style="max-width: 400px">
@@ -229,12 +222,11 @@
   </div>
 </div>
 <script nonce="<%= cspNonce %>">
-  $('#isClosed').on('change', function () {
-    $('#openHour').prop('disabled', this.checked)
-    $('#closeHour').prop('disabled', this.checked)
-    $('#overrideMsg').prop('disabled', this.checked)
-  })
-  $('#openHour').prop('disabled', $('#isClosed').prop('checked'))
-  $('#closeHour').prop('disabled', $('#isClosed').prop('checked'))
-  $('#overrideMsg').prop('disabled', $('#isClosed').prop('checked'))
+  {
+    const isClosed = document.getElementById('isClosed')
+    const hourFields = ['openHour', 'closeHour', 'overrideMsg'].map(id => document.getElementById(id))
+    const syncHourFields = () => hourFields.forEach(field => { field.disabled = isClosed.checked })
+    isClosed.addEventListener('change', syncHourFields)
+    syncHourFields()
+  }
 </script>

@@ -1,9 +1,9 @@
-const crypto = require('crypto')
+import crypto from 'node:crypto'
 
 const trustProxy = process.env.TRUST_PROXY ?? '1'
 
-module.exports = {
-  isProduction: process.env.NODE_ENV === 'production',
+export default {
+  production: process.env.NODE_ENV === 'production',
   port: process.env.PORT || 3000,
   trustProxy: /^\d+$/.test(trustProxy) ? Number(trustProxy) : trustProxy,
   sessionSecret: process.env.SESSION_SECRET || crypto.randomBytes(32).toString('hex'),

@@ -1,8 +1,9 @@
-/* ./routes/cms/auth.js */
-const express = require('express')
+import express from 'express'
+import { authenticate } from '../../lib/auth.js'
+import { reply } from '../../lib/reply.js'
+import { loginLimiter } from '../../middleware/rate-limit.js'
+
 const router = express.Router()
-const { authenticate } = require('../../lib/auth')
-const { loginLimiter } = require('../../middleware/rate-limit')
 
 const sessionTtl = 12 * 60 * 60 * 1000
 const rememberMeTtl = 30 * 24 * 60 * 60 * 1000
@@ -14,11 +15,10 @@ router.post('/', loginLimiter, async (req, res) => {
     const expiresAt = Date.now() + (rememberMe ? rememberMeTtl : sessionTtl)
     req.session = { loggedin: true, username, expiresAt }
     req.sessionOptions.expires = new Date(expiresAt)
-    return res.redirect('/admin-cms')
+    return reply(res, 200, 'success', 'Logged in.', { redirect: '/admin-cms' })
   }
 
-  req.session.failedLogIn = true
-  res.redirect('/admin-cms')
+  return reply(res, 401, 'error', 'Incorrect username or password. Please try again.')
 })
 
-module.exports = router
+export default router

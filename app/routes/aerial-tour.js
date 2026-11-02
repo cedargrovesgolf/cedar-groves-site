@@ -1,5 +1,5 @@
-/* ./routes/aerial-tour.js */
-const express = require('express')
+import express from 'express'
+
 const router = express.Router()
 
 const holeInfo = {
@@ -59,37 +59,28 @@ const holeInfo = {
   }
 }
 
+const holeNav = [
+  '/assets/images/drone-1.jpg',
+  '/assets/images/drone-17.jpg',
+  '/assets/images/drone-21.jpg',
+  '/assets/images/drone-20.jpg',
+  '/assets/images/drone-7.jpg',
+  '/assets/images/drone-5.jpg',
+  '/assets/images/drone-9.jpg',
+  '/assets/images/drone-11.jpg',
+  '/assets/images/drone-12.jpg'
+]
+
 router.get('/', (req, res) => {
-  var body = {
+  const { hole } = req.query
+  const content = typeof hole === 'string' && Object.hasOwn(holeInfo, hole) ? holeInfo[hole] : { holeNav }
+
+  res.render('aerial-tour', {
     heroTitle: 'Aerial Tour',
     heroSubtitle: 'Take Your Swing to New Heights',
-    heroImg: '/assets/images/drone-8.jpg'
-  }
-
-  const hole = req.query.hole
-  if (typeof hole === 'string' && Object.hasOwn(holeInfo, hole)) {
-    body = {
-      ...body,
-      ...holeInfo[hole]
-    }
-  } else {
-    body = {
-      ...body,
-      holeNav: [
-        '/assets/images/drone-1.jpg',
-        '/assets/images/drone-17.jpg',
-        '/assets/images/drone-21.jpg',
-        '/assets/images/drone-20.jpg',
-        '/assets/images/drone-7.jpg',
-        '/assets/images/drone-5.jpg',
-        '/assets/images/drone-9.jpg',
-        '/assets/images/drone-11.jpg',
-        '/assets/images/drone-12.jpg'
-      ]
-    }
-  }
-  // render the page
-  res.render('aerial-tour', body)
+    heroImg: '/assets/images/drone-8.jpg',
+    ...content
+  })
 })
 
-module.exports = router
+export default router

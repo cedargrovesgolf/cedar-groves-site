@@ -1,7 +1,6 @@
-<!-- index.ejs -->
 <!DOCTYPE html>
 <html lang="en" class="scroll-padding">
-  <%- include('common/head.ejs', { pageTitle: null }) %>
+  <%- include('common/head.ejs', { pageTitle: null, carousel: true }) %>
   <body>
     <%- include('common/header.ejs') %>
     <main class="main">
@@ -165,12 +164,13 @@
               <div class="swiper-button-prev"></div>
             </div>
           </div>
-          <a href="https://g.page/r/CbNd-HdtLRAYEBM/review" target="_blank">
+          <a href="https://g.page/r/CbNd-HdtLRAYEBM/review" target="_blank" rel="noopener">
             <button class="button-1">Leave a Review</button>
           </a>
         </div>
       </div>
     </main>
     <%- include('common/footer.html') %>
+    <script id="weatherwidget-io-js" src="https://weatherwidget.io/js/widget.min.js" defer></script>
   </body>
 </html>

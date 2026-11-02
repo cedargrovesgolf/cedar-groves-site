@@ -1,5 +1,4 @@
 /* styles.css */
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Infant:wght@400;500;600;700&family=Cormorant+SC&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap');
 
 :root {
   --color-prim: #333333;
@@ -417,6 +416,10 @@ a {
   line-height: 1;
 }
 
+#menu-button {
+  transition: opacity 0.25s;
+}
+
 .logo {
   color: var(--color-white);
   font-size: var(--font-lg);
@@ -668,6 +671,8 @@ a {
 /* swiper */
 .swiper {
   position: static !important;
+  --swiper-navigation-color: var(--color-prim);
+  --swiper-navigation-size: 32px;
 }
 
 .swiper-button-next {
@@ -694,10 +699,4 @@ a {
 .swiper-button-prev {
   opacity: 1;
   position: absolute !important;
-}
-
-.swiper-button-next::after,
-.swiper-button-prev::after {
-  font-size: 32px !important;
-  color: var(--color-prim);
 }

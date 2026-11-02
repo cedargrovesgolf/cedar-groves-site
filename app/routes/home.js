@@ -1,7 +1,7 @@
-/* ./routes/home.js */
-const express = require('express')
+import express from 'express'
+import { getHours } from '../lib/db.js'
+
 const router = express.Router()
-const { getHours } = require('../lib/db')
 
 const formatTime = time => {
   const [hours, minutes] = time.split(':').map(Number)
@@ -76,17 +76,15 @@ router.get('/', async (req, res) => {
     }
   ]
 
-  var body = {
+  res.render('index', {
     heroTitle: 'Cedar Groves Executive\nPar 3 & Driving Range',
     heroSubtitle: 'Golf Course & Driving Range',
     heroImg: '/assets/images/drone-1.jpg',
     openHour: hours.open ? formatTime(hours.open) : null,
     closeHour: hours.close ? formatTime(hours.close) : null,
     overrideMsg: hours.override,
-    reviews: reviews
-  }
-  // render the page
-  res.render('index', body)
+    reviews
+  })
 })
 
-module.exports = router
+export default router

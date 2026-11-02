@@ -1,7 +1,7 @@
-const { describe, it, mock } = require('node:test')
-const assert = require('node:assert/strict')
-const request = require('supertest')
-const { DynamoDBDocumentClient, GetCommand } = require('@aws-sdk/lib-dynamodb')
+import { describe, it, mock } from 'node:test'
+import assert from 'node:assert/strict'
+import request from 'supertest'
+import { DynamoDBDocumentClient, GetCommand } from '@aws-sdk/lib-dynamodb'
 
 const siteConfig = {
   open: { type: 'open', hour: '08:00' },
@@ -21,7 +21,7 @@ const send = mock.method(DynamoDBDocumentClient.prototype, 'send', async command
   throw new Error(`Unexpected ${command.constructor.name}`)
 })
 
-const app = require('../app/app')
+const { default: app } = await import('../app/app.js')
 
 describe('pages', () => {
   const pages = [
@@ -44,9 +44,11 @@ describe('pages', () => {
     })
   }
 
-  it('renders stored values', async () => {
-    const res = await request(app).get('/memberships').expect(200)
-    assert.match(res.text, /550/)
+  it('renders stored prices as formatted currency', async () => {
+    const memberships = await request(app).get('/memberships').expect(200)
+    assert.match(memberships.text, /\$550\.00/)
+    const rates = await request(app).get('/rates-fees').expect(200)
+    assert.match(rates.text, /\$38\.00/)
   })
 
   it('returns 404 for unknown paths', async () => {
@@ -61,14 +63,14 @@ describe('pages', () => {
 
 describe('cms', () => {
   for (const form of ['hours', 'season', 'rates', 'memberships']) {
-    it(`redirects anonymous POST /cms/update-config/${form} without writing`, async () => {
+    it(`rejects anonymous POST /cms/update-config/${form} without writing`, async () => {
       const callsBefore = send.mock.callCount()
-      await request(app)
+      const res = await request(app)
         .post(`/cms/update-config/${form}`)
         .type('form')
         .send({ year: '2030' })
-        .expect(302)
-        .expect('Location', '/admin-cms')
+        .expect(401)
+      assert.equal(res.body.redirect, '/admin-cms')
       assert.equal(send.mock.callCount(), callsBefore)
     })
   }
@@ -101,12 +103,13 @@ describe('contact form', () => {
       const fetch = t.mock.method(globalThis, 'fetch', async () => {
         throw new Error('fetch should not be called')
       })
-      await request(app)
+      const res = await request(app)
         .post('/send-mail')
         .type('form')
         .send(body)
-        .expect(302)
-        .expect('Location', '/contact#submitted')
+        .expect(400)
+        .expect('Content-Type', /json/)
+      assert.equal(res.body.type, 'error')
       assert.equal(fetch.mock.callCount(), 0)
     })
   }
