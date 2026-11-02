@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-padding">
-  <%- include('common/head.ejs', { pageTitle: null, carousel: true }) %>
+  <%- include('common/head.ejs', { pageTitle: null, bundle: 'home' }) %>
   <body>
     <%- include('common/header.ejs') %>
     <main class="main">
@@ -125,6 +125,15 @@
           <source src="/assets/videos/drone.mov" type="video/mp4" />
         </video>
       </div>
+      <% if (galleryPhotos.length) { %>
+        <div class="main-item">
+          <h2 class="heading display-5 text-center">Around the Course</h2>
+          <div class="vflex g-32 w-100">
+            <%- include('partials/gallery-grid.ejs', { photos: galleryPhotos, link: '/gallery' }) %>
+            <a href="/gallery"><button class="button-1">View Gallery</button></a>
+          </div>
+        </div>
+      <% } %>
       <div class="main-item">
         <h2 class="heading display-5 text-center">What We've Heard</h2>
         <div class="vflex g-16">

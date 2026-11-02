@@ -12,5 +12,6 @@ export default {
   contactEmail: process.env.EMAIL,
   fromEmail: process.env.FROM_EMAIL,
   configTable: process.env.CONFIG_TABLE,
-  cmsUsersTable: process.env.CMS_USERS_TABLE
+  cmsUsersTable: process.env.CMS_USERS_TABLE,
+  assetsBucket: process.env.ASSETS_BUCKET
 }

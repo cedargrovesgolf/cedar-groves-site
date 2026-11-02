@@ -1,0 +1,50 @@
+<div class="cms-wrapper flex bg-acc">
+  <div class="card vflex g-24 p-5" style="width: 450px; height: fit-content">
+    <div class="logo vflex">
+      <img src="/assets/logo-dark.svg" alt="" style="width: 150px" />
+      <span class="color-acc">Cedar Groves</span>
+    </div>
+    <form
+      class="cms-login-form vflex w-100 align-items-stretch"
+      action="/cms/login"
+      method="post"
+      novalidate
+      data-async>
+      <div>
+        <label for="username" class="form-label">Username</label>
+        <input
+          class="form-control border-rad"
+          type="text"
+          id="username"
+          name="username"
+          autocomplete="username"
+          required />
+        <span class="invalid-feedback">Username is required.</span>
+      </div>
+      <div>
+        <label for="password" class="form-label">Password</label>
+        <input
+          class="form-control border-rad"
+          type="password"
+          id="password"
+          name="password"
+          autocomplete="current-password"
+          required />
+        <span class="invalid-feedback">Password is required.</span>
+      </div>
+      <div class="form-check d-flex align-items-center gap-2 ps-0">
+        <input
+          class="form-check-input m-0"
+          type="checkbox"
+          name="rememberMe"
+          value="rememberMe"
+          id="remember-me" />
+        <label class="form-check-label" for="remember-me">Remember me</label>
+      </div>
+      <button class="button-3 bg-acc" type="submit" style="padding: 12px">
+        Log In
+      </button>
+    </form>
+    <a href="/" class="text-center hover transition">Back to site</a>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<form action="/cms/rates" method="POST" class="cms-form cms-form-rates" novalidate data-async data-cms-form>
+  <div class="cms-cards">
+    <% rateSections.forEach(({ title, rates: items }) => { %>
+      <fieldset class="cms-card">
+        <legend class="cms-card-title"><%= title %></legend>
+        <div class="cms-rate-grid">
+          <% items.forEach(([label, key]) => { %>
+            <div class="cms-price-row">
+              <label for="<%= key %>"><%= label %></label>
+              <div class="input-group cms-price">
+                <span class="input-group-text">$</span>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="<%= key %>"
+                  name="<%= key %>"
+                  value="<%= rates[key] %>"
+                  inputmode="decimal"
+                  pattern="(\d+|\d{1,3}(,\d{3})+)(\.\d{1,2})?"
+                  required
+                  autocomplete="off" />
+              </div>
+            </div>
+          <% }) %>
+        </div>
+      </fieldset>
+    <% }) %>
+  </div>
+  <%- include('save-bar.ejs') %>
+</form>

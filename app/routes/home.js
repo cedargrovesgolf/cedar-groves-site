@@ -1,5 +1,6 @@
 import express from 'express'
-import { getHours } from '../lib/db.js'
+import { getGallery, getHours } from '../lib/db.js'
+import { shownPhotos } from '../lib/storage.js'
 
 const router = express.Router()
 
@@ -12,7 +13,7 @@ const formatTime = time => {
 }
 
 router.get('/', async (req, res) => {
-  const hours = await getHours()
+  const [hours, gallery] = await Promise.all([getHours(), getGallery()])
 
   const reviews = [
     {
@@ -83,6 +84,7 @@ router.get('/', async (req, res) => {
     openHour: hours.open ? formatTime(hours.open) : null,
     closeHour: hours.close ? formatTime(hours.close) : null,
     overrideMsg: hours.override,
+    galleryPhotos: shownPhotos(gallery).slice(0, gallery.homeCount),
     reviews
   })
 })

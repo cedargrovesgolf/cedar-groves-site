@@ -59,6 +59,7 @@ Resources:
           FROM_EMAIL: !Sub no-reply@${DomainName}
           CONFIG_TABLE: !Ref ConfigTable
           CMS_USERS_TABLE: !Ref CmsUsersTable
+          ASSETS_BUCKET: !Ref AssetsBucket
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref ConfigTable
@@ -68,6 +69,18 @@ Resources:
             - Effect: Allow
               Action: ses:SendEmail
               Resource: !Sub arn:aws:ses:${AWS::Region}:${AWS::AccountId}:identity/${DomainName}
+            - Effect: Allow
+              Action:
+                - s3:PutObject
+                - s3:GetObject
+                - s3:DeleteObject
+              Resource: !Sub ${AssetsBucket.Arn}/assets/gallery/*
+            - Effect: Allow
+              Action: s3:ListBucket
+              Resource: !GetAtt AssetsBucket.Arn
+              Condition:
+                StringLike:
+                  s3:prefix: assets/gallery/*
 
   SiteLogGroup:
     Type: AWS::Logs::LogGroup
@@ -109,23 +122,6 @@ Resources:
         - AttributeName: userID
           KeyType: HASH
 
-  GalleryTable:
-    Type: AWS::DynamoDB::Table
-    DeletionPolicy: Retain
-    UpdateReplacePolicy: Retain
-    Properties:
-      TableName: cedar-groves-gallery
-      BillingMode: PAY_PER_REQUEST
-      DeletionProtectionEnabled: true
-      PointInTimeRecoverySpecification:
-        PointInTimeRecoveryEnabled: true
-      AttributeDefinitions:
-        - AttributeName: gallery
-          AttributeType: S
-      KeySchema:
-        - AttributeName: gallery
-          KeyType: HASH
-
   AssetsBucket:
     Type: AWS::S3::Bucket
     DeletionPolicy: Retain
@@ -144,6 +140,14 @@ Resources:
         ServerSideEncryptionConfiguration:
           - ServerSideEncryptionByDefault:
               SSEAlgorithm: AES256
+      CorsConfiguration:
+        CorsRules:
+          - AllowedMethods: [POST]
+            AllowedOrigins:
+              - !Sub https://${DomainName}
+              - http://localhost:3000
+            AllowedHeaders: ['*']
+            MaxAge: 3600
 
   AssetsBucketPolicy:
     Type: AWS::S3::BucketPolicy
@@ -286,27 +290,7 @@ Resources:
             FunctionAssociations:
               - EventType: viewer-request
                 FunctionARN: !GetAtt WwwRedirectFunction.FunctionMetadata.FunctionARN
-          - PathPattern: /vendor/*
-            TargetOriginId: app
-            ViewerProtocolPolicy: redirect-to-https
-            AllowedMethods: [GET, HEAD]
-            CachedMethods: [GET, HEAD]
-            Compress: true
-            CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6
-            FunctionAssociations:
-              - EventType: viewer-request
-                FunctionARN: !GetAtt WwwRedirectFunction.FunctionMetadata.FunctionARN
-          - PathPattern: /scripts/*
-            TargetOriginId: app
-            ViewerProtocolPolicy: redirect-to-https
-            AllowedMethods: [GET, HEAD]
-            CachedMethods: [GET, HEAD]
-            Compress: true
-            CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6
-            FunctionAssociations:
-              - EventType: viewer-request
-                FunctionARN: !GetAtt WwwRedirectFunction.FunctionMetadata.FunctionARN
-          - PathPattern: /styles.css
+          - PathPattern: /build/*
             TargetOriginId: app
             ViewerProtocolPolicy: redirect-to-https
             AllowedMethods: [GET, HEAD]

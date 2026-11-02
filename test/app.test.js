@@ -11,7 +11,17 @@ const siteConfig = {
     type: 'memberships',
     data: JSON.stringify({ seasonPass: '550', tenRoundPass: '250' })
   },
-  rates: { type: 'rates', data: JSON.stringify({ course_18hole: '38' }) }
+  rates: { type: 'rates', data: JSON.stringify({ course_18hole: '38' }) },
+  gallery: {
+    type: 'gallery',
+    data: JSON.stringify({
+      homeCount: 6,
+      photos: [
+        { id: '00000000-0000-4000-8000-000000000001', caption: 'Ninth green', shown: true, width: 800, height: 600 },
+        { id: '00000000-0000-4000-8000-000000000002', caption: 'Hidden', shown: false, width: 800, height: 600 }
+      ]
+    })
+  }
 }
 
 const send = mock.method(DynamoDBDocumentClient.prototype, 'send', async command => {
@@ -31,10 +41,11 @@ describe('pages', () => {
     '/aerial-tour?hole=1',
     '/memberships',
     '/faq',
+    '/gallery',
     '/contact',
     '/about',
     '/rules-regulations',
-    '/admin-cms',
+    '/cms',
     '/health'
   ]
 
@@ -51,6 +62,14 @@ describe('pages', () => {
     assert.match(rates.text, /\$38\.00/)
   })
 
+  it('shows only shown gallery photos', async () => {
+    const res = await request(app).get('/gallery').expect(200)
+    assert.match(res.text, /Ninth green/)
+    assert.doesNotMatch(res.text, /Hidden/)
+    const home = await request(app).get('/').expect(200)
+    assert.match(home.text, /\/assets\/gallery\/00000000-0000-4000-8000-000000000001-thumb\.jpg/)
+  })
+
   it('returns 404 for unknown paths', async () => {
     await request(app).get('/does-not-exist').expect(404)
   })
@@ -62,15 +81,31 @@ describe('pages', () => {
 })
 
 describe('cms', () => {
-  for (const form of ['hours', 'season', 'rates', 'memberships']) {
-    it(`rejects anonymous POST /cms/update-config/${form} without writing`, async () => {
+  for (const page of ['/cms/hours', '/cms/nope']) {
+    it(`redirects anonymous GET ${page} to the login page`, async () => {
+      await request(app).get(page).expect(302).expect('Location', '/cms')
+    })
+  }
+
+  const endpoints = [
+    '/cms/hours',
+    '/cms/rates',
+    '/cms/memberships',
+    '/cms/gallery',
+    '/cms/gallery/uploads',
+    '/cms/gallery/photos',
+    '/cms/gallery/photos/00000000-0000-4000-8000-000000000001/delete'
+  ]
+
+  for (const endpoint of endpoints) {
+    it(`rejects anonymous POST ${endpoint} without writing`, async () => {
       const callsBefore = send.mock.callCount()
       const res = await request(app)
-        .post(`/cms/update-config/${form}`)
+        .post(endpoint)
         .type('form')
         .send({ year: '2030' })
         .expect(401)
-      assert.equal(res.body.redirect, '/admin-cms')
+      assert.equal(res.body.redirect, '/cms')
       assert.equal(send.mock.callCount(), callsBefore)
     })
   }

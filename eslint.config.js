@@ -3,7 +3,7 @@ import stylistic from '@stylistic/eslint-plugin'
 import globals from 'globals'
 
 export default [
-  { ignores: ['**/.aws-sam/'] },
+  { ignores: ['**/.aws-sam/', 'app/public/build/'] },
   js.configs.recommended,
   {
     files: ['**/*.js'],
@@ -18,13 +18,10 @@ export default [
     }
   },
   {
-    files: ['app/public/scripts/**/*.js'],
+    files: ['app/client/**/*.js'],
     languageOptions: {
-      sourceType: 'script',
       globals: {
         ...globals.browser,
-        bootstrap: 'readonly',
-        Swiper: 'readonly',
         grecaptcha: 'readonly'
       }
     }

@@ -1,0 +1,32 @@
+<form action="/cms/hours" method="POST" class="cms-form" novalidate data-async data-cms-form>
+  <fieldset class="cms-card">
+    <legend class="cms-card-title">Status</legend>
+    <div class="cms-options">
+      <% [['open', 'Open'], ['closed', 'Closed'], ['message', 'Custom message']].forEach(([value, label]) => { %>
+        <label class="cms-option">
+          <input type="radio" name="status" value="<%= value %>" <% if (status === value) { %>checked<% } %> />
+          <span><%= label %></span>
+        </label>
+      <% }) %>
+    </div>
+    <p class="cms-preview">Homepage shows: <strong data-hours-preview></strong></p>
+  </fieldset>
+  <div class="cms-card" data-status-panel="open">
+    <div class="cms-time-row">
+      <div>
+        <label for="openHour" class="form-label">Opens</label>
+        <input type="time" class="form-control" id="openHour" name="openHour" value="<%= openHour %>" />
+      </div>
+      <div>
+        <label for="closeHour" class="form-label">Closes</label>
+        <input type="time" class="form-control" id="closeHour" name="closeHour" value="<%= closeHour %>" />
+      </div>
+    </div>
+  </div>
+  <div class="cms-card" data-status-panel="message">
+    <label for="overrideMsg" class="form-label">Message</label>
+    <input type="text" class="form-control" id="overrideMsg" name="overrideMsg" value="<%= overrideMsg %>" maxlength="200" placeholder="Closed Sunday for a tournament" autocomplete="off" />
+    <div class="form-text">Shown on the homepage instead of the hours.</div>
+  </div>
+  <%- include('save-bar.ejs') %>
+</form>

@@ -1,28 +1,8 @@
+import { showToast } from './toast.js'
+
 const getRecaptchaToken = siteKey => new Promise(resolve => {
   grecaptcha.ready(() => grecaptcha.execute(siteKey, { action: 'submit' }).then(resolve))
 })
-
-const toastContainer = document.createElement('div')
-toastContainer.className = 'toast-container position-fixed bottom-0 end-0 p-3'
-document.body.append(toastContainer)
-
-const showToast = ({ type, message }) => {
-  const success = type === 'success'
-  const toast = document.createElement('div')
-  toast.className = `toast border-0 text-bg-${success ? 'success' : 'danger'}`
-  toast.setAttribute('role', success ? 'status' : 'alert')
-  toast.setAttribute('aria-live', success ? 'polite' : 'assertive')
-  toast.setAttribute('aria-atomic', 'true')
-  toast.innerHTML = `
-    <div class="d-flex">
-      <div class="toast-body"></div>
-      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-    </div>`
-  toast.querySelector('.toast-body').textContent = message
-  toast.addEventListener('hidden.bs.toast', () => toast.remove())
-  toastContainer.append(toast)
-  bootstrap.Toast.getOrCreateInstance(toast).show()
-}
 
 const updateEmailFeedback = form => {
   form.querySelectorAll('input[type="email"]').forEach(input => {
@@ -60,9 +40,12 @@ document.querySelectorAll('form[data-async]').forEach(form => {
         return
       }
       showToast(result)
-      if (result.type === 'success' && 'reset' in form.dataset) {
-        form.reset()
+      if (result.type === 'success') {
         form.classList.remove('was-validated')
+        if ('reset' in form.dataset) {
+          form.reset()
+        }
+        form.dispatchEvent(new Event('saved'))
       }
     } catch {
       showToast({ type: 'error', message: 'Something went wrong. Please try again.' })
