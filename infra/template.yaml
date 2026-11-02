@@ -1,0 +1,379 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Cedar Groves website
+
+Parameters:
+  DomainName:
+    Type: String
+    Default: cedargrovesgolf.ca
+  ContactEmail:
+    Type: String
+    Default: cedargrovesgolf@gmail.com
+  TrustProxy:
+    Type: String
+    Default: '1'
+  SessionSecret:
+    Type: String
+    NoEcho: true
+    MinLength: 32
+  OriginSecret:
+    Type: String
+    NoEcho: true
+    MinLength: 32
+  RecaptchaSecretKey:
+    Type: String
+    NoEcho: true
+
+Resources:
+  SiteFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: cedar-groves-site
+      CodeUri: ../
+      Handler: scripts/run.sh
+      Runtime: nodejs24.x
+      Architectures:
+        - arm64
+      MemorySize: 512
+      Timeout: 15
+      ReservedConcurrentExecutions: 10
+      AutoPublishAlias: live
+      Layers:
+        # Lambda Web Adapter v1.1.0
+        - !Sub arn:aws:lambda:${AWS::Region}:753240598075:layer:LambdaAdapterLayerArm64:30
+      FunctionUrlConfig:
+        AuthType: NONE
+      LoggingConfig:
+        LogGroup: !Ref SiteLogGroup
+      Environment:
+        Variables:
+          AWS_LAMBDA_EXEC_WRAPPER: /opt/bootstrap
+          AWS_LWA_READINESS_CHECK_PATH: /health
+          PORT: '8080'
+          NODE_ENV: production
+          TRUST_PROXY: !Ref TrustProxy
+          SESSION_SECRET: !Ref SessionSecret
+          ORIGIN_SECRET: !Ref OriginSecret
+          RECAPTCHA_SECRET_KEY: !Ref RecaptchaSecretKey
+          EMAIL: !Ref ContactEmail
+          FROM_EMAIL: !Sub no-reply@${DomainName}
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref HoursTable
+        - DynamoDBReadPolicy:
+            TableName: !Ref CmsUsersTable
+        - Statement:
+            - Effect: Allow
+              Action: ses:SendEmail
+              Resource: !Sub arn:aws:ses:${AWS::Region}:${AWS::AccountId}:identity/${DomainName}
+
+  SiteLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: /aws/lambda/cedar-groves-site
+      RetentionInDays: 14
+
+  HoursTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      TableName: cedar-groves-hours
+      BillingMode: PAY_PER_REQUEST
+      DeletionProtectionEnabled: true
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+      AttributeDefinitions:
+        - AttributeName: type
+          AttributeType: S
+      KeySchema:
+        - AttributeName: type
+          KeyType: HASH
+
+  CmsUsersTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      TableName: cedar-groves-cms-users
+      BillingMode: PAY_PER_REQUEST
+      DeletionProtectionEnabled: true
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+      AttributeDefinitions:
+        - AttributeName: userID
+          AttributeType: N
+      KeySchema:
+        - AttributeName: userID
+          KeyType: HASH
+
+  GalleryTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      TableName: cedar-groves-gallery
+      BillingMode: PAY_PER_REQUEST
+      DeletionProtectionEnabled: true
+      AttributeDefinitions:
+        - AttributeName: gallery
+          AttributeType: S
+      KeySchema:
+        - AttributeName: gallery
+          KeyType: HASH
+
+  AssetsBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      BucketName: cedar-groves-site-assets
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      OwnershipControls:
+        Rules:
+          - ObjectOwnership: BucketOwnerEnforced
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+
+  AssetsBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref AssetsBucket
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: AllowCloudFrontRead
+            Effect: Allow
+            Principal:
+              Service: cloudfront.amazonaws.com
+            Action: s3:GetObject
+            Resource: !Sub ${AssetsBucket.Arn}/*
+            Condition:
+              StringEquals:
+                AWS:SourceArn: !Sub arn:aws:cloudfront::${AWS::AccountId}:distribution/${Distribution}
+          - Sid: DenyInsecureTransport
+            Effect: Deny
+            Principal: '*'
+            Action: s3:*
+            Resource:
+              - !GetAtt AssetsBucket.Arn
+              - !Sub ${AssetsBucket.Arn}/*
+            Condition:
+              Bool:
+                aws:SecureTransport: false
+
+  AssetsOriginAccessControl:
+    Type: AWS::CloudFront::OriginAccessControl
+    Properties:
+      OriginAccessControlConfig:
+        Name: cedar-groves-site-assets
+        OriginAccessControlOriginType: s3
+        SigningBehavior: always
+        SigningProtocol: sigv4
+
+  Certificate:
+    Type: AWS::CertificateManager::Certificate
+    Properties:
+      DomainName: !Ref DomainName
+      SubjectAlternativeNames:
+        - !Sub www.${DomainName}
+      ValidationMethod: DNS
+      DomainValidationOptions:
+        - DomainName: !Ref DomainName
+          HostedZoneId: !ImportValue cedar-groves-bootstrap-HostedZoneId
+        - DomainName: !Sub www.${DomainName}
+          HostedZoneId: !ImportValue cedar-groves-bootstrap-HostedZoneId
+
+  WwwRedirectFunction:
+    Type: AWS::CloudFront::Function
+    Properties:
+      Name: cedar-groves-www-redirect
+      AutoPublish: true
+      FunctionConfig:
+        Comment: Redirect www to the apex domain
+        Runtime: cloudfront-js-2.0
+      FunctionCode: !Sub |
+        function handler(event) {
+          var request = event.request;
+          if (request.headers.host && request.headers.host.value === 'www.${DomainName}') {
+            var query = Object.keys(request.querystring).map(function (key) {
+              var param = request.querystring[key];
+              var values = param.multiValue ? param.multiValue : [param];
+              return values.map(function (item) { return key + '=' + item.value; }).join('&');
+            }).join('&');
+            return {
+              statusCode: 301,
+              statusDescription: 'Moved Permanently',
+              headers: {
+                location: { value: 'https://${DomainName}' + request.uri + (query ? '?' + query : '') }
+              }
+            };
+          }
+          return request;
+        }
+
+  Distribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Enabled: true
+        Aliases:
+          - !Ref DomainName
+          - !Sub www.${DomainName}
+        HttpVersion: http2and3
+        IPV6Enabled: true
+        PriceClass: PriceClass_100
+        ViewerCertificate:
+          AcmCertificateArn: !Ref Certificate
+          SslSupportMethod: sni-only
+          MinimumProtocolVersion: TLSv1.2_2021
+        Origins:
+          - Id: app
+            DomainName: !Select [2, !Split ['/', !GetAtt SiteFunctionUrl.FunctionUrl]]
+            CustomOriginConfig:
+              OriginProtocolPolicy: https-only
+              OriginSSLProtocols:
+                - TLSv1.2
+            OriginCustomHeaders:
+              - HeaderName: x-origin-verify
+                HeaderValue: !Ref OriginSecret
+          - Id: assets
+            DomainName: !GetAtt AssetsBucket.RegionalDomainName
+            OriginAccessControlId: !GetAtt AssetsOriginAccessControl.Id
+            S3OriginConfig:
+              OriginAccessIdentity: ''
+        DefaultCacheBehavior:
+          TargetOriginId: app
+          ViewerProtocolPolicy: redirect-to-https
+          AllowedMethods: [GET, HEAD, OPTIONS, PUT, PATCH, POST, DELETE]
+          CachedMethods: [GET, HEAD]
+          Compress: true
+          CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad
+          OriginRequestPolicyId: b689b0a8-53d0-40ab-baf2-68738e2966ac
+          FunctionAssociations:
+            - EventType: viewer-request
+              FunctionARN: !GetAtt WwwRedirectFunction.FunctionMetadata.FunctionARN
+        CacheBehaviors:
+          - PathPattern: /assets/*
+            TargetOriginId: assets
+            ViewerProtocolPolicy: redirect-to-https
+            AllowedMethods: [GET, HEAD]
+            CachedMethods: [GET, HEAD]
+            Compress: true
+            CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6
+            FunctionAssociations:
+              - EventType: viewer-request
+                FunctionARN: !GetAtt WwwRedirectFunction.FunctionMetadata.FunctionARN
+
+  EmailIdentity:
+    Type: AWS::SES::EmailIdentity
+    Properties:
+      EmailIdentity: !Ref DomainName
+      DkimSigningAttributes:
+        NextSigningKeyLength: RSA_2048_BIT
+      MailFromAttributes:
+        MailFromDomain: !Sub mail.${DomainName}
+        BehaviorOnMxFailure: USE_DEFAULT_VALUE
+
+  DnsRecords:
+    Type: AWS::Route53::RecordSetGroup
+    Properties:
+      HostedZoneId: !ImportValue cedar-groves-bootstrap-HostedZoneId
+      RecordSets:
+        - Name: !Ref DomainName
+          Type: A
+          AliasTarget:
+            DNSName: !GetAtt Distribution.DomainName
+            HostedZoneId: Z2FDTNDATAQYW2
+        - Name: !Ref DomainName
+          Type: AAAA
+          AliasTarget:
+            DNSName: !GetAtt Distribution.DomainName
+            HostedZoneId: Z2FDTNDATAQYW2
+        - Name: !Sub www.${DomainName}
+          Type: A
+          AliasTarget:
+            DNSName: !GetAtt Distribution.DomainName
+            HostedZoneId: Z2FDTNDATAQYW2
+        - Name: !Sub www.${DomainName}
+          Type: AAAA
+          AliasTarget:
+            DNSName: !GetAtt Distribution.DomainName
+            HostedZoneId: Z2FDTNDATAQYW2
+        - Name: !Ref DomainName
+          Type: CAA
+          TTL: '3600'
+          ResourceRecords:
+            - '0 issue "amazon.com"'
+            - '0 issue "amazontrust.com"'
+            - '0 issue "awstrust.com"'
+            - '0 issue "amazonaws.com"'
+        - Name: !Ref DomainName
+          Type: MX
+          TTL: '3600'
+          ResourceRecords:
+            - '0 .'
+        - Name: !Ref DomainName
+          Type: TXT
+          TTL: '3600'
+          ResourceRecords:
+            - '"v=spf1 -all"'
+        - Name: !Sub _dmarc.${DomainName}
+          Type: TXT
+          TTL: '3600'
+          ResourceRecords:
+            - '"v=DMARC1; p=none"'
+        - Name: !Sub mail.${DomainName}
+          Type: MX
+          TTL: '3600'
+          ResourceRecords:
+            - !Sub 10 feedback-smtp.${AWS::Region}.amazonses.com
+        - Name: !Sub mail.${DomainName}
+          Type: TXT
+          TTL: '3600'
+          ResourceRecords:
+            - '"v=spf1 include:amazonses.com ~all"'
+        - Name: !GetAtt EmailIdentity.DkimDNSTokenName1
+          Type: CNAME
+          TTL: '3600'
+          ResourceRecords:
+            - !GetAtt EmailIdentity.DkimDNSTokenValue1
+        - Name: !GetAtt EmailIdentity.DkimDNSTokenName2
+          Type: CNAME
+          TTL: '3600'
+          ResourceRecords:
+            - !GetAtt EmailIdentity.DkimDNSTokenValue2
+        - Name: !GetAtt EmailIdentity.DkimDNSTokenName3
+          Type: CNAME
+          TTL: '3600'
+          ResourceRecords:
+            - !GetAtt EmailIdentity.DkimDNSTokenValue3
+        - Name: !Sub 2uvskm5vqyrc.${DomainName}
+          Type: CNAME
+          TTL: '3600'
+          ResourceRecords:
+            - gv-uol4a3nz5axhg3.dv.googlehosted.com
+        - Name: !Sub 7p555wtrznqu.${DomainName}
+          Type: CNAME
+          TTL: '3600'
+          ResourceRecords:
+            - gv-hzcdfborkum7rc.dv.googlehosted.com
+        - Name: !Sub dcgk7zquvjzx.${DomainName}
+          Type: CNAME
+          TTL: '3600'
+          ResourceRecords:
+            - gv-2kb6sdlawuhgjs.dv.googlehosted.com
+
+Outputs:
+  DistributionDomainName:
+    Value: !GetAtt Distribution.DomainName
+  DistributionId:
+    Value: !Ref Distribution
+  FunctionUrl:
+    Value: !GetAtt SiteFunctionUrl.FunctionUrl

@@ -1,6 +1,6 @@
 /* ./routes/aerial-tour.js */
-const express = require('express');
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 
 const holeInfo = {
   1: {
@@ -57,39 +57,39 @@ const holeInfo = {
     par: 3,
     desc: "The 9th hole, a longer Par 3, presents golfers with a challenging finish to the course. The green is well-kept and rewards accurate tee shots. Whether looking to finish strong or just soak in the beauty of the course, this hole won't disappoint."
   }
-};
+}
 
 router.get('/', (req, res) => {
   var body = {
     heroTitle: 'Aerial Tour',
     heroSubtitle: 'Take Your Swing to New Heights',
-    heroImg: 'https://cedar-groves-assets.s3.us-east-2.amazonaws.com/images/drone-8.jpg'
-  };
+    heroImg: '/assets/images/drone-8.jpg'
+  }
 
-  const hole = req.query.hole;
+  const hole = req.query.hole
   if (typeof hole === 'string' && Object.hasOwn(holeInfo, hole)) {
     body = {
       ...body,
       ...holeInfo[hole]
-    };
+    }
   } else {
     body = {
       ...body,
       holeNav: [
-        'https://cedar-groves-assets.s3.us-east-2.amazonaws.com/images/drone-1.jpg',
-        'https://cedar-groves-assets.s3.us-east-2.amazonaws.com/images/drone-17.jpg',
-        'https://cedar-groves-assets.s3.us-east-2.amazonaws.com/images/drone-21.jpg',
-        'https://cedar-groves-assets.s3.us-east-2.amazonaws.com/images/drone-20.jpg',
-        'https://cedar-groves-assets.s3.us-east-2.amazonaws.com/images/drone-7.jpg',
-        'https://cedar-groves-assets.s3.us-east-2.amazonaws.com/images/drone-5.jpg',
-        'https://cedar-groves-assets.s3.us-east-2.amazonaws.com/images/drone-9.jpg',
-        'https://cedar-groves-assets.s3.us-east-2.amazonaws.com/images/drone-11.jpg',
-        'https://cedar-groves-assets.s3.us-east-2.amazonaws.com/images/drone-12.jpg'
+        '/assets/images/drone-1.jpg',
+        '/assets/images/drone-17.jpg',
+        '/assets/images/drone-21.jpg',
+        '/assets/images/drone-20.jpg',
+        '/assets/images/drone-7.jpg',
+        '/assets/images/drone-5.jpg',
+        '/assets/images/drone-9.jpg',
+        '/assets/images/drone-11.jpg',
+        '/assets/images/drone-12.jpg'
       ]
-    };
+    }
   }
   // render the page
-  res.render('aerial-tour', body);
-});
+  res.render('aerial-tour', body)
+})
 
-module.exports = router;
+module.exports = router

@@ -1,54 +1,44 @@
 /* ./routes/cms/admin-cms.js */
-const express = require('express');
-const router = express.Router();
-const { getItem } = require('../../helper/dynamo-helper');
-const { getRates, getMemberships, getSeasonYear } = require('../../helper/config-helper');
+const express = require('express')
+const router = express.Router()
+const { getHours, getRates, getMemberships, getSeasonYear } = require('../../lib/db')
 
 router.get('/', async (req, res) => {
-  const failedLogIn = req.session.failedLogIn ?? false;
-  delete req.session.failedLogIn;
+  const failedLogIn = req.session.failedLogIn ?? false
+  delete req.session.failedLogIn
 
-  const loggedIn = req.session.loggedin;
-  let body;
+  const loggedIn = req.session.loggedin
+  let body
 
-  const baseQuery = {
-    tableName: 'cedar-groves-hours',
-    keyName: 'type',
-    keyType: 'S'
-  };
-
-  const [openHour, closeHour, overrideMsg, rates, memberships, seasonYear] =
-    await Promise.all([
-      getItem({ ...baseQuery, keyValue: 'open' }),
-      getItem({ ...baseQuery, keyValue: 'close' }),
-      getItem({ ...baseQuery, keyValue: 'override' }),
-      getRates(),
-      getMemberships(),
-      getSeasonYear()
-    ]);
+  const [hours, rates, memberships, seasonYear] = await Promise.all([
+    getHours(),
+    getRates(),
+    getMemberships(),
+    getSeasonYear()
+  ])
 
   if (loggedIn) {
-    const username = req.session.username;
+    const username = req.session.username
     body = {
       failedLogIn: false,
       loggedIn: loggedIn,
       user: username,
-      openHour: openHour?.hour?.S ?? '',
-      closeHour: closeHour?.hour?.S ?? '',
-      overrideMsg: overrideMsg?.hour?.S ?? '',
+      openHour: hours.open ?? '',
+      closeHour: hours.close ?? '',
+      overrideMsg: hours.override ?? '',
       rates: rates || {},
       memberships: memberships || {},
       seasonYear: seasonYear || '',
       updateSuccess: req.session.updateSuccess ?? null,
       updateError: req.session.updateError ?? null
-    };
-    delete req.session.updateSuccess;
-    delete req.session.updateError;
+    }
+    delete req.session.updateSuccess
+    delete req.session.updateError
   } else {
-    body = { loggedIn: false, failedLogIn: failedLogIn };
+    body = { loggedIn: false, failedLogIn: failedLogIn }
   }
   // render the page
-  res.render('admin-cms', body);
-});
+  res.render('admin-cms', body)
+})
 
-module.exports = router;
+module.exports = router

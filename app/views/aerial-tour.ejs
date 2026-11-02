@@ -2,13 +2,13 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-padding">
   <%- include('common/head.ejs', { pageTitle: typeof hole !== 'undefined' ?
-  'Hole ' + hole : 'Aerial Tour' }); %>
+  'Hole ' + hole : 'Aerial Tour' }) %>
   <body>
-    <%- include('common/header.ejs'); %>
+    <%- include('common/header.ejs') %>
     <main class="main">
       <%- include(typeof hole !== 'undefined' ? 'partials/hole.ejs' :
-      'partials/hole-nav.ejs'); %>
+      'partials/hole-nav.ejs') %>
     </main>
-    <%- include('common/footer.html'); %>
+    <%- include('common/footer.html') %>
   </body>
 </html>

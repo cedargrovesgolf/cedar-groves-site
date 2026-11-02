@@ -1,9 +1,9 @@
 <!-- contact.ejs -->
 <!DOCTYPE html>
 <html lang="en" class="scroll-padding">
-  <%- include('common/head.ejs', { pageTitle: 'Contact Us' }); %>
+  <%- include('common/head.ejs', { pageTitle: 'Contact Us' }) %>
   <body>
-    <%- include('common/header.ejs'); %>
+    <%- include('common/header.ejs') %>
     <main class="main">
       <div class="main-item">
         <div class="vflex">
@@ -123,7 +123,7 @@
               <input type="hidden" id="recaptchaResponse" name="recaptchaResponse">
               <button 
                 class="button-1 my-2 g-recaptcha" 
-                data-sitekey="6LdTf5IpAAAAAN5-krGR4Dq3VbXF4Ge8FVDKBXcC" 
+                data-sitekey="6Le1EAwuAAAAAFNXjqA0jZ2NJipD0IXa6Vd-DGUl" 
                 data-callback='onSubmit' 
                 data-action='submit'>Send</button>
             </form>
@@ -131,12 +131,12 @@
         </div>
       </div>
     </main>
-    <%- include('common/footer.html'); %>
+    <%- include('common/footer.html') %>
     <script src="https://www.google.com/recaptcha/api.js"></script>
     <script nonce="<%= cspNonce %>">
       function onSubmit(token) {
-        document.getElementById("recaptchaResponse").value = token;
-        document.getElementById("submitted").submit();
+        document.getElementById("recaptchaResponse").value = token
+        document.getElementById("submitted").submit()
       }
     </script>
   </body>
