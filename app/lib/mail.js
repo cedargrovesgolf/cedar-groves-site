@@ -1,8 +1,8 @@
-const { SESv2Client, SendEmailCommand } = require('@aws-sdk/client-sesv2')
+import { SESv2Client, SendEmailCommand } from '@aws-sdk/client-sesv2'
 
 const ses = new SESv2Client()
 
-const sendMail = async ({ from, to, replyTo, subject, text }) => {
+export const sendMail = async ({ from, to, replyTo, subject, text }) => {
   await ses.send(
     new SendEmailCommand({
       FromEmailAddress: from,
@@ -17,5 +17,3 @@ const sendMail = async ({ from, to, replyTo, subject, text }) => {
     })
   )
 }
-
-module.exports = { sendMail }

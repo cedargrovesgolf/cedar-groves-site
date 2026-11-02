@@ -1,15 +1,18 @@
-const express = require('express')
+import express from 'express'
+import validator from 'validator'
+import { sendMail } from '../lib/mail.js'
+import { reply } from '../lib/reply.js'
+import { contactLimiter } from '../middleware/rate-limit.js'
+import config from '../config.js'
+
 const router = express.Router()
-const validator = require('validator')
-const { sendMail } = require('../lib/mail')
-const { contactLimiter } = require('../middleware/rate-limit')
-const { recaptchaSecretKey, contactEmail, fromEmail } = require('../config')
 
 const isText = (value, maxLength) =>
   typeof value === 'string' && value.length <= maxLength
 
-const recaptchaHostname = 'cedargrovesgolf.ca'
+const recaptchaHostname = config.production ? 'cedargrovesgolf.ca' : 'localhost'
 const recaptchaMinScore = 0.5
+const sentMessage = 'Sent. Thank you for your feedback!'
 
 const isHumanSubmission = data =>
   data.success === true &&
@@ -22,7 +25,7 @@ router.post('/', contactLimiter, async (req, res) => {
   const { firstName, lastName, to, subject, message, honeypot, recaptchaResponse } = req.body ?? {}
 
   if (honeypot?.length) {
-    return res.redirect('/contact#submitted')
+    return reply(res, 200, 'success', sentMessage)
   }
 
   if (
@@ -32,20 +35,18 @@ router.post('/', contactLimiter, async (req, res) => {
     !isText(message, 5000) ||
     !isText(recaptchaResponse, 4000)
   ) {
-    req.session.sentError = 'Please check your message and try again.'
-    return res.redirect('/contact#submitted')
+    return reply(res, 400, 'error', 'Please check your message and try again.')
   }
 
   if (typeof to !== 'string' || !validator.isEmail(to)) {
-    req.session.sentError = 'Invalid email address.'
-    return res.redirect('/contact#submitted')
+    return reply(res, 400, 'error', 'Invalid email address.')
   }
 
   try {
     const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
       method: 'POST',
       body: new URLSearchParams({
-        secret: recaptchaSecretKey,
+        secret: config.recaptchaSecretKey,
         response: recaptchaResponse,
         remoteip: req.ip
       })
@@ -53,14 +54,12 @@ router.post('/', contactLimiter, async (req, res) => {
     const data = await response.json()
 
     if (!isHumanSubmission(data)) {
-      req.session.sentError = 'reCAPTCHA verification failed. Please try again.'
-      return res.redirect('/contact#submitted')
+      return reply(res, 400, 'error', 'reCAPTCHA verification failed. Please try again.')
     }
   } catch {
-    req.session.sentError = 'An error occurred during reCAPTCHA verification.'
-    return res.redirect('/contact#submitted')
+    return reply(res, 502, 'error', 'An error occurred during reCAPTCHA verification.')
   }
-  
+
   const clientMessage = `Hello,
 
 Thank you for contacting Cedar Groves Golf Course. We have received your message and will get back to you as soon as possible.
@@ -68,7 +67,7 @@ Thank you for contacting Cedar Groves Golf Course. We have received your message
 Cedar Groves Executive Par 3 & Driving Range`
 
   const mailToClient = {
-    from: `Cedar Groves Golf <${fromEmail}>`,
+    from: `Cedar Groves Golf <${config.fromEmail}>`,
     to,
     subject: 'Feedback Received by Cedar Groves',
     text: clientMessage
@@ -83,8 +82,8 @@ Subject: ${subject}
 ${message}`
 
   const mailToBusiness = {
-    from: `Cedar Groves Golf <${fromEmail}>`,
-    to: contactEmail,
+    from: `Cedar Groves Golf <${config.fromEmail}>`,
+    to: config.contactEmail,
     replyTo: to,
     subject: subject.replace(/[\r\n]+/g, ' '),
     text: businessMessage
@@ -92,12 +91,11 @@ ${message}`
 
   try {
     await Promise.all([sendMail(mailToBusiness), sendMail(mailToClient)])
-    req.session.sentSuccess = 'Sent. Thank you for your feedback!'
+    return reply(res, 200, 'success', sentMessage)
   } catch (error) {
     console.error(error)
-    req.session.sentError = 'An error occurred while attempting to send your message.'
+    return reply(res, 502, 'error', 'An error occurred while attempting to send your message.')
   }
-  return res.redirect('/contact#submitted')
 })
 
-module.exports = router
+export default router

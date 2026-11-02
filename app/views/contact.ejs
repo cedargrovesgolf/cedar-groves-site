@@ -1,8 +1,8 @@
-<!-- contact.ejs -->
 <!DOCTYPE html>
 <html lang="en" class="scroll-padding">
   <%- include('common/head.ejs', { pageTitle: 'Contact Us' }) %>
   <body>
+    <% const recaptchaSiteKey = '6Le1EAwuAAAAAFNXjqA0jZ2NJipD0IXa6Vd-DGUl' %>
     <%- include('common/header.ejs') %>
     <main class="main">
       <div class="main-item">
@@ -41,7 +41,7 @@
                 <h5>Visit Us</h5>
                 <a
                   href="https://goo.gl/maps/KqfRJ4TyofZB3y9a7"
-                  target="_blank"
+                  target="_blank" rel="noopener"
                   class="transition hover">
                   2000 Golden Grove Road, Saint John, NB
                 </a>
@@ -50,11 +50,14 @@
           </div>
           <div class="flex-eq">
             <form
-              class="contact needs-validation"
+              class="contact"
               method="POST"
-              action="send-mail"
-              id="submitted"
-              novalidate>
+              action="/send-mail"
+              id="contact-form"
+              novalidate
+              data-async
+              data-reset
+              data-recaptcha="<%= recaptchaSiteKey %>">
               <div class="row g-3 py-2">
                 <div class="col">
                   <input
@@ -110,34 +113,17 @@
                   <span class="invalid-feedback">Message is required.</span>
                 </div>
               </div>
-              <% if (sentSuccess || sentError) { %>
-              <div
-                class="text-<%= sentSuccess ? 'success' : 'danger' %> text-center border-rad"
-                role="alert">
-                <%= sentSuccess || sentError %>
-              </div>
-              <% } %>
               <div style="display:none;">
                 <input type="text" name="honeypot" value="" />
               </div>
               <input type="hidden" id="recaptchaResponse" name="recaptchaResponse">
-              <button 
-                class="button-1 my-2 g-recaptcha" 
-                data-sitekey="6Le1EAwuAAAAAFNXjqA0jZ2NJipD0IXa6Vd-DGUl" 
-                data-callback='onSubmit' 
-                data-action='submit'>Send</button>
+              <button class="button-1 my-2" type="submit">Send</button>
             </form>
           </div>
         </div>
       </div>
     </main>
     <%- include('common/footer.html') %>
-    <script src="https://www.google.com/recaptcha/api.js"></script>
-    <script nonce="<%= cspNonce %>">
-      function onSubmit(token) {
-        document.getElementById("recaptchaResponse").value = token
-        document.getElementById("submitted").submit()
-      }
-    </script>
+    <script src="https://www.google.com/recaptcha/api.js?render=<%= recaptchaSiteKey %>"></script>
   </body>
 </html>

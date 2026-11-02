@@ -1,15 +1,15 @@
-const js = require('@eslint/js')
-const stylistic = require('@stylistic/eslint-plugin')
-const globals = require('globals')
+import js from '@eslint/js'
+import stylistic from '@stylistic/eslint-plugin'
+import globals from 'globals'
 
-module.exports = [
+export default [
   { ignores: ['**/.aws-sam/'] },
   js.configs.recommended,
   {
     files: ['**/*.js'],
     plugins: { '@stylistic': stylistic },
     languageOptions: {
-      sourceType: 'commonjs',
+      sourceType: 'module',
       globals: globals.node
     },
     rules: {
@@ -23,8 +23,9 @@ module.exports = [
       sourceType: 'script',
       globals: {
         ...globals.browser,
-        $: 'readonly',
-        Swiper: 'readonly'
+        bootstrap: 'readonly',
+        Swiper: 'readonly',
+        grecaptcha: 'readonly'
       }
     }
   }

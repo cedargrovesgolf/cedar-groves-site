@@ -1,12 +1,11 @@
 name: ci
-
 on:
   pull_request:
     branches: [main]
-
 permissions:
   contents: read
-
+env:
+  SAM_CLI_TELEMETRY: 0
 jobs:
   lint:
     runs-on: ubuntu-24.04-arm
@@ -20,7 +19,6 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run lint
-
   test:
     runs-on: ubuntu-24.04-arm
     steps:
@@ -33,7 +31,6 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm test
-
   sam-validate:
     runs-on: ubuntu-24.04-arm
     env:
@@ -50,7 +47,6 @@ jobs:
           python-version: '3.13'
       - run: pip install aws-sam-cli==1.171.0
       - run: sam validate --lint
-
   sam-build:
     runs-on: ubuntu-24.04-arm
     defaults:

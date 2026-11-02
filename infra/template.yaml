@@ -220,6 +220,17 @@ Resources:
           return request;
         }
 
+  AssetsCacheHeaders:
+    Type: AWS::CloudFront::ResponseHeadersPolicy
+    Properties:
+      ResponseHeadersPolicyConfig:
+        Name: cedar-groves-assets-cache
+        CustomHeadersConfig:
+          Items:
+            - Header: Cache-Control
+              Value: public, max-age=604800
+              Override: true
+
   Distribution:
     Type: AWS::CloudFront::Distribution
     Properties:
@@ -228,7 +239,7 @@ Resources:
         Aliases:
           - !Ref DomainName
           - !Sub www.${DomainName}
-        HttpVersion: http2and3
+        HttpVersion: http2
         IPV6Enabled: true
         PriceClass: PriceClass_100
         ViewerCertificate:
@@ -264,6 +275,17 @@ Resources:
         CacheBehaviors:
           - PathPattern: /assets/*
             TargetOriginId: assets
+            ViewerProtocolPolicy: redirect-to-https
+            AllowedMethods: [GET, HEAD]
+            CachedMethods: [GET, HEAD]
+            Compress: true
+            CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6
+            ResponseHeadersPolicyId: !Ref AssetsCacheHeaders
+            FunctionAssociations:
+              - EventType: viewer-request
+                FunctionARN: !GetAtt WwwRedirectFunction.FunctionMetadata.FunctionARN
+          - PathPattern: /vendor/*
+            TargetOriginId: app
             ViewerProtocolPolicy: redirect-to-https
             AllowedMethods: [GET, HEAD]
             CachedMethods: [GET, HEAD]

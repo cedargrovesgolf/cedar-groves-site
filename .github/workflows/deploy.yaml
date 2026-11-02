@@ -1,16 +1,14 @@
 name: deploy
-
 on:
   push:
     branches: [main]
-
 permissions:
   contents: read
-
 concurrency:
   group: deploy
   cancel-in-progress: false
-
+env:
+  SAM_CLI_TELEMETRY: 0
 jobs:
   build:
     runs-on: ubuntu-24.04-arm
@@ -35,7 +33,6 @@ jobs:
           name: sam-build
           path: infra/sam-build.tgz
           retention-days: 1
-
   publish:
     needs: build
     runs-on: ubuntu-24.04-arm

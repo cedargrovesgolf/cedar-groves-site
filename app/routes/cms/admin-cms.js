@@ -1,14 +1,12 @@
-/* ./routes/cms/admin-cms.js */
-const express = require('express')
+import express from 'express'
+import { getHours, getRates, getMemberships, getSeasonYear } from '../../lib/db.js'
+
 const router = express.Router()
-const { getHours, getRates, getMemberships, getSeasonYear } = require('../../lib/db')
 
 router.get('/', async (req, res) => {
-  const failedLogIn = req.session.failedLogIn ?? false
-  delete req.session.failedLogIn
-
-  const loggedIn = req.session.loggedin
-  let body
+  if (!req.session.loggedin) {
+    return res.render('admin-cms', { loggedIn: false })
+  }
 
   const [hours, rates, memberships, seasonYear] = await Promise.all([
     getHours(),
@@ -17,28 +15,16 @@ router.get('/', async (req, res) => {
     getSeasonYear()
   ])
 
-  if (loggedIn) {
-    const username = req.session.username
-    body = {
-      failedLogIn: false,
-      loggedIn: loggedIn,
-      user: username,
-      openHour: hours.open ?? '',
-      closeHour: hours.close ?? '',
-      overrideMsg: hours.override ?? '',
-      rates: rates || {},
-      memberships: memberships || {},
-      seasonYear: seasonYear || '',
-      updateSuccess: req.session.updateSuccess ?? null,
-      updateError: req.session.updateError ?? null
-    }
-    delete req.session.updateSuccess
-    delete req.session.updateError
-  } else {
-    body = { loggedIn: false, failedLogIn: failedLogIn }
-  }
-  // render the page
-  res.render('admin-cms', body)
+  res.render('admin-cms', {
+    loggedIn: true,
+    user: req.session.username,
+    openHour: hours.open ?? '',
+    closeHour: hours.close ?? '',
+    overrideMsg: hours.override ?? '',
+    rates: rates || {},
+    memberships: memberships || {},
+    seasonYear: seasonYear || ''
+  })
 })
 
-module.exports = router
+export default router

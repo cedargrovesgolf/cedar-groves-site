@@ -1,9 +1,9 @@
-const bcrypt = require('bcrypt')
-const { getCmsUser } = require('./db')
+import bcrypt from 'bcrypt'
+import { getCmsUser } from './db.js'
 
 const dummyHash = bcrypt.hashSync('', 10)
 
-const authenticate = async (username, password) => {
+export const authenticate = async (username, password) => {
   const user = await getCmsUser()
   const storedHash =
     typeof username === 'string' && username === user?.username ? user.passwordHash : undefined
@@ -13,5 +13,3 @@ const authenticate = async (username, password) => {
   )
   return Boolean(storedHash) && passwordMatches
 }
-
-module.exports = { authenticate }

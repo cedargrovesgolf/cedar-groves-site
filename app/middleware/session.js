@@ -1,11 +1,11 @@
-const cookieSession = require('cookie-session')
-const { isProduction, sessionSecret } = require('../config')
+import cookieSession from 'cookie-session'
+import config from '../config.js'
 
 const cookies = cookieSession({
   name: 'session',
-  keys: [sessionSecret],
+  keys: [config.sessionSecret],
   httpOnly: true,
-  secure: isProduction,
+  secure: config.production,
   sameSite: 'lax'
 })
 
@@ -21,4 +21,4 @@ const expireLogin = (req, res, next) => {
   next()
 }
 
-module.exports = [cookies, expireLogin]
+export default [cookies, expireLogin]

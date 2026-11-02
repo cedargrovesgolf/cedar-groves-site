@@ -1,27 +1,25 @@
-const rateLimit = require('express-rate-limit')
+import { rateLimit } from 'express-rate-limit'
 
 const minutes = 60 * 1000
 const defaults = { standardHeaders: true, legacyHeaders: false }
 
-const globalLimiter = rateLimit({
+export const globalLimiter = rateLimit({
   ...defaults,
   windowMs: 15 * minutes,
   limit: 500,
   message: 'Too many requests, please try again after 15 minutes'
 })
 
-const loginLimiter = rateLimit({
+export const loginLimiter = rateLimit({
   ...defaults,
   windowMs: 15 * minutes,
   limit: 10,
-  message: 'Too many login attempts, please try again after 15 minutes'
+  message: { type: 'error', message: 'Too many login attempts, please try again after 15 minutes.' }
 })
 
-const contactLimiter = rateLimit({
+export const contactLimiter = rateLimit({
   ...defaults,
   windowMs: 60 * minutes,
   limit: 5,
-  message: 'Too many messages sent, please try again in an hour'
+  message: { type: 'error', message: 'Too many messages sent, please try again in an hour.' }
 })
-
-module.exports = { globalLimiter, loginLimiter, contactLimiter }

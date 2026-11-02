@@ -1,15 +1,13 @@
-/* ./routes/rates-fees.js */
-const express = require('express')
+import express from 'express'
+
 const router = express.Router()
 
 router.get('/', (req, res) => {
-  var body = {
+  res.render('about', {
     heroTitle: 'About Us',
     heroSubtitle: 'Find Out What Makes Us Unique',
     heroImg: '/assets/images/drone-12.jpg'
-  }
-  // render the page
-  res.render('about', body)
+  })
 })
 
-module.exports = router
+export default router

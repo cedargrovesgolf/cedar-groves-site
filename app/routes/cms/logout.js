@@ -1,5 +1,5 @@
-/* ./routes/cms/logout.js */
-const express = require('express')
+import express from 'express'
+
 const router = express.Router()
 
 router.post('/', (req, res) => {
@@ -7,4 +7,4 @@ router.post('/', (req, res) => {
   res.redirect('/admin-cms')
 })
 
-module.exports = router
+export default router
