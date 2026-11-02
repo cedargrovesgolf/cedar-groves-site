@@ -29,6 +29,7 @@ jspm_packages/
 
 # Application specific
 app/public/assets
+app/public/build
 .prettierrc
 .prettierignore
 

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('common/head.ejs', { pageTitle: loggedIn ? `CMS: ${title}` : 'CMS', bundle: loggedIn ? 'cms' : null }) %>
+  <body>
+    <% if (!loggedIn) { %>
+      <main class="main">
+        <%- include('partials/cms/login.ejs') %>
+      </main>
+    <% } else { %>
+      <header class="cms-bar">
+        <a href="/cms" class="cms-brand">CMS</a>
+        <div class="cms-bar-actions">
+          <a href="/" target="_blank" rel="noopener" class="cms-bar-link">
+            View site <i class="bi bi-box-arrow-up-right"></i>
+          </a>
+          <form method="post" action="/cms/logout">
+            <button type="submit" class="btn btn-sm btn-outline-light">Log out</button>
+          </form>
+        </div>
+      </header>
+      <div class="cms-layout">
+        <nav class="cms-nav" aria-label="Sections">
+          <% sections.forEach(({ key, title }) => { %>
+            <a href="/cms/<%= key %>" <% if (key === section) { %>aria-current="page"<% } %>><%= title %></a>
+          <% }) %>
+        </nav>
+        <main class="cms-content">
+          <h1 class="cms-title"><%= title %></h1>
+          <%- include(`partials/cms/${section}.ejs`) %>
+        </main>
+      </div>
+    <% } %>
+  </body>
+</html>

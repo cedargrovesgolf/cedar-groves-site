@@ -22,6 +22,11 @@ jobs:
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+        working-directory: .
+      - run: npm run build
+        working-directory: .
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: '3.13'
@@ -72,7 +77,3 @@ jobs:
           SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
           ORIGIN_SECRET: ${{ secrets.ORIGIN_SECRET }}
           RECAPTCHA_SECRET_KEY: ${{ secrets.RECAPTCHA_SECRET_KEY }}
-      - run: >-
-          aws cloudfront create-invalidation
-          --distribution-id "$(aws cloudformation describe-stacks --stack-name cedar-groves-site --query "Stacks[0].Outputs[?OutputKey=='DistributionId'].OutputValue" --output text)"
-          --paths /styles.css '/scripts/*' '/vendor/*'

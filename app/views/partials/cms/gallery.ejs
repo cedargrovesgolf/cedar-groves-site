@@ -1,0 +1,71 @@
+<form action="/cms/gallery" method="POST" class="cms-form cms-form-wide" novalidate data-async data-cms-form>
+  <div class="cms-card">
+    <div class="cms-upload">
+      <label class="button-3 cms-button">
+        <i class="bi bi-upload"></i> Add photos
+        <input type="file" accept="image/*" multiple hidden data-upload />
+      </label>
+      <span class="form-text" data-upload-status></span>
+    </div>
+    <div class="cms-price-row">
+      <label for="homeCount">Photos on the homepage</label>
+      <input
+        type="number"
+        class="form-control cms-narrow"
+        id="homeCount"
+        name="homeCount"
+        value="<%= homeCount %>"
+        min="0"
+        max="24"
+        inputmode="numeric"
+        required />
+    </div>
+    <ul class="form-text cms-help">
+      <li>Only photos switched on appear on the site.</li>
+      <li>The Gallery page shows them in the order below. The first one is also the page's main image.</li>
+      <li>The homepage shows the top <span data-home-count><%= homeCount %></span>.</li>
+    </ul>
+  </div>
+  <% if (photos.length) { %>
+    <ul class="cms-list" data-sortable>
+      <% photos.forEach(photo => { %>
+        <li class="cms-list-item">
+          <input type="hidden" name="order" value="<%= photo.id %>" />
+          <button type="button" class="cms-handle" aria-label="Drag to reorder"><i class="bi bi-grip-vertical"></i></button>
+          <img src="<%= photo.thumb %>" alt="" width="64" height="64" />
+          <div class="cms-list-body">
+            <input
+              type="text"
+              class="form-control"
+              name="caption_<%= photo.id %>"
+              value="<%= photo.caption %>"
+              maxlength="200"
+              placeholder="Caption (optional)"
+              aria-label="Caption"
+              autocomplete="off" />
+            <div class="cms-list-meta">
+              <div class="form-check form-switch">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="shown_<%= photo.id %>"
+                  name="shown_<%= photo.id %>"
+                  value="1"
+                  <% if (photo.shown) { %>checked<% } %> />
+                <label class="form-check-label" for="shown_<%= photo.id %>">Shown</label>
+              </div>
+              <% if (photo.isNew) { %><span class="badge text-bg-warning">New</span><% } %>
+            </div>
+          </div>
+          <button type="button" class="btn btn-sm btn-outline-danger" data-delete="<%= photo.id %>" aria-label="Delete photo">
+            <i class="bi bi-trash"></i>
+          </button>
+        </li>
+      <% }) %>
+    </ul>
+  <% } else { %>
+    <p class="cms-empty">No photos yet. Use <strong>Add photos</strong> to upload some.</p>
+  <% } %>
+  <%- include('save-bar.ejs') %>
+</form>

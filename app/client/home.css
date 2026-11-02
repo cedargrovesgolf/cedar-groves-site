@@ -1,0 +1,37 @@
+@import 'swiper/css';
+@import 'swiper/css/navigation';
+@import 'swiper/css/pagination';
+@import './gallery-grid.css';
+
+/* swiper */
+.swiper {
+  position: static !important;
+  --swiper-navigation-color: var(--color-prim);
+  --swiper-navigation-size: 32px;
+}
+
+.swiper-button-next {
+  right: 2px !important;
+}
+
+.swiper-slide {
+  height: auto !important;
+}
+
+.swiper-button-prev {
+  left: 2px !important;
+}
+
+.swiper-pagination {
+  bottom: -6px !important;
+}
+
+.swiper-pagination-bullet-active {
+  background: var(--color-prim) !important;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  opacity: 1;
+  position: absolute !important;
+}

@@ -52,6 +52,10 @@ export const getSeasonYear = async () => {
 
 export const setSeasonYear = year => putJsonConfig('season', { year })
 
+export const getGallery = async () => ({ homeCount: 6, photos: [], ...(await getJsonConfig('gallery')) })
+
+export const setGallery = gallery => putJsonConfig('gallery', gallery)
+
 export const getCmsUser = async () => {
   const { Item } = await client.send(new GetCommand({ TableName: config.cmsUsersTable, Key: { userID: 0 } }))
   return Item ?? null

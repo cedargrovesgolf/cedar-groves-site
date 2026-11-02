@@ -1,0 +1,13 @@
+<div class="gallery-grid">
+  <% photos.forEach((photo, index) => { %>
+    <% if (locals.link) { %>
+      <a href="<%= link %>" class="gallery-item">
+        <img src="<%= photo.thumb %>" alt="<%= photo.caption || 'Cedar Groves' %>" width="<%= photo.width %>" height="<%= photo.height %>" loading="lazy" />
+      </a>
+    <% } else { %>
+      <button type="button" class="gallery-item" data-index="<%= index %>" data-full="<%= photo.full %>" data-caption="<%= photo.caption %>">
+        <img src="<%= photo.thumb %>" alt="<%= photo.caption || 'Cedar Groves' %>" width="<%= photo.width %>" height="<%= photo.height %>" loading="lazy" />
+      </button>
+    <% } %>
+  <% }) %>
+</div>

@@ -1,4 +1,8 @@
+import Swiper from 'swiper'
+import { Navigation, Pagination } from 'swiper/modules'
+
 new Swiper('.swiper', {
+  modules: [Navigation, Pagination],
   direction: 'horizontal',
   slidesPerView: 3,
   slidesPerGroup: 1,
