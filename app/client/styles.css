@@ -332,7 +332,8 @@ html:has(dialog[open]) {
 /* buttons */
 .button-1,
 .button-2,
-.button-3 {
+.button-3,
+.button-4 {
   border: none;
   font-weight: 500;
   border-radius: 3px;
@@ -366,6 +367,15 @@ html:has(dialog[open]) {
 
 .button-3:hover {
   background-color: #212f20;
+}
+
+.button-4 {
+  background-color: #ddd;
+  color: var(--color-prim);
+}
+
+.button-4:hover {
+  background-color: #ccc;
 }
 
 /* cards */

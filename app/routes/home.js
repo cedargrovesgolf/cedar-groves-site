@@ -1,6 +1,6 @@
 import express from 'express'
 import { getGallery, getHours } from '../lib/db.js'
-import { shownPhotos } from '../lib/storage.js'
+import { withGalleryUrls } from '../lib/storage.js'
 
 const router = express.Router()
 
@@ -84,7 +84,7 @@ router.get('/', async (req, res) => {
     openHour: hours.open ? formatTime(hours.open) : null,
     closeHour: hours.close ? formatTime(hours.close) : null,
     overrideMsg: hours.override,
-    galleryPhotos: shownPhotos(gallery).slice(0, gallery.homeCount),
+    galleryPhotos: gallery.photos.slice(0, 3).map(withGalleryUrls),
     reviews
   })
 })

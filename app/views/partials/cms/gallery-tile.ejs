@@ -1,18 +1,16 @@
-<div
-  class="cms-tile"
-  data-id="<%= photo.id %>"
-  data-full="<%= photo.full %>"
-  data-width="<%= photo.width %>"
-  data-height="<%= photo.height %>">
-  <input type="hidden" name="order" value="<%= photo.id %>" />
-  <input type="hidden" name="name_<%= photo.id %>" value="<%= photo.name ?? '' %>" />
-  <input type="hidden" name="caption_<%= photo.id %>" value="<%= photo.caption ?? '' %>" />
-  <input type="hidden" name="shown_<%= photo.id %>" value="<%= photo.shown ? '1' : '' %>" />
+<div class="cms-tile" data-full="<%= photo.full %>">
+  <input type="hidden" name="id" value="<%= photo.id %>" />
+  <input type="hidden" name="name" value="<%= photo.name ?? '' %>" />
+  <input type="hidden" name="caption" value="<%= photo.caption ?? '' %>" />
+  <input type="hidden" name="width" value="<%= photo.width %>" />
+  <input type="hidden" name="height" value="<%= photo.height %>" />
   <button type="button" class="cms-tile-image" aria-label="Edit photo">
     <img src="<%= photo.thumb %>" alt="" loading="lazy" />
-    <span class="cms-tile-number"></span>
-    <span class="cms-tile-badge"><%= photo.isNew ? 'New' : '' %></span>
+    <span class="cms-tile-badges"><span class="cms-badge cms-tile-number"></span></span>
     <span class="cms-tile-caption"></span>
+  </button>
+  <button type="button" class="cms-badge cms-tile-delete" aria-label="Delete photo">
+    <i class="bi bi-x-lg"></i>
   </button>
   <span class="cms-tile-name"></span>
 </div>

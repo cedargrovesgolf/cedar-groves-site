@@ -52,9 +52,20 @@ export const getSeasonYear = async () => {
 
 export const setSeasonYear = year => putJsonConfig('season', { year })
 
-export const getGallery = async () => ({ homeCount: 6, photos: [], ...(await getJsonConfig('gallery')) })
+export const getGallery = async () => {
+  const item = await getConfig('gallery')
+  return { photos: [], ...(item?.data && JSON.parse(item.data)), version: item?.version ?? 0 }
+}
 
-export const setGallery = gallery => putJsonConfig('gallery', gallery)
+export const setGallery = async ({ version, ...gallery }) => {
+  await client.send(new PutCommand({
+    TableName: config.configTable,
+    Item: { type: 'gallery', data: JSON.stringify(gallery), version: version + 1 },
+    ConditionExpression: 'attribute_not_exists(#version) OR #version = :version',
+    ExpressionAttributeNames: { '#version': 'version' },
+    ExpressionAttributeValues: { ':version': version }
+  }))
+}
 
 export const getCmsUser = async () => {
   const { Item } = await client.send(new GetCommand({ TableName: config.cmsUsersTable, Key: { userID: 0 } }))
