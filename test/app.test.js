@@ -15,10 +15,8 @@ const siteConfig = {
   gallery: {
     type: 'gallery',
     data: JSON.stringify({
-      homeCount: 6,
       photos: [
-        { id: '00000000-0000-4000-8000-000000000001', caption: 'Ninth green', shown: true, width: 800, height: 600 },
-        { id: '00000000-0000-4000-8000-000000000002', caption: 'Hidden', shown: false, width: 800, height: 600 }
+        { id: '00000000-0000-4000-8000-000000000001', caption: 'Ninth green', width: 800, height: 600 }
       ]
     })
   }
@@ -62,10 +60,9 @@ describe('pages', () => {
     assert.match(rates.text, /\$38\.00/)
   })
 
-  it('shows only shown gallery photos', async () => {
+  it('renders gallery photos', async () => {
     const res = await request(app).get('/gallery').expect(200)
     assert.match(res.text, /Ninth green/)
-    assert.doesNotMatch(res.text, /Hidden/)
     const home = await request(app).get('/').expect(200)
     assert.match(home.text, /\/assets\/gallery\/00000000-0000-4000-8000-000000000001-thumb\.jpg/)
   })
@@ -92,10 +89,7 @@ describe('cms', () => {
     '/cms/rates',
     '/cms/memberships',
     '/cms/gallery',
-    '/cms/gallery/uploads',
-    '/cms/gallery/photos',
-    '/cms/gallery/photos/delete-hidden',
-    '/cms/gallery/photos/00000000-0000-4000-8000-000000000001/delete'
+    '/cms/gallery/uploads'
   ]
 
   for (const endpoint of endpoints) {

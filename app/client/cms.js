@@ -1,8 +1,11 @@
 import Sortable from 'sortablejs'
+import { beforeSubmit } from './form-control.js'
 import { showToast } from './toast.js'
 
 const form = document.querySelector('form[data-cms-form]')
 const saveBar = form.querySelector('.cms-save-bar')
+const saveStatus = saveBar.querySelector('[data-save-status]')
+const unsavedMessage = saveStatus.textContent
 const serialize = () => new URLSearchParams(new FormData(form)).toString()
 let baseline = serialize()
 let leaving = false
@@ -12,9 +15,23 @@ const updateSaveBar = () => { saveBar.hidden = !isDirty() }
 
 form.addEventListener('input', updateSaveBar)
 form.addEventListener('change', updateSaveBar)
-form.addEventListener('saved', () => {
+form.addEventListener('saved', ({ detail }) => {
+  if (form.elements.version) {
+    form.elements.version.value = detail.version
+  }
   baseline = serialize()
   updateSaveBar()
+})
+
+let prepareSave
+
+beforeSubmit(form, async () => {
+  await prepareSave?.()
+  saveStatus.textContent = 'Saving...'
+})
+
+form.addEventListener('settled', () => {
+  saveStatus.textContent = unsavedMessage
 })
 
 saveBar.querySelector('[data-discard]').addEventListener('click', () => {
@@ -28,7 +45,7 @@ window.addEventListener('beforeunload', event => {
   }
 })
 
-const post = async (url, data = {}) => {
+const post = async (url, data) => {
   const response = await fetch(url, {
     method: 'POST',
     headers: { Accept: 'application/json' },
@@ -42,16 +59,6 @@ const post = async (url, data = {}) => {
     throw new Error(result.message)
   }
   return result
-}
-
-const reloadUnlessDirty = action => async (...args) => {
-  if (isDirty()) {
-    showToast({ type: 'error', message: 'Save or discard your changes first.' })
-    return
-  }
-  await action(...args)
-  leaving = true
-  window.location.reload()
 }
 
 const formatTime = value => {
@@ -91,134 +98,6 @@ if (statusInputs.length) {
   updateHours()
 }
 
-const showError = err => showToast({ type: 'error', message: err.message || 'Something went wrong. Please try again.' })
-
-const tiles = {
-  shown: form.querySelector('[data-tiles="shown"]'),
-  hidden: form.querySelector('[data-tiles="hidden"]')
-}
-
-if (tiles.shown) {
-  const homeCount = form.elements.homeCount
-  const homeCountText = form.querySelector('[data-home-count]')
-  const deleteHiddenButton = form.querySelector('[data-delete-hidden]')
-  const editor = form.querySelector('.cms-editor')
-  const editorFields = {
-    name: editor.querySelector('#edit-name'),
-    caption: editor.querySelector('#edit-caption'),
-    shown: editor.querySelector('#edit-shown')
-  }
-  let editing
-
-  const field = (tile, key) => tile.querySelector(`input[name="${key}_${tile.dataset.id}"]`)
-  const markChanged = () => form.dispatchEvent(new Event('input'))
-
-  const refreshTiles = () => {
-    const count = Number(homeCount.value) || 0
-    homeCountText.textContent = count
-    tiles.shown.querySelectorAll('.cms-tile').forEach((tile, index) => {
-      tile.querySelector('.cms-tile-number').textContent = index + 1
-      tile.classList.toggle('cms-tile-home', index < count)
-    })
-    tiles.hidden.querySelectorAll('.cms-tile').forEach(tile => {
-      tile.querySelector('.cms-tile-number').textContent = ''
-      tile.classList.remove('cms-tile-home')
-    })
-    form.querySelectorAll('.cms-tile').forEach(tile => {
-      tile.querySelector('.cms-tile-name').textContent = field(tile, 'name').value || 'Untitled'
-      tile.querySelector('.cms-tile-caption').textContent = field(tile, 'caption').value
-    })
-    deleteHiddenButton.hidden = !tiles.hidden.querySelector('.cms-tile')
-  }
-
-  const placeTile = (tile, shown) => {
-    field(tile, 'shown').value = shown ? '1' : ''
-    if ((tile.parentElement === tiles.shown) !== shown) {
-      (shown ? tiles.shown : tiles.hidden).append(tile)
-    }
-  }
-
-  Object.values(tiles).forEach(container => Sortable.create(container, {
-    group: 'gallery',
-    animation: 150,
-    delay: 150,
-    delayOnTouchOnly: true,
-    onEnd: ({ item }) => {
-      placeTile(item, item.parentElement === tiles.shown)
-      refreshTiles()
-      markChanged()
-    }
-  }))
-
-  form.addEventListener('click', event => {
-    const tile = event.target.closest('.cms-tile-image')?.parentElement
-    if (!tile) {
-      return
-    }
-    editing = tile
-    const image = editor.querySelector('.cms-editor-image')
-    image.width = tile.dataset.width
-    image.height = tile.dataset.height
-    image.src = tile.querySelector('img').src
-    const full = new Image()
-    full.addEventListener('load', () => {
-      if (editing === tile) {
-        image.src = full.src
-      }
-    })
-    full.src = tile.dataset.full
-    editorFields.name.value = field(tile, 'name').value
-    editorFields.caption.value = field(tile, 'caption').value
-    editorFields.shown.checked = field(tile, 'shown').value === '1'
-    editor.showModal()
-  })
-
-  const applyEdit = () => {
-    field(editing, 'name').value = editorFields.name.value.trim()
-    field(editing, 'caption').value = editorFields.caption.value.trim()
-    placeTile(editing, editorFields.shown.checked)
-    editor.close()
-    refreshTiles()
-    markChanged()
-  }
-
-  editor.querySelector('[data-editor-done]').addEventListener('click', applyEdit)
-  editor.querySelector('[data-editor-cancel]').addEventListener('click', () => editor.close())
-  editor.addEventListener('keydown', event => {
-    if (event.key === 'Enter') {
-      event.preventDefault()
-      applyEdit()
-    }
-  })
-
-  const deletePhoto = reloadUnlessDirty(async id => {
-    await post(`/cms/gallery/photos/${id}/delete`)
-  })
-
-  editor.querySelector('[data-editor-delete]').addEventListener('click', async () => {
-    if (!window.confirm('Delete this photo? This cannot be undone.')) {
-      return
-    }
-    editor.close()
-    await deletePhoto(editing.dataset.id).catch(showError)
-  })
-
-  const deleteHidden = reloadUnlessDirty(async () => {
-    await post('/cms/gallery/photos/delete-hidden')
-  })
-
-  deleteHiddenButton.addEventListener('click', async () => {
-    const count = tiles.hidden.querySelectorAll('.cms-tile').length
-    if (!window.confirm(`Delete all ${count} hidden photos? This cannot be undone.`)) {
-      return
-    }
-    await deleteHidden().catch(showError)
-  })
-
-  homeCount.addEventListener('input', refreshTiles)
-  refreshTiles()
-}
-
 const resize = (bitmap, maxSize) => {
   const scale = Math.min(1, maxSize / Math.max(bitmap.width, bitmap.height))
   const canvas = document.createElement('canvas')
@@ -226,6 +105,18 @@ const resize = (bitmap, maxSize) => {
   canvas.height = Math.round(bitmap.height * scale)
   canvas.getContext('2d').drawImage(bitmap, 0, 0, canvas.width, canvas.height)
   return new Promise(resolve => canvas.toBlob(blob => resolve({ blob, width: canvas.width, height: canvas.height }), 'image/jpeg', 0.85))
+}
+
+const resizePhoto = async file => {
+  let bitmap
+  try {
+    bitmap = await createImageBitmap(file, { imageOrientation: 'from-image' })
+  } catch {
+    throw new Error(`${file.name} could not be read. Use a JPEG or PNG photo.`)
+  }
+  const [full, thumb] = await Promise.all([resize(bitmap, 2000), resize(bitmap, 600)])
+  bitmap.close()
+  return { full, thumb }
 }
 
 const uploadToBucket = async ({ url, fields }, blob) => {
@@ -238,52 +129,124 @@ const uploadToBucket = async ({ url, fields }, blob) => {
   }
 }
 
-const uploadPhoto = async file => {
-  let bitmap
-  try {
-    bitmap = await createImageBitmap(file, { imageOrientation: 'from-image' })
-  } catch {
-    throw new Error(`${file.name} could not be read. Use a JPEG or PNG photo.`)
+const tiles = form.querySelector('[data-tiles]')
+
+if (tiles) {
+  const tileTemplate = form.querySelector('[data-tile-template]')
+  const uploadInput = form.querySelector('[data-upload]')
+  const editor = form.querySelector('.cms-editor')
+  const editorImage = editor.querySelector('.cms-editor-image')
+  const editorName = editor.querySelector('#edit-name')
+  const editorCaption = editor.querySelector('#edit-caption')
+  const pending = new Map()
+  let editing
+
+  const field = (tile, name) => tile.querySelector(`input[name="${name}"]`)
+  const markChanged = () => form.dispatchEvent(new Event('input'))
+
+  const renderTile = tile => {
+    tile.querySelector('.cms-tile-name').textContent = field(tile, 'name').value || 'Untitled'
+    tile.querySelector('.cms-tile-caption').textContent = field(tile, 'caption').value
   }
-  const [full, thumb] = await Promise.all([resize(bitmap, 2000), resize(bitmap, 600)])
-  bitmap.close()
 
-  const { id, uploads } = await post('/cms/gallery/uploads')
-  await Promise.all([uploadToBucket(uploads.full, full.blob), uploadToBucket(uploads.thumb, thumb.blob)])
-  await post('/cms/gallery/photos', {
-    id,
-    name: file.name.replace(/\.[^.]+$/, ''),
-    width: full.width,
-    height: full.height
+  const removeTile = tile => {
+    if (pending.delete(field(tile, 'id').value)) {
+      URL.revokeObjectURL(tile.dataset.full)
+      URL.revokeObjectURL(tile.querySelector('img').src)
+    }
+    tile.remove()
+    markChanged()
+  }
+
+  Sortable.create(tiles, {
+    animation: 150,
+    delay: 150,
+    delayOnTouchOnly: true,
+    filter: '.cms-tile-delete',
+    preventOnFilter: false,
+    onEnd: markChanged
   })
-}
 
-const uploadInput = form.querySelector('[data-upload]')
+  tiles.addEventListener('click', event => {
+    const tile = event.target.closest('.cms-tile')
+    if (!tile) {
+      return
+    }
+    if (event.target.closest('.cms-tile-delete')) {
+      removeTile(tile)
+      return
+    }
+    editing = tile
+    editorImage.width = field(tile, 'width').value
+    editorImage.height = field(tile, 'height').value
+    editorImage.src = tile.querySelector('img').src
+    const full = new Image()
+    full.addEventListener('load', () => {
+      if (editing === tile) {
+        editorImage.src = full.src
+      }
+    })
+    full.src = tile.dataset.full
+    editorName.value = field(tile, 'name').value
+    editorCaption.value = field(tile, 'caption').value
+    editor.showModal()
+  })
 
-if (uploadInput) {
-  const status = form.querySelector('[data-upload-status]')
+  const applyEdit = () => {
+    field(editing, 'name').value = editorName.value.trim()
+    field(editing, 'caption').value = editorCaption.value.trim()
+    renderTile(editing)
+    editor.close()
+    markChanged()
+  }
 
-  const uploadAll = reloadUnlessDirty(async files => {
-    for (const [index, file] of files.entries()) {
-      status.textContent = `Uploading ${index + 1} of ${files.length}...`
-      await uploadPhoto(file)
+  editor.querySelector('[data-editor-done]').addEventListener('click', applyEdit)
+  editor.addEventListener('click', event => {
+    if (event.target === editor || event.target.closest('[data-editor-close]')) {
+      editor.close()
     }
   })
+  editor.addEventListener('keydown', event => {
+    if (event.key === 'Enter' && event.target.matches('input')) {
+      event.preventDefault()
+      applyEdit()
+    }
+  })
+
+  const addPhoto = async file => {
+    const { full, thumb } = await resizePhoto(file)
+    const id = crypto.randomUUID()
+    const tile = tileTemplate.content.firstElementChild.cloneNode(true)
+    tile.dataset.full = URL.createObjectURL(full.blob)
+    tile.querySelector('img').src = URL.createObjectURL(thumb.blob)
+    field(tile, 'id').value = id
+    field(tile, 'name').value = file.name.replace(/\.[^.]+$/, '')
+    field(tile, 'width').value = full.width
+    field(tile, 'height').value = full.height
+    pending.set(id, { full: full.blob, thumb: thumb.blob })
+    renderTile(tile)
+    tiles.append(tile)
+  }
 
   uploadInput.addEventListener('change', async () => {
     const files = [...uploadInput.files]
     uploadInput.value = ''
-    if (!files.length) {
-      return
+    for (const file of files) {
+      await addPhoto(file).catch(err => showToast({ type: 'error', message: err.message }))
     }
-    uploadInput.disabled = true
-    try {
-      await uploadAll(files)
-    } catch (err) {
-      status.textContent = ''
-      showError(err)
-    } finally {
-      uploadInput.disabled = false
-    }
+    markChanged()
   })
+
+  prepareSave = async () => {
+    const ids = [...tiles.querySelectorAll('input[name="id"]')].map(input => input.value).filter(id => pending.has(id))
+    for (const [index, id] of ids.entries()) {
+      saveStatus.textContent = `Uploading ${index + 1} of ${ids.length}...`
+      const { uploads } = await post('/cms/gallery/uploads', { id })
+      const { full, thumb } = pending.get(id)
+      await Promise.all([uploadToBucket(uploads.full, full), uploadToBucket(uploads.thumb, thumb)])
+      pending.delete(id)
+    }
+  }
+
+  tiles.querySelectorAll('.cms-tile').forEach(renderTile)
 }

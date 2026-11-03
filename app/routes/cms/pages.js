@@ -50,8 +50,8 @@ const sections = {
   gallery: {
     title: 'Gallery',
     load: async () => {
-      const { photos, homeCount } = await getGallery()
-      return { photos: photos.map(withGalleryUrls), homeCount }
+      const { photos, version } = await getGallery()
+      return { photos: photos.map(withGalleryUrls), version }
     }
   }
 }

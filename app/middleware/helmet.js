@@ -25,7 +25,7 @@ const headers = helmet({
         'https://weatherwidget.io',
         ...devServer
       ],
-      imgSrc: ["'self'", 'data:', ...assets, ...devServer],
+      imgSrc: ["'self'", 'data:', 'blob:', ...assets, ...devServer],
       fontSrc: ["'self'", 'https:', 'data:', ...devServer],
       styleSrc: ["'self'", 'https:', "'unsafe-inline'", ...devServer],
       mediaSrc: ["'self'", ...assets],

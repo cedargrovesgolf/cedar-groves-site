@@ -1,76 +1,41 @@
-<%
-  const shown = photos.filter(photo => photo.shown)
-  const hidden = photos.filter(photo => !photo.shown)
-%>
-<form action="/cms/gallery" method="POST" class="cms-form cms-form-wide" novalidate data-async data-cms-form>
+<form action="/cms/gallery" method="POST" class="cms-form cms-form-gallery" novalidate data-async data-cms-form>
+  <input type="hidden" name="version" value="<%= version %>" />
   <div class="cms-card">
-    <div class="cms-upload">
+    <div class="cms-toolbar">
+      <ul class="form-text cms-help">
+        <li>Photos appear on the Gallery page in this order. The first one is also the page's main image.</li>
+        <li>The first 3 are also shown on the homepage.</li>
+        <li>Drag to reorder. Click a photo to edit, or × to delete it.</li>
+      </ul>
       <label class="button-3 cms-button">
         <i class="bi bi-upload"></i> Add photos
         <input type="file" accept="image/*" multiple hidden data-upload />
       </label>
-      <span class="form-text" data-upload-status></span>
     </div>
-    <div class="cms-price-row">
-      <label for="homeCount">Photos on the homepage</label>
-      <input
-        type="number"
-        class="form-control cms-narrow"
-        id="homeCount"
-        name="homeCount"
-        value="<%= homeCount %>"
-        min="0"
-        max="24"
-        inputmode="numeric"
-        required />
-    </div>
-    <ul class="form-text cms-help">
-      <li>Photos on the site appear on the Gallery page in this order. The first one is also the page's main image.</li>
-      <li>The homepage shows the top <span data-home-count><%= homeCount %></span>.</li>
-      <li>Drag to reorder, or between sections to show or hide. Click a photo to edit it.</li>
-    </ul>
   </div>
 
-  <section class="cms-section">
-    <h2 class="cms-section-title">On the site</h2>
-    <div class="cms-tiles" data-tiles="shown" data-empty="No photos on the site yet.">
-      <% shown.forEach(photo => { %><%- include('gallery-tile.ejs', { photo }) %><% }) %>
-    </div>
-  </section>
-
-  <section class="cms-section">
-    <div class="cms-section-header">
-      <h2 class="cms-section-title">Hidden</h2>
-      <button type="button" class="btn btn-sm btn-outline-danger" data-delete-hidden <% if (!hidden.length) { %>hidden<% } %>>
-        Delete all hidden
-      </button>
-    </div>
-    <div class="cms-tiles" data-tiles="hidden" data-empty="No hidden photos.">
-      <% hidden.forEach(photo => { %><%- include('gallery-tile.ejs', { photo }) %><% }) %>
-    </div>
-  </section>
+  <div class="cms-tiles" data-tiles data-empty="No photos yet.">
+    <% photos.forEach(photo => { %><%- include('gallery-tile.ejs', { photo }) %><% }) %>
+  </div>
+  <template data-tile-template><%- include('gallery-tile.ejs', { photo: {} }) %></template>
 
   <dialog class="cms-editor" aria-label="Edit photo">
+    <button type="button" class="cms-badge cms-editor-close" aria-label="Close" data-editor-close>
+      <i class="bi bi-x-lg"></i>
+    </button>
     <img class="cms-editor-image" alt="" />
     <div class="cms-editor-fields">
       <div>
         <label for="edit-name" class="form-label">Name</label>
-        <input type="text" class="form-control" id="edit-name" maxlength="100" autocomplete="off" />
+        <input type="text" class="form-control" id="edit-name" maxlength="100" autocomplete="off" autofocus />
       </div>
       <div>
         <label for="edit-caption" class="form-label">Caption <span class="form-text">(shown under the photo)</span></label>
         <input type="text" class="form-control" id="edit-caption" maxlength="200" autocomplete="off" />
       </div>
-      <div class="form-check form-switch">
-        <input class="form-check-input" type="checkbox" role="switch" id="edit-shown" />
-        <label class="form-check-label" for="edit-shown">On the site</label>
-      </div>
       <div class="cms-editor-actions">
-        <button type="button" class="btn btn-sm btn-outline-danger" data-editor-delete>Delete</button>
-        <div class="cms-save-actions">
-          <button type="button" class="btn btn-link link-secondary" data-editor-cancel>Cancel</button>
-          <button type="button" class="button-3 cms-button" data-editor-done>Done</button>
-        </div>
+        <button type="button" class="button-4 cms-button" data-editor-close>Cancel</button>
+        <button type="button" class="button-3 cms-button" data-editor-done>Done</button>
       </div>
     </div>
   </dialog>

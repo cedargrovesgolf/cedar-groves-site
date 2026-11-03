@@ -13,8 +13,6 @@ export const galleryUrls = id => ({
 
 export const withGalleryUrls = photo => ({ ...photo, ...galleryUrls(photo.id) })
 
-export const shownPhotos = gallery => gallery.photos.filter(photo => photo.shown).map(withGalleryUrls)
-
 const galleryKeys = id => Object.values(galleryUrls(id)).map(url => url.slice(1))
 
 const createUpload = Key => createPresignedPost(client, {
@@ -33,9 +31,9 @@ export const createGalleryUploads = async id => {
   return { full, thumb }
 }
 
-export const galleryObjectsExist = async id => {
+export const galleryObjectsExist = async ids => {
   try {
-    await Promise.all(galleryKeys(id).map(Key =>
+    await Promise.all(ids.flatMap(galleryKeys).map(Key =>
       client.send(new HeadObjectCommand({ Bucket: config.assetsBucket, Key }))))
     return true
   } catch (err) {

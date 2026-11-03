@@ -1,4 +1,3 @@
-import crypto from 'node:crypto'
 import express from 'express'
 import { getGallery, setGallery } from '../../lib/db.js'
 import { reply } from '../../lib/reply.js'
@@ -15,90 +14,58 @@ const toInt = (value, min, max) => {
 
 const toText = (value, maxLength) => String(value ?? '').trim().slice(0, maxLength)
 
+const toList = value => [value ?? []].flat()
+
 router.post('/', async (req, res) => {
   const body = req.body ?? {}
-  const order = [body.order ?? []].flat()
-  const homeCount = toInt(body.homeCount, 0, 24)
+  const version = toInt(body.version, 0, Number.MAX_SAFE_INTEGER)
+  const ids = toList(body.id)
+  const fields = [toList(body.name), toList(body.caption), toList(body.width), toList(body.height)]
+  const photos = ids.map((id, index) => {
+    const [name, caption, width, height] = fields.map(values => values[index])
+    return {
+      id,
+      name: toText(name, 100),
+      caption: toText(caption, 200),
+      width: toInt(width, 1, 10000),
+      height: toInt(height, 1, 10000)
+    }
+  })
 
-  if (homeCount === null) {
-    return reply(res, 400, 'error', 'Homepage photos must be a number from 0 to 24.')
+  if (
+    version === null ||
+    fields.some(values => values.length !== ids.length) ||
+    new Set(ids).size !== ids.length ||
+    photos.some(photo => !isId(photo.id) || photo.width === null || photo.height === null)
+  ) {
+    return reply(res, 400, 'error', 'Invalid gallery.')
   }
 
   try {
     const gallery = await getGallery()
-    const existing = new Map(gallery.photos.map(photo => [photo.id, photo]))
-    if (order.length !== existing.size || new Set(order).size !== order.length || !order.every(id => existing.has(id))) {
-      return reply(res, 409, 'error', 'The gallery changed since this page loaded. Reload and try again.')
+    const existing = new Set(gallery.photos.map(photo => photo.id))
+
+    if (!(await galleryObjectsExist(ids.filter(id => !existing.has(id))))) {
+      return reply(res, 400, 'error', 'A photo did not finish uploading. Please try again.')
     }
 
-    const photos = order.map(id => ({
-      ...existing.get(id),
-      name: toText(body[`name_${id}`], 100),
-      caption: toText(body[`caption_${id}`], 200),
-      shown: Boolean(body[`shown_${id}`]),
-      isNew: false
-    }))
-
-    await setGallery({ homeCount, photos })
-    return reply(res, 200, 'success', 'Gallery saved.')
+    await setGallery({ photos, version })
+    const removed = [...existing].filter(id => !ids.includes(id))
+    if (removed.length) {
+      await deleteGalleryObjects(removed)
+    }
+    return reply(res, 200, 'success', 'Gallery saved.', { version: version + 1 })
   } catch (err) {
+    if (err.name === 'ConditionalCheckFailedException') {
+      return reply(res, 409, 'error', 'The gallery changed since this page loaded. Reload and try again.')
+    }
     console.error(err)
     return reply(res, 500, 'error', 'There was an error saving the gallery.')
   }
 })
 
 router.post('/uploads', async (req, res) => {
-  try {
-    const id = crypto.randomUUID()
-    return reply(res, 200, 'success', 'Upload ready.', { id, uploads: await createGalleryUploads(id) })
-  } catch (err) {
-    console.error(err)
-    return reply(res, 500, 'error', 'There was an error preparing the upload.')
-  }
-})
-
-router.post('/photos', async (req, res) => {
   const { id } = req.body ?? {}
-  const width = toInt(req.body?.width, 1, 10000)
-  const height = toInt(req.body?.height, 1, 10000)
-
-  if (!isId(id) || width === null || height === null) {
-    return reply(res, 400, 'error', 'Invalid photo.')
-  }
-
-  try {
-    if (!(await galleryObjectsExist(id))) {
-      return reply(res, 400, 'error', 'The photo did not finish uploading. Please try again.')
-    }
-    const gallery = await getGallery()
-    if (!gallery.photos.some(photo => photo.id === id)) {
-      gallery.photos.push({ id, name: toText(req.body.name, 100), caption: '', shown: false, isNew: true, width, height })
-      await setGallery(gallery)
-    }
-    return reply(res, 200, 'success', 'Photo uploaded.')
-  } catch (err) {
-    console.error(err)
-    return reply(res, 500, 'error', 'There was an error saving the photo.')
-  }
-})
-
-router.post('/photos/delete-hidden', async (req, res) => {
-  try {
-    const gallery = await getGallery()
-    const hidden = gallery.photos.filter(photo => !photo.shown).map(photo => photo.id)
-    if (hidden.length) {
-      await setGallery({ ...gallery, photos: gallery.photos.filter(photo => photo.shown) })
-      await deleteGalleryObjects(hidden)
-    }
-    return reply(res, 200, 'success', 'Hidden photos deleted.')
-  } catch (err) {
-    console.error(err)
-    return reply(res, 500, 'error', 'There was an error deleting the hidden photos.')
-  }
-})
-
-router.post('/photos/:id/delete', async (req, res) => {
-  const { id } = req.params
 
   if (!isId(id)) {
     return reply(res, 400, 'error', 'Invalid photo.')
@@ -106,12 +73,13 @@ router.post('/photos/:id/delete', async (req, res) => {
 
   try {
     const gallery = await getGallery()
-    await setGallery({ ...gallery, photos: gallery.photos.filter(photo => photo.id !== id) })
-    await deleteGalleryObjects([id])
-    return reply(res, 200, 'success', 'Photo deleted.')
+    if (gallery.photos.some(photo => photo.id === id)) {
+      return reply(res, 400, 'error', 'Invalid photo.')
+    }
+    return reply(res, 200, 'success', 'Upload ready.', { uploads: await createGalleryUploads(id) })
   } catch (err) {
     console.error(err)
-    return reply(res, 500, 'error', 'There was an error deleting the photo.')
+    return reply(res, 500, 'error', 'There was an error preparing the upload.')
   }
 })
 
