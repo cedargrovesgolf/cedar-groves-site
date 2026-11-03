@@ -79,20 +79,21 @@ router.get('/', (req, res) => {
 })
 
 router.get('/:section', async (req, res, next) => {
-  const { section } = req.params
-  if (!Object.hasOwn(sections, section)) {
+  const section = Object.keys(sections).find(key => key === req.params.section)
+  if (!section) {
     return next()
   }
   if (!req.session.loggedin) {
     return res.redirect('/cms')
   }
 
+  const { title, load } = sections[section]
   res.render('cms', {
     loggedIn: true,
     section,
-    sections: Object.entries(sections).map(([key, { title }]) => ({ key, title })),
-    title: sections[section].title,
-    ...(await sections[section].load())
+    sections: Object.entries(sections).map(([key, page]) => ({ key, title: page.title })),
+    title,
+    ...(await load())
   })
 })
 

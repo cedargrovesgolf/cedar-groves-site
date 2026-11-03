@@ -18,7 +18,7 @@ const importedChunks = (name, seen = new Set()) =>
     return [...importedChunks(key, seen), manifest[key]]
   })
 
-const productionTags = entries => {
+const productionAssets = entries => {
   manifest ??= JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
   const styles = new Set()
   const fonts = new Set()
@@ -42,21 +42,18 @@ const productionTags = entries => {
     scripts.push(manifest[`${name}.js`].file)
   }
 
-  return [
-    ...[...fonts].map(file => `<link rel="preload" href="/build/${file}" as="font" type="font/woff2" crossorigin />`),
-    ...[...styles].map(file => `<link rel="stylesheet" href="/build/${file}" />`),
-    ...scripts.map(file => `<script type="module" src="/build/${file}"></script>`),
-    ...[...preloads].map(file => `<link rel="modulepreload" href="/build/${file}" />`)
-  ].join('\n')
+  const urls = files => [...files].map(file => `/build/${file}`)
+  return { fonts: urls(fonts), styles: urls(styles), scripts: urls(scripts), preloads: urls(preloads) }
 }
 
-const devTags = entries => [
-  ...entries.map(name => `<link rel="stylesheet" href="${devServer}/${name}.css" />`),
-  `<script type="module" src="${devServer}/@vite/client"></script>`,
-  ...entries.map(name => `<script type="module" src="${devServer}/${name}.js"></script>`)
-].join('\n')
+const devAssets = entries => ({
+  fonts: [],
+  styles: entries.map(name => `${devServer}/${name}.css`),
+  scripts: [`${devServer}/@vite/client`, ...entries.map(name => `${devServer}/${name}.js`)],
+  preloads: []
+})
 
-export const assetTags = (...names) => {
+export const assetUrls = (...names) => {
   const entries = names.filter(Boolean)
-  return config.production ? productionTags(entries) : devTags(entries)
+  return config.production ? productionAssets(entries) : devAssets(entries)
 }

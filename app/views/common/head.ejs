@@ -16,7 +16,19 @@
   <meta name="msapplication-TileColor" content="#27661b">
   <meta name="msapplication-config" content="/assets/icons/favicon/browserconfig.xml">
   <meta name="theme-color" content="#ffffff">
-  <%- assetTags('main', locals.bundle) %>
+  <% const assets = assetUrls('main', locals.bundle) %>
+  <% assets.fonts.forEach(href => { %>
+    <link rel="preload" href="<%= href %>" as="font" type="font/woff2" crossorigin />
+  <% }) %>
+  <% assets.styles.forEach(href => { %>
+    <link rel="stylesheet" href="<%= href %>" />
+  <% }) %>
+  <% assets.scripts.forEach(src => { %>
+    <script type="module" src="<%= src %>"></script>
+  <% }) %>
+  <% assets.preloads.forEach(href => { %>
+    <link rel="modulepreload" href="<%= href %>" />
+  <% }) %>
   <title>
     <% if (pageTitle) { %>
       Cedar Groves &mdash; <%= pageTitle %>
