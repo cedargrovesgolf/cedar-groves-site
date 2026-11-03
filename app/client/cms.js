@@ -26,11 +26,14 @@ form.addEventListener('saved', ({ detail }) => {
 let prepareSave
 
 beforeSubmit(form, async () => {
+  saveBar.classList.add('cms-saving')
+  saveStatus.textContent = 'Saving...'
   await prepareSave?.()
   saveStatus.textContent = 'Saving...'
 })
 
 form.addEventListener('settled', () => {
+  saveBar.classList.remove('cms-saving')
   saveStatus.textContent = unsavedMessage
 })
 
@@ -249,4 +252,157 @@ if (tiles) {
   }
 
   tiles.querySelectorAll('.cms-tile').forEach(renderTile)
+}
+
+const googleList = form.querySelector('[data-google-reviews]')
+
+if (googleList) {
+  const selectedList = form.querySelector('[data-selected-reviews]')
+  const selectedCount = form.querySelector('[data-selected-count]')
+  const filters = form.querySelector('[data-review-filters]')
+  const pagination = form.querySelector('[data-review-pages]')
+  const selectedTemplate = form.querySelector('[data-selected-template]')
+  const googleTemplate = form.querySelector('[data-google-template]')
+  const dateFormat = new Intl.DateTimeFormat('en-CA', { month: 'short', year: 'numeric' })
+  const pageSize = 10
+  let reviews = []
+  let stars = 0
+  let page = 0
+
+  const selectedIds = () => new Set([...selectedList.querySelectorAll('input[name="id"]')].map(input => input.value))
+
+  const fillRow = (row, review) => {
+    row.querySelector('.stars').replaceChildren(...Array.from({ length: 5 }, (_, index) =>
+      Object.assign(document.createElement('i'), { className: `bi ${index < review.stars ? 'bi-star-fill' : 'bi-star'}` })
+    ))
+    row.querySelector('.cms-review-author').textContent = review.author
+    row.querySelector('.cms-review-date').textContent = dateFormat.format(new Date(review.createTime))
+    row.querySelector('.cms-review-text').textContent = review.text
+  }
+
+  const availableReviews = () => {
+    const selected = selectedIds()
+    return reviews.filter(review => !selected.has(review.id))
+  }
+
+  const renderFilters = available => {
+    const options = [[0, 'All', available.length]]
+    for (const value of [5, 4, 3, 2, 1]) {
+      const count = available.filter(review => review.stars === value).length
+      if (count) {
+        options.push([value, `${value} ${value === 1 ? 'star' : 'stars'}`, count])
+      }
+    }
+    if (!options.some(([value]) => value === stars)) {
+      stars = 0
+    }
+    filters.replaceChildren(...options.map(([value, label, count]) => {
+      const button = document.createElement('button')
+      button.type = 'button'
+      button.className = 'cms-option'
+      button.dataset.stars = value
+      button.textContent = `${label} (${count})`
+      button.setAttribute('aria-pressed', String(value === stars))
+      return button
+    }))
+  }
+
+  const pageButton = (target, label, { icon, disabled = false } = {}) => {
+    const button = document.createElement('button')
+    button.type = 'button'
+    button.className = 'cms-page-button'
+    button.dataset.page = target
+    button.disabled = disabled
+    if (icon) {
+      button.setAttribute('aria-label', label)
+      button.append(Object.assign(document.createElement('i'), { className: `bi bi-${icon}` }))
+    } else {
+      button.textContent = label
+      if (target === page) {
+        button.setAttribute('aria-current', 'page')
+      }
+    }
+    return button
+  }
+
+  const renderGoogleList = () => {
+    const available = availableReviews()
+    renderFilters(available)
+    const visible = available.filter(review => !stars || review.stars === stars)
+    const pageCount = Math.max(1, Math.ceil(visible.length / pageSize))
+    page = Math.min(page, pageCount - 1)
+    googleList.replaceChildren(...visible.slice(page * pageSize, (page + 1) * pageSize).map(review => {
+      const row = googleTemplate.content.firstElementChild.cloneNode(true)
+      fillRow(row, review)
+      row.querySelector('[data-add-review]').dataset.addReview = review.id
+      return row
+    }))
+    pagination.hidden = pageCount < 2
+    pagination.replaceChildren(
+      pageButton(page - 1, 'Previous page', { icon: 'chevron-left', disabled: page === 0 }),
+      ...Array.from({ length: pageCount }, (_, index) => pageButton(index, String(index + 1))),
+      pageButton(page + 1, 'Next page', { icon: 'chevron-right', disabled: page === pageCount - 1 })
+    )
+  }
+
+  const selectionChanged = () => {
+    selectedCount.textContent = selectedList.children.length
+    renderGoogleList()
+    form.dispatchEvent(new Event('input'))
+  }
+
+  const addReview = id => {
+    const row = selectedTemplate.content.firstElementChild.cloneNode(true)
+    row.querySelector('input[name="id"]').value = id
+    fillRow(row, reviews.find(review => review.id === id))
+    selectedList.append(row)
+    selectionChanged()
+  }
+
+  Sortable.create(selectedList, {
+    animation: 150,
+    delay: 150,
+    delayOnTouchOnly: true,
+    filter: '[data-remove-review]',
+    preventOnFilter: false,
+    onEnd: () => form.dispatchEvent(new Event('input'))
+  })
+
+  form.addEventListener('click', event => {
+    const add = event.target.closest('[data-add-review]')
+    const remove = event.target.closest('[data-remove-review]')
+    const filter = event.target.closest('[data-stars]')
+    const pageTarget = event.target.closest('[data-page]')
+    if (add) {
+      addReview(add.dataset.addReview)
+    } else if (remove) {
+      remove.closest('.cms-review-row').remove()
+      selectionChanged()
+    } else if (filter) {
+      stars = Number(filter.dataset.stars)
+      page = 0
+      renderGoogleList()
+    } else if (pageTarget) {
+      page = Number(pageTarget.dataset.page)
+      renderGoogleList()
+      googleList.closest('section').scrollIntoView({
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
+      })
+    } else {
+      event.target.closest('.cms-review-row')?.querySelector('.cms-review-text').classList.toggle('expanded')
+    }
+  })
+
+  fetch('/cms/reviews/google', { headers: { Accept: 'application/json' } })
+    .then(async response => {
+      if (!response.ok) {
+        throw new Error(response.statusText)
+      }
+      reviews = (await response.json()).reviews
+      googleList.dataset.empty = 'Every review with text is on the homepage.'
+      renderGoogleList()
+    })
+    .catch(() => {
+      googleList.dataset.empty = "Google reviews couldn't be loaded. Please try again later."
+    })
 }

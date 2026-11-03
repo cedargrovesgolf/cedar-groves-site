@@ -1,5 +1,5 @@
 import express from 'express'
-import { getRates, getSeasonYear } from '../lib/db.js'
+import { getRates, getSeasonYear } from '../services/db.js'
 import { formatPrice } from '../lib/format.js'
 import { rateSections } from '../lib/rates.js'
 

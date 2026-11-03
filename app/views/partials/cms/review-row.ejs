@@ -1,0 +1,14 @@
+<li class="cms-review-row">
+  <input type="hidden" name="id" value="<%= review.id %>" />
+  <div class="cms-review-body">
+    <div class="cms-review-meta">
+      <span class="stars"><% for (let star = 1; star <= 5; star++) { %><i class="bi <%= star <= review.stars ? 'bi-star-fill' : 'bi-star' %>"></i><% } %></span>
+      <strong class="cms-review-author"><%= review.author %></strong>
+      <span class="form-text cms-review-date"><%= review.createTime ? new Date(review.createTime).toLocaleDateString('en-CA', { month: 'short', year: 'numeric' }) : '' %></span>
+    </div>
+    <p class="cms-review-text"><%= review.text %></p>
+  </div>
+  <button type="button" class="cms-icon-button" aria-label="Remove from homepage" data-remove-review>
+    <i class="bi bi-x-lg"></i>
+  </button>
+</li>

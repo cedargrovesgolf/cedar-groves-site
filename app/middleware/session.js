@@ -13,7 +13,6 @@ const expireLogin = (req, res, next) => {
   const { expiresAt } = req.session
   if (expiresAt && expiresAt <= Date.now()) {
     delete req.session.loggedin
-    delete req.session.username
     delete req.session.expiresAt
   } else if (expiresAt) {
     req.sessionOptions.expires = new Date(expiresAt)

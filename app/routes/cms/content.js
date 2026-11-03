@@ -1,5 +1,5 @@
 import express from 'express'
-import { setHours, setRates, setMemberships, setSeasonYear } from '../../lib/db.js'
+import { setHours, setRates, setMemberships, setSeasonYear } from '../../services/db.js'
 import { rateKeys } from '../../lib/rates.js'
 import { reply } from '../../lib/reply.js'
 

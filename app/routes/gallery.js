@@ -1,6 +1,6 @@
 import express from 'express'
-import { getGallery } from '../lib/db.js'
-import { withGalleryUrls } from '../lib/storage.js'
+import { getGallery } from '../services/db.js'
+import { withGalleryUrls } from '../services/storage.js'
 
 const router = express.Router()
 

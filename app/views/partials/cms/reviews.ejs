@@ -1,0 +1,33 @@
+<form action="/cms/reviews" method="POST" class="cms-form cms-form-full" novalidate data-async data-cms-form>
+  <section class="cms-card">
+    <h2 class="cms-card-title">Homepage (<span data-selected-count><%= reviews.length %></span>)</h2>
+    <p class="form-text m-0">Shown in this order. Drag to reorder.</p>
+    <ul class="cms-review-list cms-review-list-sortable" data-selected-reviews data-empty="No reviews selected yet. Add some from the list below.">
+      <% reviews.forEach(review => { %><%- include('review-row.ejs', { review }) %><% }) %>
+    </ul>
+  </section>
+
+  <section class="cms-card">
+    <h2 class="cms-card-title">All reviews</h2>
+    <div class="cms-options" data-review-filters></div>
+    <ul class="cms-review-list" data-google-reviews data-empty="Loading reviews from Google..."></ul>
+    <nav class="cms-pagination" aria-label="Review pages" data-review-pages hidden></nav>
+  </section>
+
+  <template data-selected-template><%- include('review-row.ejs', { review: {} }) %></template>
+  <template data-google-template>
+    <li class="cms-review-row">
+      <div class="cms-review-body">
+        <div class="cms-review-meta">
+          <span class="stars"></span>
+          <strong class="cms-review-author"></strong>
+          <span class="form-text cms-review-date"></span>
+        </div>
+        <p class="cms-review-text"></p>
+      </div>
+      <button type="button" class="button-3 cms-button cms-button-sm" data-add-review>Add</button>
+    </li>
+  </template>
+
+  <%- include('save-bar.ejs') %>
+</form>

@@ -1,37 +1,41 @@
 import Swiper from 'swiper'
 import { Navigation, Pagination } from 'swiper/modules'
 
-new Swiper('.swiper', {
-  modules: [Navigation, Pagination],
-  direction: 'horizontal',
-  slidesPerView: 3,
-  slidesPerGroup: 1,
-  spaceBetween: 20,
-  scrollDirection: 'horizontal',
-  loop: true,
-  lazy: true,
-  allowTouchMove: false,
-  pagination: {
-    el: '.swiper-pagination'
-  },
-  navigation: {
-    nextEl: '.swiper-button-next',
-    prevEl: '.swiper-button-prev'
-  },
-  breakpoints: {
-    320: {
-      slidesPerView: 1,
-      allowTouchMove: true
-    },
+const reviews = document.querySelector('.swiper')
 
-    696: {
-      slidesPerView: 2,
-      allowTouchMove: true
+if (reviews) {
+  new Swiper(reviews, {
+    modules: [Navigation, Pagination],
+    direction: 'horizontal',
+    slidesPerView: 3,
+    slidesPerGroup: 1,
+    spaceBetween: 20,
+    scrollDirection: 'horizontal',
+    loop: true,
+    lazy: true,
+    allowTouchMove: false,
+    pagination: {
+      el: '.swiper-pagination'
     },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev'
+    },
+    breakpoints: {
+      320: {
+        slidesPerView: 1,
+        allowTouchMove: true
+      },
 
-    1030: {
-      slidesPerView: 3,
-      allowTouchMove: false
+      696: {
+        slidesPerView: 2,
+        allowTouchMove: true
+      },
+
+      1030: {
+        slidesPerView: 3,
+        allowTouchMove: false
+      }
     }
-  }
-})
+  })
+}

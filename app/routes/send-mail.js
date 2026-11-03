@@ -1,6 +1,6 @@
 import express from 'express'
 import validator from 'validator'
-import { sendMail } from '../lib/mail.js'
+import { sendMail } from '../services/mail.js'
 import { reply } from '../lib/reply.js'
 import { contactLimiter } from '../middleware/rate-limit.js'
 import config from '../config.js'

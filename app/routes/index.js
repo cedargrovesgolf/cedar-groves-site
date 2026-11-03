@@ -8,6 +8,7 @@ import gallery from './gallery.js'
 import contact from './contact.js'
 import about from './about.js'
 import rulesRegulations from './rules-regulations.js'
+import privacy from './privacy.js'
 import sendMail from './send-mail.js'
 import cms from './cms/index.js'
 
@@ -22,6 +23,7 @@ router.use('/gallery', gallery)
 router.use('/contact', contact)
 router.use('/about', about)
 router.use('/rules-regulations', rulesRegulations)
+router.use('/privacy', privacy)
 router.use('/send-mail', sendMail)
 router.use('/cms', cms)
 

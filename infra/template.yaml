@@ -23,6 +23,15 @@ Parameters:
   RecaptchaSecretKey:
     Type: String
     NoEcho: true
+  CmsEmail:
+    Type: String
+    Default: cedargrovesgolf@gmail.com
+  GoogleClientId:
+    Type: String
+    Default: 572019185608-m2e3otgipegcpt7n8h4vvn9uloj8sheg.apps.googleusercontent.com
+  GoogleLocation:
+    Type: String
+    Default: accounts/108945449470710504676/locations/50861715407855170
 
 Resources:
   SiteFunction:
@@ -51,6 +60,7 @@ Resources:
           AWS_LWA_READINESS_CHECK_PATH: /health
           PORT: '8080'
           NODE_ENV: production
+          SITE_URL: !Sub https://${DomainName}
           TRUST_PROXY: !Ref TrustProxy
           SESSION_SECRET: !Ref SessionSecret
           ORIGIN_SECRET: !Ref OriginSecret
@@ -58,14 +68,19 @@ Resources:
           EMAIL: !Ref ContactEmail
           FROM_EMAIL: !Sub no-reply@${DomainName}
           CONFIG_TABLE: !Ref ConfigTable
-          CMS_USERS_TABLE: !Ref CmsUsersTable
           ASSETS_BUCKET: !Ref AssetsBucket
+          CMS_EMAIL: !Ref CmsEmail
+          GOOGLE_CLIENT_ID: !Ref GoogleClientId
+          GOOGLE_LOCATION: !Ref GoogleLocation
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref ConfigTable
-        - DynamoDBReadPolicy:
-            TableName: !Ref CmsUsersTable
         - Statement:
+            - Effect: Allow
+              Action:
+                - ssm:GetParameter
+                - ssm:PutParameter
+              Resource: !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/cedar-groves/*
             - Effect: Allow
               Action: ses:SendEmail
               Resource: !Sub arn:aws:ses:${AWS::Region}:${AWS::AccountId}:identity/${DomainName}
@@ -103,23 +118,6 @@ Resources:
           AttributeType: S
       KeySchema:
         - AttributeName: type
-          KeyType: HASH
-
-  CmsUsersTable:
-    Type: AWS::DynamoDB::Table
-    DeletionPolicy: Retain
-    UpdateReplacePolicy: Retain
-    Properties:
-      TableName: cedar-groves-cms-users
-      BillingMode: PAY_PER_REQUEST
-      DeletionProtectionEnabled: true
-      PointInTimeRecoverySpecification:
-        PointInTimeRecoveryEnabled: true
-      AttributeDefinitions:
-        - AttributeName: userID
-          AttributeType: N
-      KeySchema:
-        - AttributeName: userID
           KeyType: HASH
 
   AssetsBucket:

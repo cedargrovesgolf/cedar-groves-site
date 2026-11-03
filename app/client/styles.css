@@ -151,6 +151,10 @@ html:has(dialog[open]) {
   color: var(--color-sec);
 }
 
+.color-gold {
+  color: #9d7700;
+}
+
 .flex,
 .vflex,
 .res-flex {
@@ -344,6 +348,10 @@ html:has(dialog[open]) {
   transition: all 0.15s ease-in-out;
   line-height: 1;
   width: 100%;
+}
+
+:is(.button-1, .button-2, .button-3, .button-4):disabled {
+  cursor: default;
 }
 
 .button-1:hover {
@@ -660,15 +668,46 @@ html:has(dialog[open]) {
   gap: 12px;
 }
 
-.cms-login-form .form-label,
-.cms-login-form .form-check-label {
+.cms-login-form .form-label {
+  margin-bottom: 4px;
   font-size: 14px;
+  font-weight: 500;
   line-height: 1.5;
 }
 
-.cms-login-form .form-label {
-  margin-bottom: 4px;
+.cms-login-back {
+  color: #8e8e8e;
+  font-size: 14px;
+}
+
+.cms-login-back:hover {
+  color: var(--color-prim);
+}
+
+.google-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid #747775;
+  border-radius: 4px;
+  background-color: var(--color-white);
+  color: #1f1f1f;
+  font-size: 14px;
   font-weight: 500;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.google-button svg {
+  flex: none;
+  width: 20px;
+}
+
+.google-button:hover {
+  background-color: #f8f9fa;
+  color: #1f1f1f;
 }
 
 @media (max-width: 992px) {
