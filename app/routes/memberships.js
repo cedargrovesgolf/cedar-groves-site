@@ -1,5 +1,5 @@
 import express from 'express'
-import { getMemberships, getSeasonYear } from '../lib/db.js'
+import { getMemberships, getSeasonYear } from '../services/db.js'
 import { formatPrice } from '../lib/format.js'
 
 const router = express.Router()

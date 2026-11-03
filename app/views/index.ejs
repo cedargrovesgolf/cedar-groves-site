@@ -142,50 +142,46 @@
           </div>
         </div>
       <% } %>
-      <div class="main-item">
-        <h2 class="heading display-5 text-center">What We've Heard</h2>
-        <div class="vflex g-16">
-          <p class="text-restrict text-center">
-            At Cedar Groves, we are dedicated to providing our guests with an
-            exceptional experience. Don't just take our word for it &mdash; read
-            reviews from other visitors to see what they loved about their time
-            on our course.
-          </p>
-          <div class="review-area w-100">
-            <div class="swiper py-4 px-2">
-              <div class="swiper-wrapper h-100">
-                <% reviews.forEach(item => { %>
-                  <div class="swiper-slide">
-                  <div class="card vflex justify-content-start">
-                    <div class="stars flex g-4">
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <% if (item.stars === 5) { %>
-                        <i class="bi bi-star-fill"></i>
-                      <% } else { %>
-                        <i class="bi bi-star"></i>
-                      <% } %>
+      <% if (reviews.length) { %>
+        <div class="main-item">
+          <h2 class="heading display-5 text-center">What We've Heard</h2>
+          <div class="vflex g-16">
+            <p class="text-restrict text-center">
+              At Cedar Groves, we are dedicated to providing our guests with an
+              exceptional experience. Don't just take our word for it &mdash; read
+              reviews from other visitors to see what they loved about their time
+              on our course.
+            </p>
+            <div class="review-area w-100">
+              <div class="swiper py-4 px-2">
+                <div class="swiper-wrapper h-100">
+                  <% reviews.forEach(item => { %>
+                    <div class="swiper-slide">
+                      <div class="card vflex justify-content-start">
+                        <div class="stars flex g-4">
+                          <% for (let star = 1; star <= 5; star++) { %>
+                            <i class="bi <%= star <= item.stars ? 'bi-star-fill' : 'bi-star' %>"></i>
+                          <% } %>
+                        </div>
+                        <p class="text-center fw-light py-2">
+                          <%= item.text %>
+                        </p>
+                        <h6 class="text-center py-2 pb-4"><%= item.author %></h6>
+                      </div>
                     </div>
-                    <p class="text-center fw-light py-2">
-                      <%= item.review %>
-                    </p>
-                    <h6 class="text-center py-2 pb-4"><%= item.author %></h6>
-                  </div>
+                  <% }) %>
                 </div>
-                <% }) %>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
               </div>
-              <div class="swiper-pagination"></div>
-              <div class="swiper-button-next"></div>
-              <div class="swiper-button-prev"></div>
             </div>
+            <a href="https://g.page/r/CbNd-HdtLRAYEBM/review" target="_blank" rel="noopener">
+              <button class="button-1">Leave a Review</button>
+            </a>
           </div>
-          <a href="https://g.page/r/CbNd-HdtLRAYEBM/review" target="_blank" rel="noopener">
-            <button class="button-1">Leave a Review</button>
-          </a>
         </div>
-      </div>
+      <% } %>
     </main>
     <% if (galleryPhotos.length) { %>
       <%- include('partials/lightbox.ejs') %>

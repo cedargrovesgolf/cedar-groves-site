@@ -7,7 +7,7 @@ document.body.append(container)
 export const showToast = ({ type, message }) => {
   const success = type === 'success'
   const toast = document.createElement('div')
-  toast.className = `toast border-0 text-bg-${success ? 'success' : 'danger'}`
+  toast.className = `toast border-0 ${success ? 'bg-acc text-white' : 'text-bg-danger'}`
   toast.setAttribute('role', success ? 'status' : 'alert')
   toast.setAttribute('aria-live', success ? 'polite' : 'assertive')
   toast.setAttribute('aria-atomic', 'true')

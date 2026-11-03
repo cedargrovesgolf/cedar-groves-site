@@ -4,10 +4,11 @@ import {
   getHours,
   getMemberships,
   getRates,
+  getReviews,
   getSeasonYear
-} from '../../lib/db.js'
+} from '../../services/db.js'
 import { rateSections } from '../../lib/rates.js'
-import { withGalleryUrls } from '../../lib/storage.js'
+import { withGalleryUrls } from '../../services/storage.js'
 
 const router = express.Router()
 
@@ -53,12 +54,26 @@ const sections = {
       const { photos, version } = await getGallery()
       return { photos: photos.map(withGalleryUrls), version }
     }
+  },
+  reviews: {
+    title: 'Reviews',
+    load: async () => ({ reviews: await getReviews() })
   }
+}
+
+const loginErrors = {
+  account: "That Google account can't sign in.",
+  google: 'Google sign-in didn\'t complete. Please try again.'
 }
 
 router.get('/', (req, res) => {
   if (!req.session.loggedin) {
-    return res.render('cms', { loggedIn: false })
+    return res.render('cms', {
+      loggedIn: false,
+      loginError: loginErrors[req.query.error],
+      signInEmail: req.session.signIn?.email,
+      signInUrl: req.session.signIn?.url
+    })
   }
   res.redirect(`/cms/${Object.keys(sections)[0]}`)
 })

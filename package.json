@@ -8,7 +8,7 @@
     "dev": "vite & node --env-file-if-exists=.env --watch app/server.js",
     "start": "node app/server.js",
     "lint": "eslint .",
-    "test": "node --test"
+    "test": "node --test 'test/**/*.test.js'"
   },
   "files": [
     "app/app.js",
@@ -38,14 +38,15 @@
     "@aws-sdk/client-dynamodb": "^3.1161.0",
     "@aws-sdk/client-s3": "^3.1161.0",
     "@aws-sdk/client-sesv2": "^3.1161.0",
+    "@aws-sdk/client-ssm": "^3.1161.0",
     "@aws-sdk/lib-dynamodb": "^3.1161.0",
     "@aws-sdk/s3-presigned-post": "^3.1161.0",
-    "bcrypt": "^6.0.0",
     "cookie-session": "^2.1.1",
     "ejs": "^7.0.2",
     "express": "^5.3.0",
     "express-rate-limit": "^8.7.2",
     "helmet": "^8.3.0",
+    "openid-client": "^6.8.9",
     "validator": "^13.15.35"
   },
   "devDependencies": {

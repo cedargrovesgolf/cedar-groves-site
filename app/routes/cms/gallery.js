@@ -1,7 +1,7 @@
 import express from 'express'
-import { getGallery, setGallery } from '../../lib/db.js'
+import { getGallery, setGallery } from '../../services/db.js'
 import { reply } from '../../lib/reply.js'
-import { createGalleryUploads, deleteGalleryObjects, galleryObjectsExist } from '../../lib/storage.js'
+import { createGalleryUploads, deleteGalleryObjects, galleryObjectsExist } from '../../services/storage.js'
 
 const router = express.Router()
 

@@ -67,7 +67,6 @@ export const setGallery = async ({ version, ...gallery }) => {
   }))
 }
 
-export const getCmsUser = async () => {
-  const { Item } = await client.send(new GetCommand({ TableName: config.cmsUsersTable, Key: { userID: 0 } }))
-  return Item ?? null
-}
+export const getReviews = async () => (await getJsonConfig('reviews')) ?? []
+
+export const setReviews = reviews => putJsonConfig('reviews', reviews)

@@ -11,10 +11,11 @@
 ├── test/             # Tests
 └── app/
     ├── client/       # Browser scripts and styles
-    ├── lib/          # Shared code
+    ├── lib/          # Shared helpers
     ├── middleware/   # Middleware
     ├── public/       # Built and static files
     ├── routes/       # Routes
+    ├── services/     # AWS and Google integrations
     ├── views/        # Templates
     ├── app.js        # Express app
     ├── config.js     # Config

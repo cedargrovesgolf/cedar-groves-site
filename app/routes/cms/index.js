@@ -5,6 +5,7 @@ import gallery from './gallery.js'
 import login from './login.js'
 import logout from './logout.js'
 import pages from './pages.js'
+import reviews from './reviews.js'
 
 const router = express.Router()
 
@@ -29,5 +30,6 @@ router.use((req, res, next) => {
 
 router.use(content)
 router.use('/gallery', gallery)
+router.use('/reviews', reviews)
 
 export default router
