@@ -69,3 +69,14 @@ jobs:
           python-version: '3.13'
       - run: pip install aws-sam-cli==1.171.0
       - run: sam build
+      - name: Start the built package
+        working-directory: infra/.aws-sam/build/SiteFunction
+        env:
+          NODE_ENV: production
+        run: |
+          sh scripts/run.sh &
+          for attempt in $(seq 10); do
+            curl -fsS http://localhost:3000/health && exit 0
+            sleep 1
+          done
+          exit 1

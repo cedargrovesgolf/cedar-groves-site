@@ -12,7 +12,7 @@ const toInt = (value, min, max) => {
   return Number.isInteger(number) && number >= min && number <= max ? number : null
 }
 
-const toText = (value, maxLength) => String(value ?? '').trim().slice(0, maxLength)
+const toText = (value, maxLength) => String(value ?? '').replace(/\s+/g, ' ').trim().slice(0, maxLength)
 
 const toList = value => [value ?? []].flat()
 

@@ -1,11 +1,30 @@
-<div class="gallery-grid">
-  <% photos.forEach(photo => { %>
-    <button type="button" class="gallery-item" data-full="<%= photo.full %>" data-caption="<%= photo.caption %>">
-      <img src="<%= photo.thumb %>" alt="<%= photo.caption || 'Cedar Groves' %>" width="<%= photo.width %>" height="<%= photo.height %>" loading="lazy" />
-      <span class="gallery-zoom" aria-hidden="true"><i class="bi bi-arrows-angle-expand"></i></span>
-      <% if (photo.caption) { %>
-        <span class="gallery-caption"><%= photo.caption %></span>
-      <% } %>
-    </button>
-  <% }) %>
+<div class="gallery">
+  <div class="gallery-grid">
+    <% photos.forEach((photo, index) => { %>
+      <%
+        const position = index % 11
+        const remaining = photos.length - index
+        const size = (position === 0 && remaining >= 3) ? 'large'
+          : (position === 6 && remaining >= 3) ? 'large-right'
+          : (position === 9 && remaining >= 2) ? 'wide'
+          : null
+        const largeOnPhone = index % 5 === 0
+        const classes = ['gallery-item', size && `gallery-item-${size}`, largeOnPhone && 'gallery-item-large-phone'].filter(Boolean).join(' ')
+      %>
+      <button type="button" class="<%= classes %>" data-full="<%= photo.full %>" data-caption="<%= photo.caption %>">
+        <img
+          src="<%= photo.thumb %>"
+          srcset="<%= photo.thumb %> 600w, <%= photo.full %> 2000w"
+          sizes="(max-width: 992px) <%= largeOnPhone ? '100vw' : '50vw' %>, <%= size ? '66vw' : '33vw' %>"
+          alt="<%= photo.caption || 'Cedar Groves' %>"
+          width="<%= photo.width %>"
+          height="<%= photo.height %>"
+          loading="lazy" />
+        <span class="gallery-zoom" aria-hidden="true"><i class="bi bi-arrows-angle-expand"></i></span>
+        <% if (photo.caption) { %>
+          <span class="gallery-caption"><%= photo.caption %></span>
+        <% } %>
+      </button>
+    <% }) %>
+  </div>
 </div>

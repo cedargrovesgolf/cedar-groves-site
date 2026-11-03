@@ -62,7 +62,24 @@
           </div>
         </div>
       </div>
-      <div class="main-item large">
+      <% if (galleryPhotos.length) { %>
+        <div class="main-item large">
+          <div class="vflex">
+            <h2 class="heading display-5 text-center">Around the Course</h2>
+            <p class="text-restrict text-center">
+              Get a feel for the course before your first swing. These are some
+              of our favourite views of Cedar Groves, with many more waiting in
+              the gallery.
+            </p>
+            <hr class="heading-divider" />
+          </div>
+          <div class="vflex g-32 w-100">
+            <%- include('partials/gallery-grid.ejs', { photos: galleryPhotos }) %>
+            <a href="/gallery"><button class="button-1">View Gallery</button></a>
+          </div>
+        </div>
+      <% } %>
+      <div class="main-item large full-bleed">
         <h2 class="heading display-5 text-center">Join the Community</h2>
         <div class="text-img-wrapper vflex g-64 p-2">
           <div class="text-img-box res-flex g-32">
@@ -125,23 +142,6 @@
           <source src="/assets/videos/drone.mov" type="video/mp4" />
         </video>
       </div>
-      <% if (galleryPhotos.length) { %>
-        <div class="main-item">
-          <div class="vflex">
-            <h2 class="heading display-5 text-center">Around the Course</h2>
-            <p class="text-restrict text-center">
-              Get a feel for the course before your first swing. These are some
-              of our favourite views of Cedar Groves, with many more waiting in
-              the gallery.
-            </p>
-            <hr class="heading-divider" />
-          </div>
-          <div class="vflex g-32 w-100">
-            <%- include('partials/gallery-grid.ejs', { photos: galleryPhotos }) %>
-            <a href="/gallery"><button class="button-1">View Gallery</button></a>
-          </div>
-        </div>
-      <% } %>
       <% if (reviews.length) { %>
         <div class="main-item">
           <h2 class="heading display-5 text-center">What We've Heard</h2>

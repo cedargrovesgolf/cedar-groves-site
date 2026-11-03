@@ -12,6 +12,7 @@ let leaving = false
 
 const isDirty = () => serialize() !== baseline
 const updateSaveBar = () => { saveBar.hidden = !isDirty() }
+const markChanged = () => form.dispatchEvent(new Event('input'))
 
 form.addEventListener('input', updateSaveBar)
 form.addEventListener('change', updateSaveBar)
@@ -145,7 +146,6 @@ if (tiles) {
   let editing
 
   const field = (tile, name) => tile.querySelector(`input[name="${name}"]`)
-  const markChanged = () => form.dispatchEvent(new Event('input'))
 
   const renderTile = tile => {
     tile.querySelector('.cms-tile-name').textContent = field(tile, 'name').value || 'Untitled'
@@ -197,7 +197,7 @@ if (tiles) {
 
   const applyEdit = () => {
     field(editing, 'name').value = editorName.value.trim()
-    field(editing, 'caption').value = editorCaption.value.trim()
+    field(editing, 'caption').value = editorCaption.value.replace(/\s+/g, ' ').trim()
     renderTile(editing)
     editor.close()
     markChanged()
@@ -348,7 +348,7 @@ if (googleList) {
   const selectionChanged = () => {
     selectedCount.textContent = selectedList.children.length
     renderGoogleList()
-    form.dispatchEvent(new Event('input'))
+    markChanged()
   }
 
   const addReview = id => {
@@ -365,7 +365,7 @@ if (googleList) {
     delayOnTouchOnly: true,
     filter: '[data-remove-review]',
     preventOnFilter: false,
-    onEnd: () => form.dispatchEvent(new Event('input'))
+    onEnd: markChanged
   })
 
   form.addEventListener('click', event => {
