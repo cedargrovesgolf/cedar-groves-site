@@ -6,7 +6,7 @@ const client = new S3Client()
 
 const maxUploadBytes = 5 * 1024 * 1024
 
-export const galleryUrls = id => ({
+const galleryUrls = id => ({
   full: `/assets/gallery/${id}.jpg`,
   thumb: `/assets/gallery/${id}-thumb.jpg`
 })

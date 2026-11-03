@@ -18,6 +18,8 @@ export const initLightbox = lightbox => {
   const show = index => {
     current = wrap(index)
     const { full, caption: text } = items[current].dataset
+    const thumb = items[current].querySelector('img')
+    image.style.setProperty('--ratio', thumb.getAttribute('width') / thumb.getAttribute('height'))
     image.src = full
     image.alt = text || 'Cedar Groves'
     caption.textContent = text
