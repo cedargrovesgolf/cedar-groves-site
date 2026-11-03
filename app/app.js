@@ -1,7 +1,7 @@
 import path from 'node:path'
 import express from 'express'
 import config from './config.js'
-import { assetTags } from './lib/assets.js'
+import { assetUrls } from './lib/assets.js'
 import cloudfront from './middleware/cloudfront.js'
 import helmet from './middleware/helmet.js'
 import session from './middleware/session.js'
@@ -16,7 +16,7 @@ const app = express()
 app.set('trust proxy', config.trustProxy)
 app.set('view engine', 'ejs')
 app.set('views', path.join(import.meta.dirname, 'views'))
-app.locals.assetTags = assetTags
+app.locals.assetUrls = assetUrls
 
 app.get('/health', (req, res) => res.status(200).send('OK'))
 

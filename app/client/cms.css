@@ -1,5 +1,6 @@
 /* cms */
 .cms-page {
+  --cms-nav-width: 220px;
   display: flex;
   flex-direction: column;
   min-height: 100dvh;
@@ -35,7 +36,7 @@
 .cms-layout {
   display: grid;
   flex: 1;
-  grid-template-columns: 220px 1fr;
+  grid-template-columns: var(--cms-nav-width) 1fr;
 }
 
 .cms-nav {
@@ -62,7 +63,7 @@
 }
 
 .cms-content {
-  padding: 32px;
+  padding: 32px 32px 96px;
   line-height: 1.5;
   accent-color: var(--color-acc);
 }
@@ -217,11 +218,13 @@
 }
 
 .cms-save-bar {
-  position: sticky;
+  position: fixed;
   bottom: 16px;
-  align-self: center;
-  width: min(560px, 100%);
+  left: calc(var(--cms-nav-width) + (100% - var(--cms-nav-width)) / 2);
+  z-index: 10;
+  width: min(560px, 100% - var(--cms-nav-width) - 32px);
   display: flex;
+  transform: translateX(-50%);
   align-items: center;
   justify-content: space-between;
   gap: 16px;
@@ -535,8 +538,12 @@
     white-space: nowrap;
   }
 
+  .cms-page {
+    --cms-nav-width: 0px;
+  }
+
   .cms-content {
-    padding: 24px 16px;
+    padding: 24px 16px 96px;
   }
 }
 
@@ -549,8 +556,12 @@
     gap: 20px;
   }
 
-  .cms-bar-link {
+  .cms-bar .cms-bar-link {
     font-size: var(--font-md);
+  }
+
+  .cms-save-bar {
+    font-size: 14px;
   }
 
   .cms-bar-label {
