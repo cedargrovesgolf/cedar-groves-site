@@ -18,6 +18,7 @@
     "app/middleware",
     "app/public",
     "app/routes",
+    "app/services",
     "app/views",
     "scripts/run.sh"
   ],
